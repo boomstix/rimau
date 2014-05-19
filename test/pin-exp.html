@@ -9,13 +9,15 @@
 	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+
 <script>
+
+var t = new TimelineMax();
 
 </script>
 
-</head>
-<body>
 
+</head>
 <body>
 
 	<header>
@@ -44,20 +46,33 @@
 		</nav>
 	</header>
 	
-	ffmpeg -i "/home/user/input_video.mpg" -codec:v libvpx -quality good -cpu-used 0 -b:v 600k -qmin 10 -qmax 42 -maxrate 500k -bufsize 1000k -threads 2 -vf scale=-1:480 -an -pass 1 -f webm /dev/null
-	
-	ffmpeg -i "/home/user/input_video.mpg" -codec:v libvpx -quality good -cpu-used 0 -b:v 600k -qmin 10 -qmax 42 -maxrate 500k -bufsize 1000k -threads 2 -vf scale=-1:480 -codec:a libvorbis -b:a 128k -pass 2 -f webm output.webm
-	
-	ffmpeg -i "/home/user/input_video.mpg" -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -pass 1 -an -f mp4 /dev/null
-
-	ffmpeg -i "/home/user/input_video.mpg" -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -pass 2 -acodec libvo_aacenc -b:a 128k -f mp4 output_file.mp4
-
-
 	<article>
 	
 		<section id="section-1">
 			<div class="content">
+
+				<div class="anim-panel">
+					<div id="video-1" class="fixed-video">
+						<video preload="auto" loop poster="/assets/stills/Merapas_00016.jpg">
+							<source src="/assets/video/Merapas_00016.mp4"></source>
+						</video>
+					</div>
+				</div>
+				
+				
 				<h3>I am section 1</h3>
+				
+				<code>
+					<p>ffmpeg -i "/home/user/input_video.mpg" -codec:v libvpx -quality good -cpu-used 0 -b:v 600k -qmin 10 -qmax 42 -maxrate 500k -bufsize 1000k -threads 2 -vf scale=-1:480 -an -pass 1 -f webm /dev/null</p>
+	
+					<p>ffmpeg -i "/home/user/input_video.mpg" -codec:v libvpx -quality good -cpu-used 0 -b:v 600k -qmin 10 -qmax 42 -maxrate 500k -bufsize 1000k -threads 2 -vf scale=-1:480 -codec:a libvorbis -b:a 128k -pass 2 -f webm output.webm</p>
+	
+					<p>ffmpeg -i "/home/user/input_video.mpg" -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -pass 1 -an -f mp4 /dev/null</p>
+
+					<p>ffmpeg -i "/home/user/input_video.mpg" -vcodec libx264 -vprofile high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=-1:480 -threads 0 -pass 2 -acodec libvo_aacenc -b:a 128k -f mp4 output_file.mp4</p>
+
+
+				</code>
 				<p>Maecenas pretium ante ultricies, malesuada mi vel, varius felis. Aliquam eleifend ligula sed vulputate pellentesque. Quisque sagittis pulvinar nulla vel sodales. Aliquam erat volutpat. Etiam tincidunt, ipsum in rutrum volutpat, erat dolor euismod orci, ut laoreet tortor nibh vitae massa. Curabitur volutpat consectetur massa, id ultricies magna. Suspendisse pellentesque gravida varius. Aenean diam lorem, rutrum et erat in, euismod varius justo. Donec posuere mollis nisi, vitae scelerisque diam facilisis tristique. Integer ac ante eget est pulvinar tempus non ut neque. Vestibulum vestibulum auctor porttitor. Etiam vitae consequat augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ante sed dolor auctor luctus. Vestibulum egestas odio sem, sed blandit lacus gravida et.</p>
 				<p>Sed sed interdum ante, ut rutrum velit. Proin ut laoreet sapien, lacinia aliquet ipsum. Praesent pulvinar aliquam lacus in tristique. Donec commodo lacus nec nisl egestas, ut malesuada enim semper. Quisque auctor tincidunt justo id adipiscing. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut mauris tortor. Fusce suscipit interdum venenatis. Donec at dapibus felis. In mauris mauris, elementum sit amet libero at, luctus faucibus leo. Donec enim ligula, sollicitudin vitae dolor eu, tristique accumsan tellus. Suspendisse scelerisque justo nec rhoncus semper. Morbi lacinia sollicitudin libero, non molestie erat.</p>
 				<p>Duis mattis ligula eget dui placerat, non congue leo tincidunt. Aenean nec vulputate lectus, et tempor lectus. Vivamus convallis, libero vel feugiat commodo, nisi urna ullamcorper purus, eget iaculis lectus sem in lorem. Ut tincidunt pulvinar augue, et faucibus magna mollis sed. Ut at urna suscipit, vulputate velit porta, porta enim. Nullam lobortis, purus nec sodales eleifend, nunc diam suscipit velit, non accumsan risus eros vel tortor. Integer sagittis, neque sit amet sagittis faucibus, nisl purus commodo libero, nec bibendum tortor sapien vel est. Phasellus metus mi, ornare at libero et, ornare iaculis nisl. Vestibulum mi enim, congue posuere suscipit pellentesque, pulvinar vitae mauris. Quisque euismod malesuada condimentum. Pellentesque rutrum purus purus, eget laoreet justo scelerisque suscipit.</p>

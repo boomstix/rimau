@@ -70,3 +70,15 @@ section:after {
 	padding: 0 1em;
 }
 
+
+.fixed-video {
+	position: fixed;
+	width: 800px;
+}
+
+.fixed-video img {
+	max-width: 100%;
+}
+.fixed-video video {
+	width: 100%;
+}

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"> 
+	<title>Operation Rimau experiment</title>
+	<!--link href="/assets/html5/pin-exp.css" rel="stylesheet" /-->
+	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.7/TweenMax.min.js"></script>-->
+	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+
+
+<style type="text/css">
+html {
+	height: 100%;
+}
+body {
+	height: 100%;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans Condensed', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+#stickbox, #stick {
+	width: 300px;
+	height: 300px;
+	background-color: transparent;
+}
+#stickbox {
+	position: absolute;
+	top: 200px;
+	left: 200px;
+}
+#stick {
+	position: relative;
+	width: 300px;
+	height: 300px;
+	background-image: url(/assets/img/stick.png);
+}
+
+.video-screen {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.video-caption {
+	position: absolute;
+	left: 10%;
+	bottom: 10%;
+	color: #fff;
+	text-shadow: 1px 1px 2px #000;
+}
+.video-holder {
+	width: 100%;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+.video-holder img {
+	width: 100%;
+	height: 100%;
+}
+.video-holder video {
+	width: 100%;
+	height: 100%;
+	margin: auto;
+}
+
+.ScrollSceneIndicators {
+	z-index: 1000 !important;
+}
+
+
+</style>
+
+<script type="text/javascript">
+
+var body, controller, duration, stick, stickBox, bobRotation, bobTime, timeBob, timeMove, fadeOutVideo;
+
+$(function(){
+
+	fadeDuration = 200; // scrollscene fadeout in pixels
+	animDuration = 16;			// duration
+	stick = document.getElementById('stick');
+	stickBox = document.getElementById('stickbox');
+	bobRotation = 2;
+	bobTime = 3;
+	body = $('body');
+
+
+	// this animation repeats over the whole timeline
+	timeBob = new TimelineMax({ repeat: 3, yoyo: true });
+	timeBob
+		.set(stick, {rotation: -bobRotation, left: -20})
+		.to(stick, bobTime, {rotation: bobRotation, ease: Power1.easeInOut})
+		.to(stick, bobTime, {rotation: -bobRotation, ease: Power1.easeInOut})
+	;
+	
+	timeMove = new TimelineMax({paused: true});
+	timeMove
+		.fromTo(stickBox
+			, animDuration
+			, {autoAlpha: 0, top: '20%', left:  '20%' }
+			, {autoAlpha: 1, left: '40%', scaleX: 0.6, scaleY: 0.6, ease: Power1.easeIn }
+		)
+		.to(stickBox
+			, animDuration
+			, {left: '60%', scaleX: 0.2, scaleY: 0.2, autoAlpha: 0, ease: Power1.easeOut }
+		)
+	;
+	
+
+	controller = new ScrollMagic();
+	
+	
+	function fixImageDims() {
+		var w = parseInt(body.css('width'), 10);
+		var h = parseInt(body.css('height'), 10);
+		// update the video panel dimensions to be full screen
+		$('.video-screen').each(function(ix, el){
+			$(this).css({width: w, height: h});
+			//$(this).find('video').css({width: w});
+		});
+		// update leave offset of var fadeOutVideo
+		fadeOutVideo.offset = h - fadeDuration;
+		fadeOutVideo.updateIndicators();
+		console.log(fadeOutVideo)
+	}
+	
+	$(window).on('resize', fixImageDims);
+	
+	function setupVideo() {
+
+		$('.video-holder').each(function(ix, el){
+			el = $(el);
+			var anchor = el.find('a');
+			var img = el.find('img');
+			var imgUrl = img.attr('src');
+			// 	el.css('background-image', 'url(' + imgUrl + ')');
+			img.remove();
+			var vidUrl = anchor.attr('href');
+			var video = $('<video preload="auto" loop poster="' + imgUrl + '">\
+			<source src="' + vidUrl + '" type="video/mp4"></source>\
+			<source src="' + vidUrl.replace('mp4', 'webm') + '" type="video/webm"></source>\
+			</video>');
+			el.append(video);
+			
+			video.on('loadeddata', function(e) {
+				console.log(e.target);
+				// alert('loaded');
+				timeMove.play();
+				e.target.play();
+			})
+			
+
+		});
+
+		// setup video fade out when height - 100 
+		fadeOutVideo = new ScrollScene({ duration: fadeDuration, offset: parseInt(body.css('height'), 10) - fadeDuration })
+		.triggerElement($('.video-holder'))
+		.triggerHook('onLeave')
+		.addTo(controller)
+		.setTween(new TimelineMax()
+			.add([
+				TweenMax.to($('.video-holder video'), 1, { volume: 0 })
+			,	TweenMax.to($('.video-holder'), 1, { autoAlpha: 0 })
+			])
+		)
+		.on('enter', function(e) {
+			if (e.scrollDirection === 'REVERSE') {
+				// we have finished scrolling down
+				console.log('starting in from bottom', e);
+				// restart video
+				var video = e.currentTarget.triggerElement().find('video');
+				video.get(0).currentTime = 0;
+				video.get(0).play();
+				// restart animation
+				timeBob.play(0);
+				timeMove.play(0);
+			}
+		})
+		.on('leave', function(e) {
+			if (e.scrollDirection === 'FORWARD') {
+				// we have finished scrolling down
+				console.log('scrolling out of bottom', e);
+				// stop video
+				var video = e.currentTarget.triggerElement().find('video');
+				console.log(video.get[0]);
+				video.get(0).pause();
+				// stop animation
+				timeBob.pause();
+				timeMove.pause();
+			} else {
+			}
+		})
+		.addIndicators({suffix: 'scene 2a'});
+
+	}
+	
+	setupVideo();
+	
+	// call this once everything is loaded to give correct sizing
+	fixImageDims();
+	
+	
+});
+</script>
+
+
+</head>
+<body>
+
+	<section id="section-0">
+
+	<div class="combo-anim">
+		
+		<div id="video-screen-1" class="video-screen">
+			<div class="video-holder">
+				<a href="/assets/video/Merapas_00016.mp4"><img src="/assets/stills/Merapas_00016.jpg" alt="A beach on Palau Merapas" /></a>
+			</div>
+			<div class="video-caption">
+				<h4>Here is some text</h4>
+				<p>It is totally mesmerising.  You will be transported to another world.</p>
+			</div>
+		</div>
+
+		<div id="stickbox">
+			<div id="stick"></div>
+		</div>
+
+	</div>
+	
+	</section>
+	
+	<section id="section-1">
+		<div class="content">
+			<h3>I am section 1</h3>
+			<p>Praesent vitae elit molestie, eleifend nunc vel, sollicitudin ante. Curabitur molestie vel libero rhoncus commodo. Mauris volutpat id lacus eu molestie. In in sapien pulvinar, pharetra nunc et, gravida velit. Quisque quis suscipit felis. Nullam sed egestas sapien, at interdum elit. Aenean ullamcorper lobortis urna vel dignissim. Aenean ac augue auctor, scelerisque neque quis, semper tellus. Sed eget leo purus. Nulla facilisi. Nam faucibus dui vestibulum sem molestie, in consequat sapien euismod. In hac habitasse platea dictumst. Nunc tincidunt nisl tellus, in tincidunt turpis vehicula eu. Cras molestie enim dolor. Curabitur nec consequat erat.</p>
+			<p>Aliquam dapibus leo dolor, nec eleifend urna rhoncus et. Curabitur tortor odio, ultricies vel malesuada sed, tincidunt at augue. Sed convallis magna tellus. Aliquam quam nunc, imperdiet sit amet nisl eget, tristique rhoncus mi. Phasellus ultricies eget felis et bibendum. Vivamus consequat mi sit amet enim imperdiet bibendum. In pulvinar lorem vel magna faucibus facilisis. Fusce eu elit in dui bibendum rutrum. Sed eu iaculis turpis. Nulla auctor imperdiet mauris, vitae condimentum tellus malesuada ac.</p>
+			<p>Phasellus malesuada risus id commodo auctor. Cras eget mauris et mi pulvinar ullamcorper. In id ullamcorper nisi. Integer nec nibh bibendum, congue eros at, vestibulum leo. Quisque gravida, nisl et dapibus malesuada, risus elit faucibus velit, nec lobortis eros sem non neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			<p>Sed sit amet erat tortor. Mauris accumsan id dui quis ultrices. Nulla tempor elementum erat, eu consectetur ante ultrices at. Suspendisse ut lectus ac nunc blandit mattis. Aenean at magna quis tellus pellentesque porta. Pellentesque malesuada pharetra porttitor. Mauris elementum pretium nulla, non scelerisque enim pellentesque in. Nullam at erat sit amet eros venenatis cursus.</p>
+			<p>Fusce sed lorem ut quam elementum porttitor. Duis non libero tempus, imperdiet tortor ac, varius nisi. Nunc vulputate magna vel tellus luctus scelerisque. Nullam ut metus eros. Sed non cursus neque. Vivamus neque odio, vestibulum sed laoreet eu, faucibus at dolor. Etiam arcu elit, semper sit amet diam eu, posuere aliquam leo. Praesent vel quam quis nibh cursus tempus. Mauris sed diam odio. Donec semper sodales nunc, ac sollicitudin enim consequat a.</p>
+			<p>Praesent vitae elit molestie, eleifend nunc vel, sollicitudin ante. Curabitur molestie vel libero rhoncus commodo. Mauris volutpat id lacus eu molestie. In in sapien pulvinar, pharetra nunc et, gravida velit. Quisque quis suscipit felis. Nullam sed egestas sapien, at interdum elit. Aenean ullamcorper lobortis urna vel dignissim. Aenean ac augue auctor, scelerisque neque quis, semper tellus. Sed eget leo purus. Nulla facilisi. Nam faucibus dui vestibulum sem molestie, in consequat sapien euismod. In hac habitasse platea dictumst. Nunc tincidunt nisl tellus, in tincidunt turpis vehicula eu. Cras molestie enim dolor. Curabitur nec consequat erat.</p>
+			<p>Aliquam dapibus leo dolor, nec eleifend urna rhoncus et. Curabitur tortor odio, ultricies vel malesuada sed, tincidunt at augue. Sed convallis magna tellus. Aliquam quam nunc, imperdiet sit amet nisl eget, tristique rhoncus mi. Phasellus ultricies eget felis et bibendum. Vivamus consequat mi sit amet enim imperdiet bibendum. In pulvinar lorem vel magna faucibus facilisis. Fusce eu elit in dui bibendum rutrum. Sed eu iaculis turpis. Nulla auctor imperdiet mauris, vitae condimentum tellus malesuada ac.</p>
+			<p>Phasellus malesuada risus id commodo auctor. Cras eget mauris et mi pulvinar ullamcorper. In id ullamcorper nisi. Integer nec nibh bibendum, congue eros at, vestibulum leo. Quisque gravida, nisl et dapibus malesuada, risus elit faucibus velit, nec lobortis eros sem non neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			<p>Sed sit amet erat tortor. Mauris accumsan id dui quis ultrices. Nulla tempor elementum erat, eu consectetur ante ultrices at. Suspendisse ut lectus ac nunc blandit mattis. Aenean at magna quis tellus pellentesque porta. Pellentesque malesuada pharetra porttitor. Mauris elementum pretium nulla, non scelerisque enim pellentesque in. Nullam at erat sit amet eros venenatis cursus.</p>
+			<p>Fusce sed lorem ut quam elementum porttitor. Duis non libero tempus, imperdiet tortor ac, varius nisi. Nunc vulputate magna vel tellus luctus scelerisque. Nullam ut metus eros. Sed non cursus neque. Vivamus neque odio, vestibulum sed laoreet eu, faucibus at dolor. Etiam arcu elit, semper sit amet diam eu, posuere aliquam leo. Praesent vel quam quis nibh cursus tempus. Mauris sed diam odio. Donec semper sodales nunc, ac sollicitudin enim consequat a.</p>
+		</div>
+	</section>
+
+
+
+</body>
+</html>
