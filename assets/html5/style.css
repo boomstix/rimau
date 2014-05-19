@@ -1,0 +1,101 @@
+body {
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans Condensed', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+
+header {
+	position: fixed;
+	background: #fff;
+	width: 100%;
+	z-index: 9999;
+}
+
+article {
+	margin: 0;
+	padding: 0;
+}
+
+img.img-responsive {
+	display: block;
+	max-width: 100%;
+}
+
+.navbar-toggle {
+	display: none;
+}
+
+.navbar-header {
+	float: left;
+}
+
+.navbar-header a.navbar-brand {
+	display: inline-block;
+	margin: 0.5em;
+}
+
+ul.nav {
+	margin: 0;
+	list-style: none;
+}
+
+ul.nav li {
+	float: left;
+	margin: 0.5em;
+}
+
+section {
+	padding-top: 3em;
+	z-index: 5;
+}
+
+.video-sequence {
+	z-index: 5;
+}
+
+.video-screen {
+	position: relative;
+	z-index: 6;
+	background: rgba(200, 0, 0, 0.3);
+}
+
+.video-holder {
+	z-index: 7;
+}
+
+.video-holder.changed {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-position: 50% 50%;
+	background-size: cover;
+	display: none;
+}
+
+
+.video-caption {
+	position: absolute;
+	bottom: 10%;
+	left: 10%;
+	max-width: 450px;
+	color: #fff;
+	text-shadow: 1px 1px 2px #000;
+	z-index: 8;
+}
+
+
+.content {
+	z-index: 10;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1em;
+}
+
+
+
+
+

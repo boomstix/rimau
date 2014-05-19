@@ -1,0 +1,72 @@
+html, body {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans Condensed', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+
+header {
+	position: fixed;
+	background: #fff;
+	width: 100%;
+	z-index: 9999;
+	top: 0;
+	padding: 0 1em;
+}
+
+.navbar-toggle {
+	display: none;
+}
+
+.navbar-header {
+	float: left;
+}
+
+.navbar-header a.navbar-brand {
+	display: inline-block;
+	margin: 0.5em;
+}
+
+ul.nav {
+	margin: 0;
+	list-style: none;
+}
+
+ul.nav li {
+	float: left;
+	margin: 0.5em;
+}
+
+article {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+section {
+	display: block;
+	padding-top: 2em;
+}
+
+section:after {
+	content: "";
+	clear: left;
+	display: block;
+}
+
+.content {
+	z-index: 10;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1em;
+}
+
