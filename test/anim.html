@@ -35,6 +35,7 @@ body {
 	position: absolute;
 	top: 200px;
 	left: 200px;
+	visibility: hidden 
 }
 #stick {
 	position: relative;
@@ -85,33 +86,32 @@ var body, controller, duration, stick, stickBox, bobRotation, bobTime, timeBob, 
 $(function(){
 
 	fadeDuration = 200; // scrollscene fadeout in pixels
-	animDuration = 16;			// duration
+	animDuration = 8;			// duration of translation
+	bobRotation = 3;		// degrees of rotation
+	bobTime = 4;				// duration of rotation
 	stick = document.getElementById('stick');
 	stickBox = document.getElementById('stickbox');
-	bobRotation = 2;
-	bobTime = 3;
 	body = $('body');
-
 
 	// this animation repeats over the whole timeline
 	timeBob = new TimelineMax({ repeat: 3, yoyo: true });
 	timeBob
-		.set(stick, {rotation: -bobRotation, left: -20})
-		.to(stick, bobTime, {rotation: bobRotation, ease: Power1.easeInOut})
-		.to(stick, bobTime, {rotation: -bobRotation, ease: Power1.easeInOut})
+		.set(stick, {rotation: -bobRotation, top: "+=10"})
+		.to(stick, bobTime, {top: "-=10", rotation: bobRotation, ease: Power0.easeInOut})
+		.to(stick, bobTime, {top: "+=10", rotation: -bobRotation, ease: Power0.easeInOut})
 	;
 	
-	timeMove = new TimelineMax({paused: true});
+	timeMove = new TimelineMax({ repeat: -1, paused: true });
 	timeMove
-		.fromTo(stickBox
-			, animDuration
-			, {autoAlpha: 0, top: '20%', left:  '20%' }
-			, {autoAlpha: 1, left: '40%', scaleX: 0.6, scaleY: 0.6, ease: Power1.easeIn }
-		)
-		.to(stickBox
-			, animDuration
-			, {left: '60%', scaleX: 0.2, scaleY: 0.2, autoAlpha: 0, ease: Power1.easeOut }
-		)
+		.add("step_1", 0 * animDuration)
+		.add("step_2", 1 * animDuration)
+		.add("step_3", 2 * animDuration)
+		.add("step_4", 3 * animDuration)
+		.set(stickBox, {autoAlpha: 0, top: '20%', left:  '20%' })
+		.to(stickBox, animDuration, {autoAlpha: 1 }, "step_1")
+		.to(stickBox, animDuration, {autoAlpha: 0 }, "step_4")
+		.to(stickBox, 2 * animDuration, { left: "50%", scaleX: 0.75, scaleY: 0.75, ease: Power1.easeIn }, "step_1")
+		.to(stickBox, 2 * animDuration, { left: "80%", scaleX: 0.5, scaleY: 0.5, ease: Power1.easeOut }, "step_3")
 	;
 	
 
