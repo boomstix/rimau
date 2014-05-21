@@ -6,6 +6,7 @@
 	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.7/TweenMax.min.js"></script>-->
 	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
 	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="/assets/html5/jquery.ba-throttle-debounce.min.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
 
@@ -26,11 +27,15 @@ body {
 }
 header {
 	position: fixed;
-	background: #fff;
+	background: #000;
 	width: 100%;
 	z-index: 9999;
 	top: 0;
 	padding: 0 1em;
+	color: #ccc;
+}
+header a {
+	color: #ccc;
 }
 .navbar-toggle {
 	display: none;
@@ -73,253 +78,165 @@ section:after {
 	z-index: 1000 !important;
 }
 
-#section-0, #section-2a {
-	background-color: #000;
-}
 
 h1 {
-	margin: auto;
-	height: 300px;
-	width: 400px;
-	line-height: 200px;
 	text-align: center;
 }
-
-.burns {
-	position: relative;
-	clip: rect(0,920px,518px,0);
+#section-0 {
+	background-color: #000;
+	margin: 0;
+	padding: 0;
 }
-
-.burns .burns-holder {
-	width: 920px;
-	height: 518px;
-	position: relative;
-	margin: 0 auto;
-	background-size: cover;
-	background-position: 50% 50%;
+#test {
+	position: fixed;
+	background-color: #336;
 }
-
-.burns .burns-holder img {
+#test img, #test video {
 	position: absolute;
-}
-
-.burns .img-holder {
 	width: 100%;
+	height: 100%;
 }
-
-.burns .img-caption {
+.photo-stack {
+	background-color: transparent;
+	background-image: url(/assets/stills/MVI_4637.jpg);
+	background-attachment: fixed;
+	background-size: 920px 518px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+/*	margin-top: 518px;*/
+/*	margin-bottom: 518px;*/
+}
+.photo-stack .photo.fix {
+	position: relative;
+	width: 100%;
+	height: 518px;
+}
+.photo-stack .photo.fix .image {
+	position: fixed;
+	top: 0;
+/*	height: 420px;*/
+}
+.photo-stack .photo.fix img {
+	height: 420px;
+}
+.photo-stack .photo.fix .caption {
 	position: absolute;
-	width: 40%;
+	top: 50%;
+	right: 10%;
 	color: #fff;
 	text-shadow: 1px 1px 2px #000;
-
-	padding: 5px;
-	background-color: rgba(0,0,0,0.6);
-	box-shadow:0px 0px 7px #000;
-	border-radius: 4px; 
-
 }
-
-.burns .img-caption p {
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-.burns .img-caption.top {
-	top: 50px;
-}
-
-.burns .img-caption.bottom {
-	bottom: 50px;
-}
-
-.burns .img-caption.left {
-	left: 50px;
-}
-
-.burns .img-caption.right {
-	right: 50px;
-}
-
 </style>
 <script>
 
-$(function() {
-
-	var controller, body = $('body'), debug = true;
-
-	function log() {
-		if (debug) {
-			console.log(arguments);
-		}
+$(function(){
+	
+	var controller = new ScrollMagic();
+	var body = $('body'), contentWidth = $('.content').width();
+	
+	function getRandomInt (min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
-
-	function parseDim(val, dim) {
-
-		// Regexes the starting position data,
-		// will successfully extract the following: -10px, 20%, 100.
 	
-		re = val.match(/(-)?(\d+)(%|px)?/);
-		if (re != null) {
-			// there will be three groups.
-			// group re[1] is the position - if null, assume '+'
-			// group re[2] is the dimension - required to be a number
-			// group re[3] is the units - if null, assume 'px'
-			pos = 'left';
-		
-			switch (re[1]) {
-				case '-':
-					pos = (dim === 'x') ? 'right' : 'bottom';
-					break;
-				default:
-					pos = (dim === 'x') ? 'left' : 'top';
-					break;
-			}
-			return { pos: pos, val: re[2], unit: (re[3] === 'undefined' || re[3] === '%') ? '%' : 'px' };
-		}
-		else {
-			return null;
-		}
-	}
-
-	function extractDims(dim) {
-	
-		// returns an object fit to be passed to TimeLineMax as a var object.
-		// http://api.greensock.com/js/com/greensock/core/Animation.html#vars
-	
-		dims = dim.split(',');
-	
-		if (dims.length == 2) {
-			newDims = { x: parseDim(dims[0], 'x') , y: parseDim(dims[1], 'y') };
-			ret = {};
-			if (newDims.x.pos === 'left') {
-				ret.left = newDims.x.val + newDims.x.unit;
-			}
-			else {
-				ret.right = newDims.x.val + newDims.x.unit;
-			}
-			if (newDims.y.pos === 'top') {
-				ret.top = newDims.y.val + newDims.y.unit;
-			}
-			else {
-				ret.bottom = newDims.y.val + newDims.y.unit;
-			}
-			// console.log(dims,newDims,ret);
-			return ret;
-		}
-		else {
-			return null;
-		}
-	}
-
 	function getBodyDims() {
-		return { w: parseInt(body.css('width'), 10), h: parseInt(body.css('height'), 10) };
+		return { w: body.width(), h: body.height() };
 	}
 
 	function fixDims() {
+	
 		// updates the w/h of video holders
 		w_h = getBodyDims();
+		contentWidth = $('.content').width();
+		
 		$('h1').css({width: w_h.w, height: w_h.h, lineHeight: (w_h.h) + 'px'});
-		$('div.burns').each(function(ix, el){
-			$(this).css({
-//				width: w_h.w
-//			,	height: w_h.w * 9 / 16
-//			, left: 0
+		
+		h = parseInt(w_h.w * 9 / 16, 10);
+		// console.log('win w: %o win h: %o calc h: %o', w_h.w, w_h.h, h, w_h.h > h ? 'letterbox' : 'overflow', parseInt((w_h.h - h) / 2, 10));
+		t = parseInt((w_h.h - h) / 2, 10);
+		
+		$('video-holder').each(function(ix,el){
+			$(el).css({
+				width: w_h.w
+			,	height: h
+			,	top: t
 			});
 		});
-		$('div.burns .burns-holder').each(function(ix, el){
-			newLeft = -(w_h.w - $(this).data('orig-width')) / 2
-			$(this).css({
-//				width: w_h.w
-//			,	height: w_h.w * 9 / 16
-//				marginLeft: newLeft < 0 ? newLeft: 0
-//			,	marginTop: -(w_h.h - $(this).data('orig-height')) / 2
-			});
-		});
-	}
+// 		$('.photo').each(function(ix,el){
+// 			$(el).css({
+// 				height: w_h.h
+// 			});
+// 		});
 
-	function replaceBurns(ix, el) {
+	}
+	
+	function createFlyingGallery() {
 	
 		wH = getBodyDims();
 		
-		$('div.burns').each(function(ix, el) {
-	
-			log('replaceBurns', el, ix, wH);
+		$('.photo-stack').each(function(ix,el){
 		
 			el = $(el);
-			// grab the image and work out the replacement images
-			img = el.find('img');
-			imgUrl = img.attr('src');
-			bgUrl = imgUrl.replace('-holder.jpg', '-bg.jpg');
-			subjectUrl = imgUrl.replace('-holder.jpg', '-subject.png');
-		
-			fromDims = img.data('from-position');
-			fromPercent = img.data('from-size');
-			toPercent = img.data('to-size');
-		
-			// extractDims returns a TimelineMax vars object defining the properties to be set
-			fromDims = extractDims(fromDims);
-			fromDims.scaleX = (fromPercent / 100).toFixed(2);
-			fromDims.scaleY = (fromPercent / 100).toFixed(2);
-		
-			toDims = {};
-			toDims.scaleX = (toPercent / 100).toFixed(2);
-			toDims.scaleY = (toPercent / 100).toFixed(2);
-		
-			if (newDims.x !== null || newDims.y !== null) {
-		
-				// ditch the original image
-				img.parent().remove();
-		
-				// create the new burns effect holder
-				burnsBg = $('<div class="burns-holder" style="background-image: url(' + bgUrl + ')"></div>');
-				el.prepend(burnsBg);
-				burnsBg.data('orig-width', parseInt(burnsBg.css('width'), 10));
+			photos = el.find('.photo');
+			
+			// add padding div.photo to bottom
+			el.append('<div class="photo fix"></div>');
+			
+			duration = el.height() + 700;
+			console.log(duration);
+			
+			new ScrollScene({duration: duration, offset: 0})
+			.triggerHook('onCenter')
+			.triggerElement(el)
+			.setTween(new TimelineMax()
+				.set(el, {opacity: 0})
+				//.to(el, 1, {})
+				.to(el, 1, {opacity: 1})
+				.to(el, 18, {})
+				.to(el, 1, {opacity: 0})
+			)
+			.addTo(controller)
+			.addIndicators({suffix: 'stack'})
+			;
+			
+			
+			photos.each(function(ix, el) {
+			
+				el = $(el);
+				el.addClass('fix');
+				el.css('zIndex', photos.length - ix);
 				
-				subject = $('<img src="' + subjectUrl + '" alt="' + img.attr('alt') + '" />');
-				burnsBg.append(subject);
-			
-				// get the height of the scene
-				elHeight = parseInt(el.css('height'), 10);
-
-				// create a new scrolling scene for the image
-				var scene  = new ScrollScene({ duration: 2 * elHeight, offset: elHeight / 2, reverse: true })
+				imgHolder = $(el.find('.image'));
+				img = $(imgHolder.find('img'));
+				caption = $(imgHolder.find('.caption'));
+				// el.append('<div class="clip"></div>');
+				
+				// initial positions for images
+				t0 = (wH.h - img.height()) / 2; // top pos half the diff between window and image height
+				l0 = (wH.w - contentWidth) / 2; // left pos half the diff between window and image width
+				r0 = getRandomInt(-10, 10);			// a random starting rotation
+				t1 = getRandomInt(-800, 800);		// a random finishing top position
+				
+				// timeline for rotation of images left out of window
+				var timeline = new TimelineMax()
+					.set(imgHolder, {top: t0, left: l0, rotation: r0})
+					.to(imgHolder, 1, { rotation: -180, left: -700, autoAlpha: 0, top: t1}, "start")
+				;
+				
+				var scene = new ScrollScene({duration: 518, offset: 518})
 				.triggerElement(el)
-				.triggerHook('onCenter')
-				.setPin(el)
-				.setTween(
-					new TimelineMax()
-					.set(subject, fromDims) // initialise the subject's position
-					// .set(el, {opacity: ix !== 1})	// set the whole scene to transparent
-					.add("pre-end", 3)			// create a timeline label for the end fade out
-					.to(el, 3, {opacity: 1}, "start")		// fade in
-					.to(subject, 6, toDims, "start")		// do the burns on the subject
-					.to(el, 3, {opacity: 0}, "pre-end")	// fade out
-				)
-				.addTo(controller);
-			
-	 			if (debug) {
-	 				scene.addIndicators({suffix: el.attr('id')});
-	 			}
-			
-			} // newDims have x, y
-			
+				.setTween(timeline)
+				.addTo(controller)
+				.addIndicators({ suffix: ix })
+				;
+				
+			});
 		});
-		
 	}
 	
-	//console.log(extractDims('10px,-10px'));
-	//console.log(extractDims('-10px,50%'));
+	createFlyingGallery();
 	
-	controller = new ScrollMagic();
-	
-	// replace burns-n.jpg with bg-n.jpg and subject-1.png
-	replaceBurns();
-	
-	// reset the sizes
 	$(window).on('resize', fixDims);
 	fixDims();
-	
 	
 });
 
@@ -359,38 +276,47 @@ $(function() {
 	
 		<h1>Operation Rimau</h1>
 		
-		<section id="section-0" class="burns">
-		
-			<div class="content">
-			
-			<div id="burns-1" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-1-holder.jpg" alt="Burns 1" data-from-position="0px,0px" data-from-size="100" data-to-size="105" /></div>
-				<div class="img-caption bottom left">
-					<p>Salami filet mignon flank, pork belly pork loin beef ribs shoulder kevin chicken bresaola turkey. Kielbasa filet mignon flank pork tail.</p>
-				</div>
-			</div>
-		
-			<div id="burns-2" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-2-holder.jpg" alt="Burns 2" data-from-position="35%,60px" data-from-size="100" data-to-size="110" /></div>
-				<div class="img-caption bottom left">
-					<p>Frankfurter turducken kevin chuck filet mignon meatball ham leberkas doner spare ribs meatloaf. Shankle pastrami landjaeger hamburger venison short ribs pork chop pork loin, fatback short loin shoulder brisket. </p>
-				</div>
-			</div>
-		<!--
-			<div id="burns-3" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-3-holder.jpg" alt="Burns 3" data-from-position="10%,20%" data-from-size="100" data-to-size="105" /></div>
-				<div class="img-caption top right">
-					<p>Short ribs biltong swine ball tip ground round, rump turducken kevin boudin pig andouille pastrami.</p>
-				</div>
-			</div>
-		-->
-			</div>
-		
-		</section>
+		<div id="test">
+			<img src="/assets/stills/Merapas_00016.jpg" />
+		</div>
+
 	
+		<section id="section-0">
+
+			<div class="photo-stack content">
+
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/carey.png" /></div>
+						<div class="caption">Carey</div>
+					</div>
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/davidson.png" /></div>
+						<div class="caption">Davidson</div>
+					</div>
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/falls.png" /></div>
+						<div class="caption">Falls</div>
+					</div>
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/hardy.png" /></div>
+						<div class="caption">Hardy</div>
+					</div>
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/page.png" /></div>
+						<div class="caption">Page</div>
+					</div>
+					<div class="photo">
+						<div class="image"><img src="/assets/stills/men/sargent.png" /></div>
+						<div class="caption">Sargent</div>
+					</div>
+
+			</div>
+
+		</section>
+
 		<section id="section-1">
 			<div class="content">
-			
+
 				<h3>I am section 1</h3>
 				
 				<p>Maecenas pretium ante ultricies, malesuada mi vel, varius felis. Aliquam eleifend ligula sed vulputate pellentesque. Quisque sagittis pulvinar nulla vel sodales. Aliquam erat volutpat. Etiam tincidunt, ipsum in rutrum volutpat, erat dolor euismod orci, ut laoreet tortor nibh vitae massa. Curabitur volutpat consectetur massa, id ultricies magna. Suspendisse pellentesque gravida varius. Aenean diam lorem, rutrum et erat in, euismod varius justo. Donec posuere mollis nisi, vitae scelerisque diam facilisis tristique. Integer ac ante eget est pulvinar tempus non ut neque. Vestibulum vestibulum auctor porttitor. Etiam vitae consequat augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ante sed dolor auctor luctus. Vestibulum egestas odio sem, sed blandit lacus gravida et.</p>
@@ -398,7 +324,6 @@ $(function() {
 				<p>Duis mattis ligula eget dui placerat, non congue leo tincidunt. Aenean nec vulputate lectus, et tempor lectus. Vivamus convallis, libero vel feugiat commodo, nisi urna ullamcorper purus, eget iaculis lectus sem in lorem. Ut tincidunt pulvinar augue, et faucibus magna mollis sed. Ut at urna suscipit, vulputate velit porta, porta enim. Nullam lobortis, purus nec sodales eleifend, nunc diam suscipit velit, non accumsan risus eros vel tortor. Integer sagittis, neque sit amet sagittis faucibus, nisl purus commodo libero, nec bibendum tortor sapien vel est. Phasellus metus mi, ornare at libero et, ornare iaculis nisl. Vestibulum mi enim, congue posuere suscipit pellentesque, pulvinar vitae mauris. Quisque euismod malesuada condimentum. Pellentesque rutrum purus purus, eget laoreet justo scelerisque suscipit.</p>
 				<p>Ut laoreet est vel nisl egestas elementum. Donec sit amet varius diam, in mollis augue. Praesent dictum facilisis leo id adipiscing. Vestibulum egestas vestibulum cursus. Quisque eleifend pulvinar nisl. Integer tempor dolor ut leo viverra, eget congue justo bibendum. Suspendisse sed augue dolor. Duis commodo sollicitudin neque. Cras turpis erat, pulvinar ac bibendum eu, molestie ac quam. Aliquam feugiat sodales mattis.</p>
 				<p>Suspendisse interdum leo eu sapien ullamcorper faucibus. Nulla vulputate faucibus mauris. Sed nec mi eget purus feugiat adipiscing. Sed eu libero at nisl lacinia vestibulum at a ligula. Mauris cursus dignissim lacus vel venenatis. Morbi accumsan ultrices orci, ut cursus diam. Sed vitae turpis aliquam, hendrerit neque nec, mollis nulla. Suspendisse et ornare ipsum. Aenean eget dictum sapien. Suspendisse sapien enim, tincidunt a nisl molestie, pulvinar feugiat leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu pellentesque lacus. Nulla facilisi. Aenean rhoncus, mi vel tempus pulvinar, felis libero egestas orci, nec eleifend tellus velit ut urna.</p>
-				
 			</div>
 		</section>
 		
@@ -418,35 +343,6 @@ $(function() {
 			</div>
 		</section>
 
-		<section id="section-2a" class="burns">
-		
-			<div class="content">
-			
-			<div id="burns-1" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-1-holder.jpg" alt="Burns 1" data-from-position="0px,0px" data-from-size="105" data-to-size="100" /></div>
-				<div class="img-caption bottom left">
-					<p>Salami filet mignon flank, pork belly pork loin beef ribs shoulder kevin chicken bresaola turkey. Kielbasa filet mignon flank pork tail.</p>
-				</div>
-			</div>
-		
-			<div id="burns-2" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-2-holder.jpg" alt="Burns 2" data-from-position="35%,60px" data-from-size="100" data-to-size="110" /></div>
-				<div class="img-caption bottom left">
-					<p>Frankfurter turducken kevin chuck filet mignon meatball ham leberkas doner spare ribs meatloaf. Shankle pastrami landjaeger hamburger venison short ribs pork chop pork loin, fatback short loin shoulder brisket. </p>
-				</div>
-			</div>
-		<!--
-			<div id="burns-3" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-3-holder.jpg" alt="Burns 3" data-from-position="10%,20%" data-from-size="100" data-to-size="105" /></div>
-				<div class="img-caption top right">
-					<p>Short ribs biltong swine ball tip ground round, rump turducken kevin boudin pig andouille pastrami.</p>
-				</div>
-			</div>
-		-->
-			</div>
-		
-		</section>
-	
 		<section id="section-3">
 			<div class="content">
 				<h3>I am section 3</h3>

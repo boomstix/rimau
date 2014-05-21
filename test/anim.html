@@ -56,6 +56,10 @@ body {
 	bottom: 10%;
 	color: #fff;
 	text-shadow: 1px 1px 2px #000;
+	padding: 5px;
+	background-color: rgba(0,0,0,0.6);
+	box-shadow:0px 0px 7px #000;
+	border-radius: 4px; 
 }
 .video-holder {
 	width: 100%;
@@ -101,7 +105,7 @@ $(function(){
 		.to(stick, bobTime, {top: "+=10", rotation: -bobRotation, ease: Power0.easeInOut})
 	;
 	
-	timeMove = new TimelineMax({ repeat: -1, paused: true });
+	timeMove = new TimelineMax({ paused: true });
 	timeMove
 		.add("step_1", 0 * animDuration)
 		.add("step_2", 1 * animDuration)
