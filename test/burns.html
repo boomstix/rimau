@@ -104,6 +104,8 @@ h1 {
 
 .burns .burns-holder img {
 	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .burns .img-holder {
@@ -257,28 +259,34 @@ $(function() {
 			subjectUrl = imgUrl.replace('-holder.jpg', '-subject.png');
 		
 			fromDims = img.data('from-position');
-			fromPercent = img.data('from-size');
-			toPercent = img.data('to-size');
+			subjectFromPercent = (img.data('subject-from-size') / 100).toFixed(2);
+			subjectToPercent = (img.data('subject-to-size') / 100).toFixed(2);
+			bgFromPercent = (img.data('bg-from-size') / 100).toFixed(2);
+			bgToPercent = (img.data('bg-to-size') / 100).toFixed(2);
 		
 			// extractDims returns a TimelineMax vars object defining the properties to be set
-			fromDims = extractDims(fromDims);
-			fromDims.scaleX = (fromPercent / 100).toFixed(2);
-			fromDims.scaleY = (fromPercent / 100).toFixed(2);
+			subjectFromDims = extractDims(fromDims);
+			bgFromDims = { scaleX: bgFromPercent, scaleY: bgFromPercent, zIndex: 1 };
+			bgToDims = { scaleX: bgToPercent, scaleY: bgToPercent };
 		
-			toDims = {};
-			toDims.scaleX = (toPercent / 100).toFixed(2);
-			toDims.scaleY = (toPercent / 100).toFixed(2);
-		
+			subjectToDims = {};
+			subjectFromDims.scaleX = subjectFromDims.scaleY = subjectFromPercent;
+			subjectFromDims.zIndex = 2;
+			subjectToDims.scaleX = subjectToDims.scaleY = subjectToPercent;
+			
 			if (newDims.x !== null || newDims.y !== null) {
 		
 				// ditch the original image
 				img.parent().remove();
 		
 				// create the new burns effect holder
-				burnsBg = $('<div class="burns-holder" style="background-image: url(' + bgUrl + ')"></div>');
-				el.prepend(burnsBg);
+				//burnsBg = $('<div class="burns-holder" style="background-image: url(' + bgUrl + ')"></div>');
+				burnsBg = $('<div class="burns-holder"></div>');
 				burnsBg.data('orig-width', parseInt(burnsBg.css('width'), 10));
+				el.prepend(burnsBg);
 				
+				bg = $('<img src="' + bgUrl + '" alt="' + img.attr('alt') + '" />');
+				burnsBg.append(bg);
 				subject = $('<img src="' + subjectUrl + '" alt="' + img.attr('alt') + '" />');
 				burnsBg.append(subject);
 			
@@ -292,12 +300,13 @@ $(function() {
 				.setPin(el)
 				.setTween(
 					new TimelineMax()
-					.set(subject, fromDims) // initialise the subject's position
-					// .set(el, {opacity: ix !== 1})	// set the whole scene to transparent
-					.add("pre-end", 3)			// create a timeline label for the end fade out
-					.to(el, 3, {opacity: 1}, "start")		// fade in
-					.to(subject, 6, toDims, "start")		// do the burns on the subject
-					.to(el, 3, {opacity: 0}, "pre-end")	// fade out
+					.set(el, {autoAlpha: 0})
+					.set(bg, bgFromDims)
+					.set(subject, subjectFromDims) // initialise the subject's position
+					.to(el, 3, {autoAlpha: 1}, "start")		// fade in
+					.to(bg, 20, bgToDims, "start")		// do the burns on the bg
+					.to(subject, 20, subjectToDims, "start")		// do the burns on the subject
+					.to(el, 3, {autoAlpha: 0}, "-=3")	// fade out
 				)
 				.addTo(controller);
 			
@@ -367,14 +376,14 @@ $(function() {
 			<div class="content">
 			
 			<div id="burns-1" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-1-holder.jpg" alt="Burns 1" data-from-position="0px,0px" data-from-size="100" data-to-size="105" /></div>
+				<div class="img-holder"><img src="/assets/stills/burns/burns-1-holder.jpg" alt="Burns 1" data-from-position="0px,0px" data-subject-from-size="100" data-subject-to-size="115" data-bg-from-size="110" data-bg-to-size="100" /></div>
 				<div class="img-caption bottom left">
 					<p>Salami filet mignon flank, pork belly pork loin beef ribs shoulder kevin chicken bresaola turkey. Kielbasa filet mignon flank pork tail.</p>
 				</div>
 			</div>
 		
 			<div id="burns-2" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-2-holder.jpg" alt="Burns 2" data-from-position="35%,60px" data-from-size="100" data-to-size="110" /></div>
+				<div class="img-holder"><img src="/assets/stills/burns/burns-2-holder.jpg" alt="Burns 2" data-from-position="35%,60px" data-subject-from-size="100" data-subject-to-size="110" data-bg-from-size="110" data-bg-to-size="100" /></div>
 				<div class="img-caption bottom left">
 					<p>Frankfurter turducken kevin chuck filet mignon meatball ham leberkas doner spare ribs meatloaf. Shankle pastrami landjaeger hamburger venison short ribs pork chop pork loin, fatback short loin shoulder brisket. </p>
 				</div>
@@ -421,35 +430,6 @@ $(function() {
 			</div>
 		</section>
 
-		<section id="section-2a" class="burns">
-		
-			<div class="content">
-			
-			<div id="burns-1" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-1-holder.jpg" alt="Burns 1" data-from-position="0px,0px" data-from-size="100" data-to-size="105" /></div>
-				<div class="img-caption bottom left">
-					<p>Salami filet mignon flank, pork belly pork loin beef ribs shoulder kevin chicken bresaola turkey. Kielbasa filet mignon flank pork tail.</p>
-				</div>
-			</div>
-		
-			<div id="burns-2" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-2-holder.jpg" alt="Burns 2" data-from-position="35%,60px" data-from-size="100" data-to-size="110" /></div>
-				<div class="img-caption bottom left">
-					<p>Frankfurter turducken kevin chuck filet mignon meatball ham leberkas doner spare ribs meatloaf. Shankle pastrami landjaeger hamburger venison short ribs pork chop pork loin, fatback short loin shoulder brisket. </p>
-				</div>
-			</div>
-		<!--
-			<div id="burns-3" class="burns">
-				<div class="img-holder"><img src="/assets/stills/burns/burns-3-holder.jpg" alt="Burns 3" data-from-position="10%,20%" data-from-size="100" data-to-size="105" /></div>
-				<div class="img-caption top right">
-					<p>Short ribs biltong swine ball tip ground round, rump turducken kevin boudin pig andouille pastrami.</p>
-				</div>
-			</div>
-		-->
-			</div>
-		
-		</section>
-	
 		<section id="section-3">
 			<div class="content">
 				<h3>I am section 3</h3>

@@ -133,7 +133,7 @@ h1 {
 $(function(){
 	
 	var controller = new ScrollMagic();
-	var body = $('body'), contentWidth = $('.content').width();
+	var body = $('body'), contentWidth = 920, contentHeight = 518; // 16 x 9
 	
 	function getRandomInt (min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -179,24 +179,23 @@ $(function(){
 		$('.photo-stack').each(function(ix,el){
 		
 			el = $(el);
-			photos = el.find('.photo');
+			photos = $('.photo', el);
 			
 			// add padding div.photo to bottom
 			el.append('<div class="photo fix"></div>');
 			
-			duration = el.height() + 700; // pulls end past
-			// console.log(duration);
+			duration = contentHeight * (photos.length + 1); // pulls end past
 			
 			new ScrollScene({duration: duration, offset: 0})
 			.triggerHook('onCenter')
 			.triggerElement(el)
 			.setTween(new TimelineMax()
 				.set(el, {opacity: 0})
-				.to(el, 0.25, {})
-				.to(el, 0.5, {opacity: 1})
-				.to(el, 8, {})
-				.to(el, 0.5, {opacity: 0})
-				.to(el, 0.25, {})
+				.to(el, 0.5, {})
+				.to(el, 1, {opacity: 1})
+				.to(el, 16, {})
+				.to(el, 1, {opacity: 0})
+				.to(el, 0.5, {})
 			)
 			.addTo(controller)
 			//.addIndicators({suffix: 'stack'})
@@ -212,7 +211,6 @@ $(function(){
 				imgHolder = $(el.find('.image'));
 				img = $(imgHolder.find('img'));
 				caption = $(imgHolder.find('.caption'));
-				// el.append('<div class="clip"></div>');
 				
 				// initial positions for image holder from image itself
 				imgTopLeftRotation = getImgPos(wH, img);
@@ -224,7 +222,7 @@ $(function(){
 					.fromTo(imgHolder, 1, imgTopLeftRotation, { rotation: -180, left: -700, autoAlpha: 0, top: t1}, "start")
 				;
 				
-				imgHolder.data('scene', new ScrollScene({duration: 518, offset: 518})
+				imgHolder.data('scene', new ScrollScene({duration: contentHeight, offset: contentHeight})
 					.triggerElement(el)
 					.setTween(timeline)
 					.addTo(controller)
