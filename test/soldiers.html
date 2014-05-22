@@ -167,9 +167,21 @@ $(function(){
 			el = $(el);
 			var p = getImgPos(w_h, el.find('img'));
 			//console.log(el, p);
-			$(el).css(p);
+			el.css(p);
+
 		});
 
+	}
+	
+	function createImgTimeline(imgHolder) {
+		
+		// creates the start and end top, left, rotation and alpha
+		startPos = getImgPos(wH, $(imgHolder.find('img')));
+		startPos.rotation = imgHolder.data('start-rotation');
+		startPos.autoAlpha = 1;
+		endPos = { rotation: -180, left: "-=700", autoAlpha: 0, top: imgHolder.data('end-top')};
+
+		return new TimelineMax().fromTo(imgHolder, 1, startPos, endPos, "start");
 	}
 	
 	function createFlyingGallery() {
@@ -190,12 +202,12 @@ $(function(){
 			.triggerHook('onCenter')
 			.triggerElement(el)
 			.setTween(new TimelineMax()
-				.set(el, {opacity: 0})
-				.to(el, 0.5, {})
-				.to(el, 1, {opacity: 1})
-				.to(el, 16, {})
-				.to(el, 1, {opacity: 0})
-				.to(el, 0.5, {})
+				.set(el, {autoAlpha: 0})
+				.to(el, 1.5, {}) // do nothing
+				.to(el, 1, {autoAlpha: 1}) // fade in 
+				.to(el, 16, {}) // do nothing
+				.to(el, 1, {autoAlpha: 0})
+				.to(el, 0.5, {}) // do nothing
 			)
 			.addTo(controller)
 			//.addIndicators({suffix: 'stack'})
@@ -213,18 +225,15 @@ $(function(){
 				caption = $(imgHolder.find('.caption'));
 				
 				// initial positions for image holder from image itself
-				imgTopLeftRotation = getImgPos(wH, img);
-				imgTopLeftRotation.rotation = getRandomInt(-12, 12);	// a random starting rotation
-				t1 = getRandomInt(-800, 800);		// a random finishing top position
+				imgHolder.data('start-rotation', getRandomInt(-12, 12));
+				imgHolder.data('end-top', getRandomInt(-800, 800));
 				
-				// timeline for rotation of images left out of window
-				var timeline = new TimelineMax()
-					.fromTo(imgHolder, 1, imgTopLeftRotation, { rotation: -180, left: -700, autoAlpha: 0, top: t1}, "start")
-				;
+				// create a timeline for rotation of images left out of window
+				imgHolder.data('timeline', createImgTimeline(imgHolder));
 				
 				imgHolder.data('scene', new ScrollScene({duration: contentHeight, offset: contentHeight})
 					.triggerElement(el)
-					.setTween(timeline)
+					.setTween(imgHolder.data('timeline'))
 					.addTo(controller)
 				//	.addIndicators({ suffix: ix })
 				);
@@ -280,6 +289,17 @@ $(function(){
 			<img src="/assets/stills/Merapas_00016.jpg" />
 		</div>
 
+		<section id="section-1">
+			<div class="content">
+				<h3>I am section 1</h3>
+				<p>Maecenas pretium ante ultricies, malesuada mi vel, varius felis. Aliquam eleifend ligula sed vulputate pellentesque. Quisque sagittis pulvinar nulla vel sodales. Aliquam erat volutpat. Etiam tincidunt, ipsum in rutrum volutpat, erat dolor euismod orci, ut laoreet tortor nibh vitae massa. Curabitur volutpat consectetur massa, id ultricies magna. Suspendisse pellentesque gravida varius. Aenean diam lorem, rutrum et erat in, euismod varius justo. Donec posuere mollis nisi, vitae scelerisque diam facilisis tristique. Integer ac ante eget est pulvinar tempus non ut neque. Vestibulum vestibulum auctor porttitor. Etiam vitae consequat augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ante sed dolor auctor luctus. Vestibulum egestas odio sem, sed blandit lacus gravida et.</p>
+				<p>Sed sed interdum ante, ut rutrum velit. Proin ut laoreet sapien, lacinia aliquet ipsum. Praesent pulvinar aliquam lacus in tristique. Donec commodo lacus nec nisl egestas, ut malesuada enim semper. Quisque auctor tincidunt justo id adipiscing. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut mauris tortor. Fusce suscipit interdum venenatis. Donec at dapibus felis. In mauris mauris, elementum sit amet libero at, luctus faucibus leo. Donec enim ligula, sollicitudin vitae dolor eu, tristique accumsan tellus. Suspendisse scelerisque justo nec rhoncus semper. Morbi lacinia sollicitudin libero, non molestie erat.</p>
+				<p>Duis mattis ligula eget dui placerat, non congue leo tincidunt. Aenean nec vulputate lectus, et tempor lectus. Vivamus convallis, libero vel feugiat commodo, nisi urna ullamcorper purus, eget iaculis lectus sem in lorem. Ut tincidunt pulvinar augue, et faucibus magna mollis sed. Ut at urna suscipit, vulputate velit porta, porta enim. Nullam lobortis, purus nec sodales eleifend, nunc diam suscipit velit, non accumsan risus eros vel tortor. Integer sagittis, neque sit amet sagittis faucibus, nisl purus commodo libero, nec bibendum tortor sapien vel est. Phasellus metus mi, ornare at libero et, ornare iaculis nisl. Vestibulum mi enim, congue posuere suscipit pellentesque, pulvinar vitae mauris. Quisque euismod malesuada condimentum. Pellentesque rutrum purus purus, eget laoreet justo scelerisque suscipit.</p>
+				<p>Ut laoreet est vel nisl egestas elementum. Donec sit amet varius diam, in mollis augue. Praesent dictum facilisis leo id adipiscing. Vestibulum egestas vestibulum cursus. Quisque eleifend pulvinar nisl. Integer tempor dolor ut leo viverra, eget congue justo bibendum. Suspendisse sed augue dolor. Duis commodo sollicitudin neque. Cras turpis erat, pulvinar ac bibendum eu, molestie ac quam. Aliquam feugiat sodales mattis.</p>
+				<p>Suspendisse interdum leo eu sapien ullamcorper faucibus. Nulla vulputate faucibus mauris. Sed nec mi eget purus feugiat adipiscing. Sed eu libero at nisl lacinia vestibulum at a ligula. Mauris cursus dignissim lacus vel venenatis. Morbi accumsan ultrices orci, ut cursus diam. Sed vitae turpis aliquam, hendrerit neque nec, mollis nulla. Suspendisse et ornare ipsum. Aenean eget dictum sapien. Suspendisse sapien enim, tincidunt a nisl molestie, pulvinar feugiat leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu pellentesque lacus. Nulla facilisi. Aenean rhoncus, mi vel tempus pulvinar, felis libero egestas orci, nec eleifend tellus velit ut urna.</p>
+			</div>
+		</section>
+		
 	
 		<section id="section-0">
 
@@ -314,19 +334,6 @@ $(function(){
 
 		</section>
 
-		<section id="section-1">
-			<div class="content">
-
-				<h3>I am section 1</h3>
-				
-				<p>Maecenas pretium ante ultricies, malesuada mi vel, varius felis. Aliquam eleifend ligula sed vulputate pellentesque. Quisque sagittis pulvinar nulla vel sodales. Aliquam erat volutpat. Etiam tincidunt, ipsum in rutrum volutpat, erat dolor euismod orci, ut laoreet tortor nibh vitae massa. Curabitur volutpat consectetur massa, id ultricies magna. Suspendisse pellentesque gravida varius. Aenean diam lorem, rutrum et erat in, euismod varius justo. Donec posuere mollis nisi, vitae scelerisque diam facilisis tristique. Integer ac ante eget est pulvinar tempus non ut neque. Vestibulum vestibulum auctor porttitor. Etiam vitae consequat augue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ante sed dolor auctor luctus. Vestibulum egestas odio sem, sed blandit lacus gravida et.</p>
-				<p>Sed sed interdum ante, ut rutrum velit. Proin ut laoreet sapien, lacinia aliquet ipsum. Praesent pulvinar aliquam lacus in tristique. Donec commodo lacus nec nisl egestas, ut malesuada enim semper. Quisque auctor tincidunt justo id adipiscing. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut mauris tortor. Fusce suscipit interdum venenatis. Donec at dapibus felis. In mauris mauris, elementum sit amet libero at, luctus faucibus leo. Donec enim ligula, sollicitudin vitae dolor eu, tristique accumsan tellus. Suspendisse scelerisque justo nec rhoncus semper. Morbi lacinia sollicitudin libero, non molestie erat.</p>
-				<p>Duis mattis ligula eget dui placerat, non congue leo tincidunt. Aenean nec vulputate lectus, et tempor lectus. Vivamus convallis, libero vel feugiat commodo, nisi urna ullamcorper purus, eget iaculis lectus sem in lorem. Ut tincidunt pulvinar augue, et faucibus magna mollis sed. Ut at urna suscipit, vulputate velit porta, porta enim. Nullam lobortis, purus nec sodales eleifend, nunc diam suscipit velit, non accumsan risus eros vel tortor. Integer sagittis, neque sit amet sagittis faucibus, nisl purus commodo libero, nec bibendum tortor sapien vel est. Phasellus metus mi, ornare at libero et, ornare iaculis nisl. Vestibulum mi enim, congue posuere suscipit pellentesque, pulvinar vitae mauris. Quisque euismod malesuada condimentum. Pellentesque rutrum purus purus, eget laoreet justo scelerisque suscipit.</p>
-				<p>Ut laoreet est vel nisl egestas elementum. Donec sit amet varius diam, in mollis augue. Praesent dictum facilisis leo id adipiscing. Vestibulum egestas vestibulum cursus. Quisque eleifend pulvinar nisl. Integer tempor dolor ut leo viverra, eget congue justo bibendum. Suspendisse sed augue dolor. Duis commodo sollicitudin neque. Cras turpis erat, pulvinar ac bibendum eu, molestie ac quam. Aliquam feugiat sodales mattis.</p>
-				<p>Suspendisse interdum leo eu sapien ullamcorper faucibus. Nulla vulputate faucibus mauris. Sed nec mi eget purus feugiat adipiscing. Sed eu libero at nisl lacinia vestibulum at a ligula. Mauris cursus dignissim lacus vel venenatis. Morbi accumsan ultrices orci, ut cursus diam. Sed vitae turpis aliquam, hendrerit neque nec, mollis nulla. Suspendisse et ornare ipsum. Aenean eget dictum sapien. Suspendisse sapien enim, tincidunt a nisl molestie, pulvinar feugiat leo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu pellentesque lacus. Nulla facilisi. Aenean rhoncus, mi vel tempus pulvinar, felis libero egestas orci, nec eleifend tellus velit ut urna.</p>
-			</div>
-		</section>
-		
 		<section id="section-2">
 			<div class="content">
 				<h3>I am section 2</h3>
