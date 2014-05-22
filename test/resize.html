@@ -6,7 +6,6 @@
 	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.7/TweenMax.min.js"></script>-->
 	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
 	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
-	<script src="/assets/html5/jquery.ba-throttle-debounce.min.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
 
@@ -32,7 +31,6 @@ header {
 	z-index: 9999;
 	top: 0;
 	padding: 0 1em;
-	color: #ccc;
 }
 header a {
 	color: #ccc;
@@ -54,6 +52,9 @@ ul.nav {
 ul.nav li {
 	float: left;
 	margin: 0.5em;
+}
+h1 {
+	text-align: center;
 }
 article {
 	margin: 0;
@@ -79,173 +80,176 @@ section:after {
 }
 
 
-h1 {
-	text-align: center;
-}
-#section-0 {
+.sequence .scene {
 	background-color: #000;
-	margin: 0;
-	padding: 0;
 }
-#test {
-	position: fixed;
-	background-color: #336;
-}
-#test img, #test video {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-}
-.photo-stack {
-	background-color: transparent;
-	background-image: url(/assets/stills/MVI_4637.jpg);
-	background-attachment: fixed;
-	background-size: 920px 518px;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
-/*	margin-top: 518px;*/
-/*	margin-bottom: 518px;*/
-}
-.photo-stack .photo.fix {
+
+.sequence .scene {
 	position: relative;
+ 	min-height: 56.25vw;
+	float: left;
 	width: 100%;
-	height: 518px;
-	border: 0px solid red;
+	overflow: hidden;
+/* 
+	border: 1px solid red;
+	box-sizing:border-box;
+ */
 }
-.photo-stack .photo.fix .image {
-	position: fixed;
-	top: 0;
-/*	height: 420px;*/
+
+.sequence .media {
+	float: left;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+	width: 100%;
 }
-.photo-stack .photo.fix img {
-	height: 420px;
+
+.media img {
+	max-width: 100%;
+	width: 100%;
 }
-.photo-stack .photo.fix .caption {
+
+.scene .caption {
+	z-index: 3;
 	position: absolute;
-	top: 50%;
-	right: 10%;
+	width: 40%;
 	color: #fff;
 	text-shadow: 1px 1px 2px #000;
+	bottom: 10%;
+	left: 10%;
 }
+
+.scene .caption p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.scene .caption.top {
+	top: 50px;
+}
+
+.scene .caption.bottom {
+	bottom: 50px;
+}
+
+.scene .caption.left {
+	left: 50px;
+}
+
+.scene .caption.right {
+	right: 50px;
+}
+
+
 </style>
 <script>
 
+// idea here is to make the media images full page width, letterboxed to 16:9
+// then be able to replace the image with a video in a link if it exists
+
 $(function(){
-	
-	var controller = new ScrollMagic();
-	var body = $('body'), contentWidth = 920, contentHeight = 518; // 16 x 9
-	
-	function getRandomInt (min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
+
+	var body = $('body'), controller = new ScrollMagic();;
 	
 	function getBodyDims() {
 		return { w: body.width(), h: body.height() };
 	}
 
-	function getImgPos(wH, img) {
-		// images are positioned offset from:
-		t0 = (wH.h - img.height()) / 2; // top pos half the diff between window and image height
-		l0 = (wH.w - contentWidth) / 2; // left pos half the diff between window and content column width
-		return { top: t0, left: l0 };
-	}
+	function getLetterBoxDims() {
 	
+		var wH = getBodyDims();
+		// coords for letterboxing
+		newHeight = parseInt(wH.w * 9 / 16, 10);
+		newTop = parseInt((wH.h - newHeight) / 2, 10);
+		return { height: newHeight, top: newTop };
+		
+	}
+
 	function fixDims() {
 	
-		// Called on resize - updates the w/h of video holders
-		w_h = getBodyDims();
+		wH = getBodyDims();
+		// update the first page - hack for now
+		$('h1').css({width: wH.w, height: wH.h, lineHeight: (wH.h) + 'px'});
 		
-		// update the first page
-		$('h1').css({width: w_h.w, height: w_h.h, lineHeight: (w_h.h) + 'px'});
+		$('.scene').each(function(ix,el){
 		
-		// coords for letterboxing
-		h = parseInt(w_h.w * 9 / 16, 10);
-		t = parseInt((w_h.h - h) / 2, 10);
-		
-		$('.photo .image').each(function(ix,el){
-			el = $(el);
-			var p = getImgPos(w_h, el.find('img'));
-			//console.log(el, p);
-			el.css(p);
-
+			scene = $(el);
+			
+			media = $('.media', scene);
+			
+			media.css(getLetterBoxDims());
+			
 		});
-
-	}
-	
-	function createImgTimeline(imgHolder) {
 		
-		// creates the start and end top, left, rotation and alpha
-		startPos = getImgPos(wH, $(imgHolder.find('img')));
-		startPos.rotation = imgHolder.data('start-rotation');
-		startPos.autoAlpha = 1;
-		endPos = { rotation: -180, left: "-=700", autoAlpha: 0, top: imgHolder.data('end-top')};
-
-		return new TimelineMax().fromTo(imgHolder, 1, startPos, endPos, "start");
 	}
 	
-	function createFlyingGallery() {
+	function createScenes() {
 	
 		wH = getBodyDims();
-		
-		$('.photo-stack').each(function(ix,el){
-		
-			el = $(el);
-			photos = $('.photo', el);
+	
+		$('.sequence').each(function(ix,el){
+
+			var heightTop = getLetterBoxDims()
+			,	scenes = $('.scene')
+			,	duration = wH.h * (scenes.length - 1);
 			
-			// add padding div.photo to bottom
-			el.append('<div class="photo fix"></div>');
-			
-			duration = contentHeight * (photos.length + 1); // pulls end past
-			
-			new ScrollScene({duration: duration, offset: 0})
+			new ScrollScene({duration: duration - (wH.h / 4), offset: wH.h / 4})
 			.triggerHook('onCenter')
 			.triggerElement(el)
 			.setTween(new TimelineMax()
 				.set(el, {autoAlpha: 0})
-				.to(el, 1.5, {}) // do nothing
+				//.to(el, 1.5, {}) // do nothing
 				.to(el, 1, {autoAlpha: 1}) // fade in 
 				.to(el, 16, {}) // do nothing
 				.to(el, 1, {autoAlpha: 0})
-				.to(el, 0.5, {}) // do nothing
+				//.to(el, 1, {}) // do nothing
 			)
 			.addTo(controller)
-			//.addIndicators({suffix: 'stack'})
+			.addIndicators({suffix: 'stack'})
 			;
 			
 			
-			photos.each(function(ix, el) {
-			
+			scenes.each(function(ix,el){
+		
 				el = $(el);
-				el.addClass('fix');
-				el.css('zIndex', photos.length - ix);
-				
-				imgHolder = $(el.find('.image'));
-				img = $(imgHolder.find('img'));
-				caption = $(imgHolder.find('.caption'));
-				
-				// initial positions for image holder from image itself
-				imgHolder.data('start-rotation', getRandomInt(-12, 12));
-				imgHolder.data('end-top', getRandomInt(-800, 800));
-				
-				// create a timeline for rotation of images left out of window
-				imgHolder.data('timeline', createImgTimeline(imgHolder));
-				
-				imgHolder.data('scene', new ScrollScene({duration: contentHeight, offset: contentHeight})
-					.triggerElement(el)
-					.setTween(imgHolder.data('timeline'))
-					.addTo(controller)
-				//	.addIndicators({ suffix: ix })
-				);
-				
+			
+				media = $('.media', el);
+			
+				var timeline = new TimelineMax()
+				.set(media, {position: 'fixed', display: 'block', autoAlpha: 0})
+				.to(media, 1, {})
+				.to(media, 1, {autoAlpha: 1})
+				.to(media, 10, {})
+				.to(media, 1, {autoAlpha: 0})
+				.to(media, 1, {})
+				.set(media, {position: 'relative', display: 'none'});
+			
+			console.log(ix, scenes.length - 1)
+			
+				var scene = new ScrollScene({duration: wH.h + ((ix === scenes.length - 1) ? heightTop.top : 0), offset: 0})
+				.triggerElement(el)
+				.triggerHook('onCenter')
+				.setTween(timeline)
+				.addTo(controller)
+				.addIndicators({suffix: ix})
+				;
+			
+		
 			});
+			
+			$(el).append('<div class="scene"><div class="media"></div></div>')
+		
 		});
+		
+		
+	
 	}
 	
-	createFlyingGallery();
+	createScenes();
 	
 	$(window).on('resize', fixDims);
 	fixDims();
-	
+
 });
 
 </script>
@@ -284,10 +288,35 @@ $(function(){
 	
 		<h1>Operation Rimau</h1>
 		
-		<div id="test">
-			<img src="/assets/stills/Merapas_00016.jpg" />
-		</div>
-
+		<section id="section-0">
+			<div class="sequence">
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/MVI_0038-sml.jpg" />
+					</div>
+					<div class="caption">
+						<p>In the final throes of World War Two, a crew of 23 commandos leave Fremantle</p>
+					</div>
+				</div>
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/MVI_4637-sml.jpg" />
+					</div>
+					<div class="caption">
+						<p>An ambitious, dangerous raid, Rimau relies on the improvisational skills, quick-thinking and bravery of the men hand-picked after proving their skill and strength during intensive and top-secret training. In time they become known as &ldquo;Z. Special Unit&rdquo;.</p>
+					</div>
+				</div>
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/MVI_4644-sml.jpg" />
+					</div>
+					<div class="caption">
+						<p>Each man carries a cyanide pill and know only this: they’d been chosen to be part of something so damned important that none could be told the mission’s purpose or treacherous details.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	
 		<section id="section-1">
 			<div class="content">
 				<h3>I am section 1</h3>
@@ -299,40 +328,6 @@ $(function(){
 			</div>
 		</section>
 		
-	
-		<section id="section-0">
-
-			<div class="photo-stack content">
-
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/carey.png" /></div>
-						<div class="caption">Carey</div>
-					</div>
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/davidson.png" /></div>
-						<div class="caption">Davidson</div>
-					</div>
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/falls.png" /></div>
-						<div class="caption">Falls</div>
-					</div>
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/hardy.png" /></div>
-						<div class="caption">Hardy</div>
-					</div>
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/page.png" /></div>
-						<div class="caption">Page</div>
-					</div>
-					<div class="photo">
-						<div class="image"><img src="/assets/stills/men/sargent.png" /></div>
-						<div class="caption">Sargent</div>
-					</div>
-
-			</div>
-
-		</section>
-
 		<section id="section-2">
 			<div class="content">
 				<h3>I am section 2</h3>
