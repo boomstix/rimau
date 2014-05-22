@@ -110,6 +110,7 @@ h1 {
 	position: relative;
 	width: 100%;
 	height: 518px;
+	border: 0px solid red;
 }
 .photo-stack .photo.fix .image {
 	position: fixed;
@@ -142,30 +143,32 @@ $(function(){
 		return { w: body.width(), h: body.height() };
 	}
 
+	function getImgPos(wH, img) {
+		// images are positioned offset from:
+		t0 = (wH.h - img.height()) / 2; // top pos half the diff between window and image height
+		l0 = (wH.w - contentWidth) / 2; // left pos half the diff between window and content column width
+		return { top: t0, left: l0 };
+	}
+	
 	function fixDims() {
 	
+		// called on resize
 		// updates the w/h of video holders
 		w_h = getBodyDims();
-		contentWidth = $('.content').width();
 		
 		$('h1').css({width: w_h.w, height: w_h.h, lineHeight: (w_h.h) + 'px'});
 		
+		
+		// coords for letterboxing
 		h = parseInt(w_h.w * 9 / 16, 10);
-		// console.log('win w: %o win h: %o calc h: %o', w_h.w, w_h.h, h, w_h.h > h ? 'letterbox' : 'overflow', parseInt((w_h.h - h) / 2, 10));
 		t = parseInt((w_h.h - h) / 2, 10);
 		
-		$('video-holder').each(function(ix,el){
-			$(el).css({
-				width: w_h.w
-			,	height: h
-			,	top: t
-			});
+		$('.photo .image').each(function(ix,el){
+			el = $(el);
+			var p = getImgPos(w_h, el.find('img'));
+			//console.log(el, p);
+			$(el).css(p);
 		});
-// 		$('.photo').each(function(ix,el){
-// 			$(el).css({
-// 				height: w_h.h
-// 			});
-// 		});
 
 	}
 	
@@ -181,18 +184,19 @@ $(function(){
 			// add padding div.photo to bottom
 			el.append('<div class="photo fix"></div>');
 			
-			duration = el.height() + 700;
-			console.log(duration);
+			duration = el.height() + 700; // pulls end past
+			// console.log(duration);
 			
 			new ScrollScene({duration: duration, offset: 0})
 			.triggerHook('onCenter')
 			.triggerElement(el)
 			.setTween(new TimelineMax()
 				.set(el, {opacity: 0})
-				//.to(el, 1, {})
-				.to(el, 1, {opacity: 1})
-				.to(el, 18, {})
-				.to(el, 1, {opacity: 0})
+				.to(el, 0.25, {})
+				.to(el, 0.5, {opacity: 1})
+				.to(el, 8, {})
+				.to(el, 0.5, {opacity: 0})
+				.to(el, 0.25, {})
 			)
 			.addTo(controller)
 			.addIndicators({suffix: 'stack'})
@@ -210,24 +214,22 @@ $(function(){
 				caption = $(imgHolder.find('.caption'));
 				// el.append('<div class="clip"></div>');
 				
-				// initial positions for images
-				t0 = (wH.h - img.height()) / 2; // top pos half the diff between window and image height
-				l0 = (wH.w - contentWidth) / 2; // left pos half the diff between window and image width
-				r0 = getRandomInt(-10, 10);			// a random starting rotation
+				// initial positions for image holder from image itself
+				imgTopLeftRotation = getImgPos(wH, img);
+				imgTopLeftRotation.rotation = getRandomInt(-20, 20);	// a random starting rotation
 				t1 = getRandomInt(-800, 800);		// a random finishing top position
 				
 				// timeline for rotation of images left out of window
 				var timeline = new TimelineMax()
-					.set(imgHolder, {top: t0, left: l0, rotation: r0})
-					.to(imgHolder, 1, { rotation: -180, left: -700, autoAlpha: 0, top: t1}, "start")
+					.fromTo(imgHolder, 1, imgTopLeftRotation, { rotation: -180, left: -700, autoAlpha: 0, top: t1}, "start")
 				;
 				
-				var scene = new ScrollScene({duration: 518, offset: 518})
-				.triggerElement(el)
-				.setTween(timeline)
-				.addTo(controller)
-				.addIndicators({ suffix: ix })
-				;
+				imgHolder.data('scene', new ScrollScene({duration: 518, offset: 518})
+					.triggerElement(el)
+					.setTween(timeline)
+					.addTo(controller)
+				//	.addIndicators({ suffix: ix })
+				);
 				
 			});
 		});
