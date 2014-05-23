@@ -98,10 +98,12 @@ section:after {
 	height: 100%;
 	top: 0;
 	left: 0;
+	z-index: 2;
 }
 
-.media img {
+.media img, .media video {
 	width: 100%;
+	z-index: 3;
 }
 
 .caption {
@@ -119,7 +121,7 @@ section:after {
 	text-shadow: 1px 1px 2px #000;
 
 	margin-left: 10%;
-
+	z-index: 4;
 	
 }
 
@@ -182,9 +184,21 @@ $(function() {
 		
 	}
 	
+	function playVideo() {
+		console.log('play number %o arg: %o this: %o', arguments[1], arguments[0], this);
+		arguments[0].get(0).currentTime = 0;
+		arguments[0].get(0).play();
+	}
+	
+	function resetVideo() {
+		console.log('reset number %o arg: %o this: %o', arguments[1], arguments[0], this);
+		arguments[0].get(0).pause();
+		arguments[0].get(0).currentTime = 0;
+	}
+	
 	function setupSequence() {
 	
-		$('.sequence').each(function(ix, el){
+		$('.sequence').each(function(sequenceIx, el){
 	
 			sequence = $(el);
 			
@@ -192,7 +206,6 @@ $(function() {
 			media = $('.media', sequence);
 			captions = $('.caption', sequence);
 			
-			console.log(screen);
 			screen.addClass('fixed');
 			
 			sceneCount = media.length; // the number of transitions
@@ -214,11 +227,12 @@ $(function() {
 
 			console.log('frameCount: %o, frameHeight: %o, duration: %o', frameCount, frameHeight, totalDuration);
 	
+			// set the height of the fixed sequence wrapper to which we are pinning the scrollscene
 			sequence.height(bodyDims.h);
 
 			// Create a timeline for the tweens to happen on
 			timeline = new TimelineMax({onUpdate: function(){
-				//console.log('update',this.time())
+				// console.log('update',this.time(), this.currentLabel(), this.getChildren())
 			}});
 	
 			// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	
@@ -232,7 +246,7 @@ $(function() {
 	
 				currMedia = $(media[sceneNumber]);
 				currCaption = $(captions[sceneNumber]);
-		
+				
 				// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
 				sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
 				console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
@@ -240,16 +254,77 @@ $(function() {
 				fadeInStartLabel = 'scene-' + sceneStartFrame;
 				scrollInStartLabel = 'scene-' + (sceneStartFrame + 1);
 				scrollOutStartLabel = 'scene-' + (sceneStartFrame + 4);
-				fadeOutStartLabel = 'scene-' + (sceneStartFrame + 5);
+				fadeOutStartLabel = 'scene-' + (sceneStartFrame + 4);
+				fadeOutEndLabel = 'scene-' + (sceneStartFrame + 5);
 	
+				anchor = $('a', currMedia);
+				video = null;
+				
+				if (anchor.length > 0) {
+					img = $('img', anchor);
+					vidUrl = anchor.attr('href');
+					imgUrl = img.attr('src');
+					// replace img with video
+					video = $('<video preload="auto" autoplay loop poster="' + imgUrl + '">\
+					<source src="' + vidUrl + '" type="video/mp4"></source>\
+					<source src="' + vidUrl.replace('mp4', 'webm') + '" type="video/webm"></source>\
+					</video>');
+					currMedia.append(video);
+					anchor.remove();
+				}
+				
 				// each animation frame is 1 relative step size in duration
+				if (video !== null) {
+					// add volume up tween, triggering play when the tween starts
+					timeline
+					.add(TweenMax.from(video, 1, {
+							volume: 0
+						,	onStart: function(){console.log('volume fade up start');}
+						,	onComplete: function(){console.log('volume fade up complete');}
+						}), fadeInStartLabel)
+					.call(playVideo, [video, sceneNumber], null, fadeInStartLabel)
+					;
+				}
+				
 				// add each step at each each frame
 				timeline
-				.add(TweenMax.from(currMedia, 1, {autoAlpha: 0}), fadeInStartLabel)
-				.add(TweenMax.from(currCaption, 1, {top: '100%'}), scrollInStartLabel)
-				.add(TweenMax.to(currCaption, 1, {top: '-100%'}), scrollOutStartLabel)
-				.add(TweenMax.to(currMedia, 1, {autoAlpha: 0}), fadeOutStartLabel)
+				.add(TweenMax.from(currMedia, 1, {
+						autoAlpha: 0
+// 					,	onStart: function(){console.log('image fade in start');}
+// 					,	onComplete: function(){console.log('image fade in complete');}
+					}), fadeInStartLabel)
+				.add(TweenMax.from(currCaption, 1, {
+						top: '100%'
+// 					,	onStart: function(){console.log('caption slide in start');}
+// 					,	onComplete: function(){console.log('caption slide in complete');}
+					}), scrollInStartLabel)
+				.add(TweenMax.to(currCaption, 2.5, {
+					top: '-100%'
+// 					,	onStart: function(){console.log('caption slide out start');}
+// 					,	onComplete: function(){console.log('caption slide out complete');}
+					}), scrollOutStartLabel)
+				.add(TweenMax.to(currCaption, 1, {
+						autoAlpha: 0
+// 					,	onStart: function(){console.log('caption fade out start');}
+// 					,	onComplete: function(){console.log('caption fade out complete');}
+					}), scrollOutStartLabel)
 				;
+				
+				if (video !== null) {
+					timeline
+					.add(TweenMax.to(video, 1, {
+							volume: 0
+						,	onStart: function(){console.log('volume fade down start');}
+						,	onComplete: function(){console.log('volume fade down complete');}
+					}), fadeOutStartLabel)
+					.call(resetVideo, [video, sceneNumber], null, fadeOutEndLabel)
+					;
+				}
+				
+				timeline
+				.add(TweenMax.to(currMedia, 1, {autoAlpha: 0/*, onStart: function(){console.log('image fade out start');}, onComplete: function(){console.log('image fade out complete');}*/}), fadeOutStartLabel)
+				;
+		
 		
 			};
 	
@@ -260,7 +335,7 @@ $(function() {
 			.setPin(sequence)
 			.setTween(timeline)
 			.addTo(controller)
-			//.addIndicators({suffix: 'scene'})
+			.addIndicators({suffix: 'scene'})
 			;
 		
 			sequence.data('scene', scene);
@@ -298,7 +373,7 @@ $(function() {
 			
 				<div id="screen-1" class="screen">
 					<div id="media-1" class="media">
-						<a href="/assets/video/MVI_4637.m4v"><img src="/assets/stills/MVI_4637-sml-16x9.jpg" class="img-responsive" /></a>
+						<a href="/assets/video/MVI_4637.mp4"><img src="/assets/stills/MVI_4637-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
 					<div id="caption-1" class="caption">
 						<p>The mangroves are a humid place.  Commandos can be found creeping through them, freaking out defenceless cameramen.</p>
@@ -307,24 +382,24 @@ $(function() {
 				
 				<div id="screen-2" class="screen">
 					<div id="media-2" class="media">
-						<a href="/assets/video/MVI_0038.m4v"><img src="/assets/stills/MVI_0038-sml-16x9.jpg" class="img-responsive" /></a>
+						<a href="/assets/video/MVI_0038.mp4"><img src="/assets/stills/MVI_0038-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
 					<div id="caption-2" class="caption">
 						<p>The beach is an empty place.  Commandos can be found creeping through them, freaking out innocent cameramen.</p>
 					</div>
 				</div>
-				
 
 				<div id="screen-3" class="screen">
 					<div id="media-3" class="media">
-						<a href="/assets/video/MVI_4644.m4v"><img src="/assets/stills/MVI_4644-sml-16x9.jpg" class="img-responsive" /></a>
+						<a href="/assets/video/MVI_4644.mp4"><img src="/assets/stills/MVI_4644-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
 					<div id="caption-3" class="caption">
 						<p>The jungle is a scary place.  Commandos can be found creeping through them, freaking out oblivious cameramen.</p>
 					</div>
 				</div>
 				
-				<!--				<div id="screen-4" class="screen">
+				<!--
+				<div id="screen-4" class="screen">
 					<div id="media-4" class="media">
 						<a href="/assets/video/MVI_4637.m4v"><img src="/assets/stills/MVI_4637-sml.jpg" class="img-responsive" /></a>
 					</div>
