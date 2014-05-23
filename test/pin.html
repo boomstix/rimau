@@ -28,6 +28,10 @@ body {
 	font-size: 1em;
 }
 
+h1 {
+	text-align: center;
+}
+
 article {
 	height: 100%;
 	margin: 0;
@@ -166,6 +170,7 @@ $(function() {
 	function fixImageDims() {
 	
 		d = getBodyDims();
+		$('h1').css({width: d.w, height: d.h, lineHeight: (d.h) + 'px'});
  		$('.screen').each(function(ix, el){
  			el = $(el);
  			el.css({ width: d.w, height: d.h, left: 0 });
@@ -285,6 +290,7 @@ $(function() {
 			<h1>Setup</h1>
 		</section>
 		-->
+		<h1>Operation Rimau</h1>
 
 		<section id="section-1">
 		
