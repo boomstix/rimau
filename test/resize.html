@@ -80,6 +80,10 @@ section:after {
 }
 
 
+.sequence {
+	margin-top: -400px;
+}
+
 .sequence .scene {
 	background-color: #000;
 }
@@ -90,10 +94,10 @@ section:after {
 	float: left;
 	width: 100%;
 	overflow: hidden;
-/* 
+
 	border: 1px solid red;
 	box-sizing:border-box;
- */
+
 }
 
 .sequence .media {
@@ -104,7 +108,7 @@ section:after {
 	width: 100%;
 }
 
-.media img {
+.scene .media img {
 	max-width: 100%;
 	width: 100%;
 }
@@ -191,7 +195,7 @@ $(function(){
 
 			var heightTop = getLetterBoxDims()
 			,	scenes = $('.scene')
-			,	duration = wH.h * (scenes.length - 1);
+			,	duration = wH.h * (scenes.length);
 			
 			new ScrollScene({duration: duration - (wH.h / 4), offset: wH.h / 4})
 			.triggerHook('onCenter')
@@ -223,8 +227,6 @@ $(function(){
 				.to(media, 1, {autoAlpha: 0})
 				.to(media, 1, {})
 				.set(media, {position: 'relative', display: 'none'});
-			
-			console.log(ix, scenes.length - 1)
 			
 				var scene = new ScrollScene({duration: wH.h + ((ix === scenes.length - 1) ? heightTop.top : 0), offset: 0})
 				.triggerElement(el)

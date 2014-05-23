@@ -12,83 +12,252 @@
 	<script src="/experiment/imakewebthings-jquery-waypoints-415eb55/waypoints.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans Condensed', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+
+article {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+section {
+	display: block;
+/*	z-index: 5;*/
+}
+
+section:after {
+	content: "";
+	clear: left;
+	display: block;
+}
+
+#section-0 {
+	position: relative;
+	height: 100%;
+}
+
+#section-1 {
+	background-color: #000;
+}
+
+
+.content {
+	z-index: 10;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1em;
+}
+
+.ScrollSceneIndicators {
+	z-index: 1000 !important;
+}
+
+#sequence-1
+{
+	width: 100%;
+	height: 100%;
+}
+
+.sequence {
+	position: relative;
+}
+
+.screen {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.screen.fixed {
+	position: fixed;
+}
+
+.media {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.media img {
+	width: 100%;
+}
+
+.caption {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+</style>
 <script>
 
-var controller;
-var debug = false;
+/*
+	
+	script:
+	setup stage widths and heights
+	fadeup stage 1 and scroll caption 1 to 20% from bottom
+	scroll a window height and caption stays in place
+	scroll caption 1 to 20% from bottom and fade 
+	
+	0: all images fixed in place, faded out
+	0: caption 0 in natural position on page, faded out 
+	
+	0 -> h/2: media 1 fades in, caption 1 scrolls in
+	0 -> h
+	2: media 1 stays still, caption 1 stays still
+	3: media 1 fades out, caption 1 scrolls out
+	
+	3: media 2 fades in, caption 2 scrolls in 
+	4: media 2 stays still, caption 1 stays still
+	5: media 2 fades out, caption 2 scrolls out
+	
+	5: media 3 fades in, caption 3 scrolls in 
+	6: media 3 stays still, caption 1 stays still
+	7: media 3 fades out, caption 3 scrolls out
+	
+	7: media 4 fades in, caption 4 scrolls in 
+	8: media 4 stays still, caption 1 stays still
+	9: media 4 fades out, caption 4 scrolls out
+	
+*/
+	
+var body, bodyDims, controller, debug = false;
 
 $(function() {
 
+	body = $('body'), controller = new ScrollMagic();
+
+	function getBodyDims() {
+		bodyDims = { w: body.width(), h: body.height() };
+		return bodyDims;
+	}
+		
 	function fixImageDims() {
 	
-		$('.video-screen').each(function(ix, el){
-			var body = $('body');
-			$(this).css('width', body.css('width'));
-			$(this).css('height', body.css('height'));
-		});
+		d = getBodyDims();
+ 		$('.screen').each(function(ix, el){
+ 			el = $(el);
+ 			el.css({ width: d.w, height: d.h, left: 0 });
+ 			//height16x9 = d.w * 9 / 16;
+ 			//newTop = ((d.h - height16x9)/ 2) + 'px';
+ 			//console.log('body width: %o body height: %o, 16x9 height: %o newTop: %o', d.w, d.h, height16x9, newTop)
+ 			//$('.media', el).css({ top: newTop, height: height16x9 });
+ 		});
 		
+	}
+	
+	function setupSequence() {
+	
+		$('.sequence').each(function(ix, el){
+	
+			sequence = $(el);
+			
+			screen = $('.screen', sequence);
+			media = $('.media', sequence);
+			captions = $('.caption', sequence);
+			
+			console.log(screen);
+			screen.addClass('fixed');
+			
+			sceneCount = media.length; // the number of transitions
+			sceneHeight = sceneCount * bodyDims.h;
+			framesPerScene = 6; // the number of 
+			frameOverlap = 2; // the number of frames which overlap between scenes
+			frameHeight = (bodyDims.h / 2); // the height of a 'scene' in pixels (half a window height)
+	
+			// The total number of frames when a scene is f framesPerScene long and overlaps by p frames is:
+			// 1 scene:   6 = 1 x f - 0 x p
+			// 2 scenes: 10 = 2 x f - 1 x p
+			// 3 scenes: 14 = 3 x f - 2 x p
+			// 4 scenes: 18 = 4 x f - 3 x p
+			// n scenes:  x = nf - (n - 1)p
+	
+			frameCount = (sceneCount * framesPerScene) - (sceneCount - 1) * frameOverlap;
+	
+			totalDuration = frameCount *  frameHeight;
+
+			console.log('frameCount: %o, frameHeight: %o, duration: %o', frameCount, frameHeight, totalDuration);
+	
+			sequence.height(bodyDims.h);
+
+			// Create a timeline for the tweens to happen on
+			timeline = new TimelineMax({onUpdate: function(){
+				//console.log('update',this.time())
+			}});
+	
+			// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	
+			for (var ix = -1; ++ix <= frameCount;) {
+				// labels offset from 0 - ie first is scene-0
+				timeline.add('scene-' + ix, ix);
+			}
+	
+			// Add four steps for each scene - fade in, scroll in, scroll out, fade out
+			for (var sceneNumber = 0; sceneNumber < sceneCount; sceneNumber++) {
+	
+				currMedia = $(media[sceneNumber]);
+				currCaption = $(captions[sceneNumber]);
+		
+				// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
+				sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
+				console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
+	
+				fadeInStartLabel = 'scene-' + sceneStartFrame;
+				scrollInStartLabel = 'scene-' + (sceneStartFrame + 1);
+				scrollOutStartLabel = 'scene-' + (sceneStartFrame + 4);
+				fadeOutStartLabel = 'scene-' + (sceneStartFrame + 5);
+	
+				// each animation frame is 1 relative step size in duration
+				// add each step at each each frame
+				timeline
+				.add(TweenMax.from(currMedia, 1, {autoAlpha: 0}), fadeInStartLabel)
+				.add(TweenMax.from(currCaption, 1, {top: '100%'}), scrollInStartLabel)
+				.add(TweenMax.to(currCaption, 1, {top: '-100%'}), scrollOutStartLabel)
+				.add(TweenMax.to(currMedia, 1, {autoAlpha: 0}), fadeOutStartLabel)
+				;
+		
+			};
+	
+			// Create a scroll scene
+			scene = new ScrollScene({ duration: totalDuration, offset: 0 })
+			.triggerElement(sequence)
+			.triggerHook('onLeave')
+			.setPin(sequence)
+			.setTween(timeline)
+			.addTo(controller)
+			//.addIndicators({suffix: 'scene'})
+			;
+		
+			sequence.data('scene', scene);
+	
+		});
+	
 	}
 	
 	$(window).on('resize', fixImageDims);
 	
 	fixImageDims();
 	
-	$('.video-holder').each(function(ix, el){
-		el = $(el);
-		anchor = $(el.find('a'));
-		imgUrl = $(anchor.find('img')[0]).attr('src').replace('-sml','');
-		vidUrl = anchor.attr('href');
-		el.css('background-image', 'url(' + imgUrl + ')');
-		el.addClass('changed');
-		anchor.remove();
-		// create video element and add to video-hodler
-	});
+	setupSequence();
 	
-	controller = new ScrollMagic();
 	
-	function report(e) {
-		// console.log(e, this);
-	}
-	
-	var scene2a = new ScrollScene({duration: 300, offset: 500})
-		.addTo(controller)
-		.triggerHook('onEnter')
-		.triggerElement('#video-2')
-		.setTween(
-			new TimelineMax().add(
-				TweenMax.from('#video-2', 1, {autoAlpha: 0})
-			).add(
-				TweenMax.to('#video-1', 1, {autoAlpha: 0})
-			)
-		).on('leave', report);
-		
-	var scene3a = new ScrollScene({duration: 300, offset: 500})
-		.addTo(controller)
-		.triggerHook('onLeave')
-		.triggerElement('#video-2')
-		.setTween(
-			new TimelineMax().add(
-				TweenMax.from('#video-3', 1, {autoAlpha: 0})
-			).add(
-				TweenMax.to('#video-2', 1, {autoAlpha: 0})
-			)
-		).on('leave', report);
-		
-	var scene3b = new ScrollScene({duration: 300, offset: 500})
-		.addTo(controller)
-		.triggerHook('onLeave')
-		.update(report)
-		.triggerElement('#video-3')
-		.setTween(TweenMax.to('#video-3', 1, {autoAlpha: 0}))
-		.on('leave', report);
-		
-	if (debug) {
-		console.log(scene2a);
-		scene2a.addIndicators({suffix: 'scene 2a'});
-		scene3a.addIndicators({suffix: 'scene 3a'});
-		scene3b.addIndicators({suffix: 'scene 3b'});
-	}
-
 });
 </script>
 </head>
@@ -106,35 +275,63 @@ $(function() {
 
 		<section id="section-1">
 		
-			<div id="sequence-1" class="video-section">
+			<div id="sequence-1" class="sequence content">
 			
-				<div id="video-1" class="video-screen">
-					<div id="holder-1" class="video-holder">
+				<div id="screen-1" class="screen">
+					<div id="media-1" class="media">
 						<a href="/assets/video/MVI_4637.m4v"><img src="/assets/stills/MVI_4637-sml.jpg" class="img-responsive" /></a>
 					</div>
-					<div id="caption-1" class="video-caption">
+					<div id="caption-1" class="caption">
 						<p>The mangroves are a humid place.  Commandos can be found creeping through them, freaking out defenceless cameramen.</p>
 					</div>
 				</div>
 				
-				<div id="video-2" class="video-screen">
-					<div id="holder-2" class="video-holder">
+				<div id="screen-2" class="screen">
+					<div id="media-2" class="media">
 						<a href="/assets/video/MVI_0038.m4v"><img src="/assets/stills/MVI_0038-sml.jpg" class="img-responsive" /></a>
 					</div>
-					<div id="caption-2" class="video-caption">
+					<div id="caption-2" class="caption">
 						<p>The beach is an empty place.  Commandos can be found creeping through them, freaking out innocent cameramen.</p>
 					</div>
 				</div>
 				
-				<div id="video-3" class="video-screen">
-					<div id="holder-3" class="video-holder">
+
+				<div id="screen-3" class="screen">
+					<div id="media-3" class="media">
 						<a href="/assets/video/MVI_4644.m4v"><img src="/assets/stills/MVI_4644-sml.jpg" class="img-responsive" /></a>
 					</div>
-					<div id="caption-3" class="video-caption">
+					<div id="caption-3" class="caption">
 						<p>The jungle is a scary place.  Commandos can be found creeping through them, freaking out oblivious cameramen.</p>
 					</div>
 				</div>
 				
+				<!--				<div id="screen-4" class="screen">
+					<div id="media-4" class="media">
+						<a href="/assets/video/MVI_4637.m4v"><img src="/assets/stills/MVI_4637-sml.jpg" class="img-responsive" /></a>
+					</div>
+					<div id="caption-4" class="caption">
+						<p>The mangroves are a humid place.  Commandos can be found creeping through them, freaking out defenceless cameramen.</p>
+					</div>
+				</div>
+				
+				<div id="screen-5" class="screen">
+					<div id="media-5" class="media">
+						<a href="/assets/video/MVI_0038.m4v"><img src="/assets/stills/MVI_0038-sml.jpg" class="img-responsive" /></a>
+					</div>
+					<div id="caption-5" class="caption">
+						<p>The beach is an empty place.  Commandos can be found creeping through them, freaking out innocent cameramen.</p>
+					</div>
+				</div>
+				
+				<div id="screen-6" class="screen">
+					<div id="media-6" class="media">
+						<a href="/assets/video/MVI_4644.m4v"><img src="/assets/stills/MVI_4644-sml.jpg" class="img-responsive" /></a>
+					</div>
+					<div id="caption-6" class="caption">
+						<p>The jungle is a scary place.  Commandos can be found creeping through them, freaking out oblivious cameramen.</p>
+					</div>
+				</div>
+				-->
 			</div>
 		</section>
 
