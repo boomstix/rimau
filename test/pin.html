@@ -110,19 +110,19 @@ section:after {
 	position: relative;
 }
 
-.screen {
+.scene {
 	position: relative;
 	width: 100%;
 	height: 100%;
 }
 
 
-.screen.fixed {
+.scene.enhanced {
 	position: fixed;
 }
 
 
-.fixed .media {
+.enhanced .media {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -173,7 +173,7 @@ $(function() {
 	
 		d = getBodyDims();
 		$('h1').css({width: d.w, height: d.h, lineHeight: (d.h) + 'px'});
- 		$('.screen').each(function(ix, el){
+ 		$('.scene').each(function(ix, el) {
  			el = $(el);
  			el.css({ width: d.w, height: d.h, left: 0 });
  			height16x9 = d.w * 9 / 16;
@@ -202,12 +202,11 @@ $(function() {
 	
 			sequence = $(el);
 			
-			_screen = $('.screen', sequence);
+			scene = $('.scene', sequence);
 			media = $('.media', sequence);
 			captions = $('.caption', sequence);
 			
-			console.log(_screen.attr('class'));
-			_screen.addClass('fixed');
+			scene.addClass('enhanced');
 			
 			/*
 
@@ -265,7 +264,7 @@ $(function() {
 
 			// Create a timeline for the tweens to happen on
 			timeline = new TimelineMax({onUpdate: function(){
-				// console.log('update',this.time(), this.currentLabel(), this.getChildren())
+				// console.log('update',this.time(), this.currentLabel()/*, this.getChildren()*/)
 			}});
 	
 			// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	
@@ -310,19 +309,16 @@ $(function() {
 				if (video !== null) {
 					// add volume up tween, triggering play when the tween starts
 					timeline
-					.add(
-						TweenMax.set(video, {volume: 0})
+					.add(TweenMax
+						.from(video, 1, {
+							volume: 0
+						,	onStart: function(){console.log('volume ' +  arguments[0] + ' fade up start');}
+						,	onStartParams: [sceneNumber]
+						,	onComplete: function(){console.log('volume ' +  arguments[0] + ' fade up complete');}
+						,	onCompleteParams: [sceneNumber]
+						})
 					,	fadeInStartLabel
 					)
-					.add(TweenMax
-						.to(video, 1, {
-							volume: 1
-						,	onStart: function(){console.log('volume ' +  arguments[0] + ' fade up start');}
-						, onStartParams: [sceneNumber]
-						,	onComplete: function(){console.log('volume ' +  arguments[0] + ' fade up complete');}
-						, onCompleteParams: [sceneNumber]
-						})
-					,	fadeInStartLabel)
 					.call(playVideo, [video, sceneNumber], null
 					,	fadeInStartLabel)
 					;
@@ -330,73 +326,69 @@ $(function() {
 				
 				// add each step at each each frame
 				timeline
-				.add(
-					TweenMax.set(currMedia, {autoAlpha: 0}
-				,	fadeInStartLabel)
-				)
-				.add(
-					TweenMax.set(currCaption, {top: '170%'})
+				.add(TweenMax
+					.from(currMedia, 1, {
+						autoAlpha: 0
+					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
+					,	onStartParams: [sceneNumber]
+					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
+					,	onCompleteParams: [sceneNumber]
+					})
 				,	fadeInStartLabel
 				)
 				.add(TweenMax
-					.to(currMedia, 1, {
-						autoAlpha: 1
-					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
-					, onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
-					, onCompleteParams: [sceneNumber]
-					})
-				,	fadeInStartLabel)
-				.add(TweenMax
-					.to(currCaption, 1, {
-						top: '70%'
+					.from(currCaption, 1, {
+						top: '170%'
+					,	autoAlpha: 0
 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
-					, onStartParams: [sceneNumber]
+					,	onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
-					, onCompleteParams: [sceneNumber]
+					,	onCompleteParams: [sceneNumber]
 					})
-				,	scrollInStartLabel)
-				.add(TweenMax.to(currCaption, 2.5, {
-					top: '-70%'
+				,	scrollInStartLabel
+				)
+				.add(TweenMax
+					.to(currCaption, 2.5, {
+						top: '-70%'
+					,	autoAlpha: 0
 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
-					, onStartParams: [sceneNumber]
+					,	onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
-					, onCompleteParams: [sceneNumber]
+					,	onCompleteParams: [sceneNumber]
 					})
-				,	scrollOutStartLabel)
-				.add(TweenMax.to(currCaption, 1, {
-						autoAlpha: 0
-					,	onStart: function(){console.log('caption ' +  arguments[0] + ' fade out start');}
-					, onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' fade out complete');}
-					, onCompleteParams: [sceneNumber]
-					})
-				,	scrollOutStartLabel)
+				,	scrollOutStartLabel
+				)
 				;
 				
 				if (video !== null) {
 					timeline
-					.add(TweenMax.to(video, 1, {
+					.add(TweenMax
+					.to(video, 1, {
 							volume: 0
 						,	onStart: function(){console.log('volume ' +  arguments[0] + ' fade down start');}
-						, onStartParams: [sceneNumber]
+						,	onStartParams: [sceneNumber]
 						,	onComplete: function(){console.log('volume ' +  arguments[0] + ' fade down complete');}
-						, onCompleteParams: [sceneNumber]
+						,	onCompleteParams: [sceneNumber]
 					})
-					,	fadeOutStartLabel)
+					,	fadeOutStartLabel
+					)
 					.call(resetVideo, [video, sceneNumber], null
-					,	fadeOutEndLabel)
+					,	fadeOutEndLabel
+					)
 					;
 				}
 				
 				timeline
-				.add(TweenMax.to(currMedia, 1, {
-					autoAlpha: 0
- 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
-					, onStartParams: [sceneNumber]
- 					, onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
-					, onCompleteParams: [sceneNumber]
-					}), fadeOutStartLabel)
+				.add(TweenMax
+					.to(currMedia, 1, {
+						autoAlpha: 0
+					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
+					,	onStartParams: [sceneNumber]
+					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
+					,	onCompleteParams: [sceneNumber]
+					})
+				, fadeOutStartLabel
+				)
 				;
 		
 		
@@ -469,7 +461,7 @@ $(function() {
 		
 			<div id="sequence-1" class="sequence content">
 			
-				<div id="screen-1" class="screen">
+				<div id="screen-1" class="scene">
 					<div id="media-1" class="media">
 						<a href="/assets/video/MVI_4637.mp4"><img src="/assets/stills/MVI_4637-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
@@ -478,7 +470,7 @@ $(function() {
 					</div>
 				</div>
 				
-				<div id="screen-2" class="screen">
+				<div id="screen-2" class="scene">
 					<div id="media-2" class="media">
 						<a href="/assets/video/MVI_0038.mp4"><img src="/assets/stills/MVI_0038-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
@@ -487,7 +479,7 @@ $(function() {
 					</div>
 				</div>
 
-				<div id="screen-3" class="screen">
+				<div id="screen-3" class="scene">
 					<div id="media-3" class="media">
 						<a href="/assets/video/MVI_4644.mp4"><img src="/assets/stills/MVI_4644-sml-16x9.jpg" class="img-responsive" /></a>
 					</div>
