@@ -28,6 +28,36 @@ body {
 	font-size: 1em;
 }
 
+header {
+	position: fixed;
+	background: #000;
+	width: 100%;
+	z-index: 9999;
+	top: 0;
+	padding: 0 1em;
+}
+header a {
+	color: #ccc;
+}
+.navbar-toggle {
+	display: none;
+}
+.navbar-header {
+	float: left;
+}
+.navbar-header a.navbar-brand {
+	display: inline-block;
+	margin: 0.5em;
+}
+ul.nav {
+	margin: 0;
+	list-style: none;
+}
+ul.nav li {
+	float: left;
+	margin: 0.5em;
+}
+
 h1 {
 	text-align: center;
 }
@@ -172,11 +202,12 @@ $(function() {
 	
 			sequence = $(el);
 			
-			screen = $('.screen', sequence);
+			_screen = $('.screen', sequence);
 			media = $('.media', sequence);
 			captions = $('.caption', sequence);
 			
-			screen.addClass('fixed');
+			console.log(_screen.attr('class'));
+			_screen.addClass('fixed');
 			
 			/*
 
@@ -376,6 +407,32 @@ $(function() {
 </head>
 <body>
 
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Rimau</a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#section-1">Section 1</a></li>
+						<li><a href="#section-2">Section 2</a></li>
+						<li><a href="#section-3">Section 3</a></li>
+						<li><a href="#section-4">Section 4</a></li>
+						<li><a href="#section-5">Section 5</a></li>
+						<li><a href="#section-6">Section 6</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	
 	<article>
 
 		<!--
