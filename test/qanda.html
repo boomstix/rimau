@@ -96,6 +96,10 @@ section:after {
 	z-index: 1000 !important;
 }
 
+h3 {
+	padding-top: 3em;
+}
+
 </style>
 <script>
 
@@ -166,15 +170,17 @@ $(function(){
 				fadeAnStartLabel = 'scene-' + (sceneStartFrame + 1);
 				
 				timeline
-				.add(TweenMax.from(currQn, 1, {
-						autoAlpha: 0
+				.add(TweenMax.set(currQn, {autoAlpha: 0}), 'scene-0')
+				.add(TweenMax.set(currAn, {autoAlpha: 0}), 'scene-0')
+				.add(TweenMax.to(currQn, 1, {
+						autoAlpha: 1
 					,	onStart: function(){console.log('question ' +  arguments[0] + ' fade in start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('question ' +  arguments[0] + ' fade in complete');}
 					, onCompleteParams: [sceneNumber]
 					}), fadeQnStartLabel)
-				.add(TweenMax.from(currAn, 1, {
-						autoAlpha: 0
+				.add(TweenMax.to(currAn, 1, {
+						autoAlpha: 1
 					,	onStart: function(){console.log('question ' +  arguments[0] + ' fade in start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('question ' +  arguments[0] + ' fade in complete');}

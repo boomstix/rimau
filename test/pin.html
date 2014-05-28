@@ -310,47 +310,68 @@ $(function() {
 				if (video !== null) {
 					// add volume up tween, triggering play when the tween starts
 					timeline
-					.add(TweenMax.from(video, 1, {
-							volume: 0
+					.add(
+						TweenMax.set(video, {volume: 0})
+					,	fadeInStartLabel
+					)
+					.add(TweenMax
+						.to(video, 1, {
+							volume: 1
 						,	onStart: function(){console.log('volume ' +  arguments[0] + ' fade up start');}
 						, onStartParams: [sceneNumber]
 						,	onComplete: function(){console.log('volume ' +  arguments[0] + ' fade up complete');}
 						, onCompleteParams: [sceneNumber]
-						}), fadeInStartLabel)
-					.call(playVideo, [video, sceneNumber], null, fadeInStartLabel)
+						})
+					,	fadeInStartLabel)
+					.call(playVideo, [video, sceneNumber], null
+					,	fadeInStartLabel)
 					;
 				}
 				
 				// add each step at each each frame
 				timeline
-				.add(TweenMax.from(currMedia, 1, {
-						autoAlpha: 0
+				.add(
+					TweenMax.set(currMedia, {autoAlpha: 0}
+				,	fadeInStartLabel)
+				)
+				.add(
+					TweenMax.set(currCaption, {top: '170%'})
+				,	fadeInStartLabel
+				)
+				.add(TweenMax
+					.to(currMedia, 1, {
+						autoAlpha: 1
 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
 					, onCompleteParams: [sceneNumber]
-					}), fadeInStartLabel)
-				.add(TweenMax.from(currCaption, 1, {
-						top: '100%'
+					})
+				,	fadeInStartLabel)
+				.add(TweenMax
+					.to(currCaption, 1, {
+						top: '70%'
 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
 					, onCompleteParams: [sceneNumber]
-					}), scrollInStartLabel)
+					})
+				,	scrollInStartLabel)
 				.add(TweenMax.to(currCaption, 2.5, {
-					top: '-100%'
+					top: '-70%'
 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
 					, onCompleteParams: [sceneNumber]
-					}), scrollOutStartLabel)
+					})
+				,	scrollOutStartLabel)
 				.add(TweenMax.to(currCaption, 1, {
 						autoAlpha: 0
 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' fade out start');}
 					, onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' fade out complete');}
 					, onCompleteParams: [sceneNumber]
-					}), scrollOutStartLabel)
+					})
+				,	scrollOutStartLabel)
 				;
 				
 				if (video !== null) {
@@ -361,8 +382,10 @@ $(function() {
 						, onStartParams: [sceneNumber]
 						,	onComplete: function(){console.log('volume ' +  arguments[0] + ' fade down complete');}
 						, onCompleteParams: [sceneNumber]
-					}), fadeOutStartLabel)
-					.call(resetVideo, [video, sceneNumber], null, fadeOutEndLabel)
+					})
+					,	fadeOutStartLabel)
+					.call(resetVideo, [video, sceneNumber], null
+					,	fadeOutEndLabel)
 					;
 				}
 				
