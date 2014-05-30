@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"> 
+	<title>Operation Rimau experiment</title>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=La+Belle+Aurore|Reenie+Beanie|Special+Elite|Nothing+You+Could+Do' rel='stylesheet' type='text/css'>
+	<script src="/assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
+	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+
+header {
+	position: fixed;
+	background: #000;
+	width: 100%;
+	z-index: 9999;
+	top: 0;
+	padding: 0 1em;
+}
+header a {
+	color: #ccc;
+}
+.navbar-toggle {
+	display: none;
+}
+.navbar-header {
+	float: left;
+}
+.navbar-header a.navbar-brand {
+	display: inline-block;
+	margin: 0.5em;
+}
+ul.nav {
+	margin: 0;
+	list-style: none;
+}
+ul.nav li {
+	float: left;
+	margin: 0.5em;
+}
+
+h1 {
+	text-align: center;
+	padding-top: 15em;
+}
+
+article {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+section {
+	display: block;
+	padding-top: 2em;
+}
+
+section:after {
+	content: "";
+	clear: left;
+	display: block;
+}
+
+#section-0 {
+	position: relative;
+	background-color: #000;
+	color: #ccc; 
+}
+
+
+.content {
+	z-index: 10;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1em;
+}
+
+ul.credits {
+	margin: 5em auto 0 auto;
+	width: 20em;
+	list-style: none;
+}
+
+blockquote {
+}
+
+.la-belle-aurore {
+	font-family: 'La Belle Aurore', cursive;
+	font-size: 140%;
+	line-height: 120%;
+}
+.reenie-beanie {
+	font-family: 'Reenie Beanie', cursive;
+	font-size: 150%;
+}
+.special-elite {
+	font-family: 'Special Elite', cursive;
+	line-height: 120%;
+}
+.nothing-you-could-do {
+	font-family: 'Nothing You Could Do', cursive;
+}
+
+</style>
+
+<script>
+$(function() {
+
+	var bodyDims, body = $('body'), controller = new ScrollMagic();
+	
+	function getBodyDims() {
+		bodyDims = { w: body.width(), h: body.height() };
+		return bodyDims;
+	}
+
+	function fixImageDims() {
+	
+		d = getBodyDims();
+		$('#section-0').css({width: d.w, height: d.h});
+
+	}
+		
+	$(window).on('resize', fixImageDims);
+	
+	fixImageDims();
+	
+	$('#font').on('change', function(e) {
+		select = $(this);
+		bq = $('blockquote');
+		bq.attr('class', '');
+		bq.addClass(select.val());
+	});
+})
+</script>
+
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#section-0">Operation Rimau</a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#section-1">The Plan</a></li>
+						<li><a href="#section-2">A &lsquo;Safe&rsquo; Island</a></li>
+						<li><a href="#section-3">Retreat</a></li>
+						<li><a href="#section-4">Rendezvous</a></li>
+						<li><a href="#section-5">Retribution</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<select id="font">
+			<option value="">Choose font</option>
+			<option value="la-belle-aurore">La Belle Aurore</option>
+			<option value="reenie-beanie">Reenie Beanie</option>
+			<option value="special-elite">Special Elite</option>
+			<option value="nothing-you-could-do">Nothing You Could Do</option>
+		</select>
+		
+	</header>
+
+	<article>
+
+		<section id="section-0">
+
+		<h1>Operation Rimau: the true account of a secret WWII raid.</h1>
+
+		<ul class="credits">
+		<li>Written by M. J. Hyland</li>
+		<li>With Dr James Waghorne</li>
+		<li>Music by Nils Frahm</li>
+		<li>Mixed by Sameer Sengupta</li>
+		<li>Photography by Christopher Farber</li>
+		<li>Design and development by Snepo</li>
+		<li>Produced by SBS Online</li>
+		</ul>
+
+		</section>
+
+		<section id="section-1">
+
+		<div class="content">
+		
+		<h2>The Plan</h2>
+
+		<p>
+		Not long after midnight &ndash; on 11 September 1944 &ndash; a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.
+		</p>
+
+		<a id="1.1"></a>
+		<p>
+		The men are commandos, hand-picked after intensive training, but the details of the mission are so sensitive that they don&rsquo;t know a damned thing about what will happen &ndash; who or what the final target will be &ndash; nor the terror and trouble they&rsquo;ll face. 
+		</p>
+
+		<a id="1.2"></a>
+		<p>
+		There&rsquo;s cause for confidence, though: the Porpoise is loaded with new technology; a special espionage weapon known as &lsquo;The Sleeping Beauty&rsquo; &ndash; a one-man submersible canoe designed by the British to attack targets at the height of the Pacific War.
+		</p>
+
+		<p>
+		In theory, when a stealthy Sleeping Beauty is in range of target, it will launch, strike and then slip quietly away; unseen by the Japanese. But these small dolphin-like vessels are cramped and next-to-impossible to manoeuvre and the crew likely cook-up a less flattering name for them: perhaps, Sons Of Bitches.
+		</p>
+
+		<a id="1.3"></a>
+		<p><b>5 x chapterised documentary</b></p>
+
+
+
+		<a id="1.4"></a>
+		<h3>Elaborate Planning:</h3>
+		<p>
+		The crew doesn&rsquo;t know it, but Rimau is backed by extensive planning: a 79-page document with maps, moon charts, notes on the whereabouts of enemy submarines, local fishing vessels and &lsquo;uninhabited&rsquo; islands. And, the men don&rsquo;t know the ultimate target: a raid on Japanese shipping in heavily the guarded waters of Singapore Harbour. 
+		</p>
+
+		<p>
+		According to the secret plan, before the crew reach the &lsquo;unknown&rsquo; target, they&rsquo;ll first need to capture a local fishing boat, then use that boat to sail (under cover and in darkness) before paddling in canoes &ndash; and if that works &ndash; the men will attach limpet mines and detonators to the hulls of Japanese ships. 
+		</p>
+
+		<a id="1.5"></a>
+		<p>
+		But the raid is so treacherous that survival depends &ndash; not on equipment and planning &ndash; but the improvisational skills and cunning of the crew (all of whom voluntarily transferred from less dangerous units into the Special Operations Executive, a commando force that worked behind enemy lines in South-East Asia known as &ldquo;Z. Special&rdquo;).
+		</p>
+
+		<p>
+		Among the Rimau men is a Sydney medical student, Robert (Bob) Page whose father, a Papua New Guinean administrator was held prisoner by the Japanese; a New South Wales farmer &ndash; the tall and steady W.G. Falls; and a truck driver &ndash;J. T. (Jack) Hardy &ndash; who trained as parachutist; the Wangaratta boy &ndash; A.L. &lsquo;Blondie&rsquo; Sargent, and the Englishman who became a Jackaroo in outback Queensland, Donald Davidson.
+		</p>
+
+		<a id="1.6"></a>
+		<p>
+		Six of the Rimau men were crew on an earlier Operation &ndash; Jaywick September&ndash;October 1943; a covert raid, similar to Rimau. Fourteen commandos paddled in canoes to Singapore Harbour, attached limpet mines to the hulls of ships and destroyed more than 36,000 tonnes of essential Japanese shipping. Though Jaywick was a triumph, and its crew decorated, the outcome remained top-secret.
+		</p>
+
+		<a id="1.7"></a>
+		<h3>Rimau&rsquo;s Commander:</h3>
+		<p> 
+		Ivan Lyon was commander of Jaywick and now, he is commander of &lsquo;Rimau&rsquo; (the Malay word for tiger &ndash; chosen because of the large multi-coloured tiger-head tattoo on Lyon&rsquo;s chest). 	Lyon&rsquo;s track-record is maverick but impressive and he&rsquo;s spent months pushing for the launch of this second raid in spite of grave concerns &ndash; not least of all that, so soon after Jaywick, the enemy will be on high and vengeful alert. 
+		</p>
+
+		<p>
+		Five months before the Rimau launch, Lyon gets news: his wife and child are being held at Fukushima Civilian Interment Camp. Lyon&rsquo;s determination is potent and powerful; driven by professional and personal reasons. The crew knows this, and they know Lyon will work them like the blazes &ndash; but they trust and respect him enough to follow him into wretched waters.
+		</p>
+
+		</div>
+
+		</section>
+
+		<section id="section-2">
+
+		<div class="content">
+
+		<a id="2.1"></a>
+		<h2>A &lsquo;Safe&rsquo; Island</h2>
+		<h3>24 September, 1944:</h3>
+		<h4>Merapas: Position &ndash; approximately 00&deg;56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h4>
+
+		<p>
+		Thirteen days after the men leave Fremantle, the submarine &ndash; which is loaded with 15 Sleeping Beauties &ndash; surfaces next to a small, remote island &ndash; Merapas &ndash; south-east of Singapore. The men will use Merapas as a base and for safe storage of supplies. 
+		</p>
+
+		<a id="2.2"></a>
+		<p>
+		From the diary of Donald Davidson &ndash; 23 Sept 1944
+		</p>
+		<blockquote> 
+		&ldquo;Spent a cool night. Slept none too well. The change from close quarters in PORPOISE to the accented peace of this island was too abrupt for sleep. The scents of the flowering trees and lily pads was more delicate than any that ever came out of PARIS. A sign of welcome.&rdquo;
+		</blockquote>
+
+
+		<a id="2.3"></a>
+		<blockquote>
+		&ldquo;(Merapas is) as ideal a place as can be expected. Very few islands are entirely uninhabited, and of those that are inhabited MERAPAS is as good a hideout as could be hoped for.&rdquo;
+		</blockquote>
+
+		<a id="2.4"></a>
+		<p>
+		Walter Carey is asked to act as watchman on Merapas and he&rsquo;s equipped with a silenced Sten rifle and a revolver. The rest of the crew set out in Porpoise in search of a local fishing boat for capture.
+		</p>
+		<blockquote>
+		&ldquo;Lonely job, which I don&rsquo;t envy him, in the least.&rdquo;
+		</blockquote>
+
+		<a id="2.5"></a>
+
+		<h3>The Slow Search for a Native Junk</h3>
+		<h4>September 27</h4>
+
+		<p>
+		The crew still hasn&rsquo;t found a native junk and the delay poses a dire threat to the mission: no native boat means there&rsquo;s no way of sailing &lsquo;undercover&rsquo; within range of Singapore. 
+		</p>
+
+		<blockquote>
+		&ldquo;&hellip;the absence of boats is&hellip;unexpected and annoying&hellip;&rdquo; and &ldquo;&hellip;it will be just hell if junks have decided to go inland for some peculiar reason&hellip;&rdquo; 
+		</blockquote>
+
+		<p>
+		Davidson&rsquo;s frustration is worsening; he&rsquo;d seen plenty of native boats, just a year ago, and in &ldquo;&hellip;the vicinity of the Borneo coast&rdquo;.
+		</p>
+
+		<h3>&ldquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk.&rdquo;</h3>
+
+		<p>
+		The crew are restless and desperate and they perform a ceremony; a rain-dance they hope might conjure a boat for capture and &ldquo;&hellip;each officer with a finger on its head and chanting, &lsquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk&rsquo;.&rdquo;
+		</p>
+
+		<blockquote>
+		&ldquo;Yesterday, CHAPMAN completed a &ldquo;Joss&rdquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;. 
+		</blockquote>
+
+
+		<a id="2.6"></a>
+		<p>
+		At long last &ndash; @ 1300 hours on the 28th &ndash; a two-masted 40 tonne fishing boat (a native junk) is spied: the Ketapang Prahu &ndash; the Mustika.
+		</p>
+
+		<blockquote>
+		&ldquo;The sketch is to remind me of rigging. Bowsprit. Forestay. 2 shrouds... Case strops on each batten round mast, loose, thus: <br/>
+		Normal junk rungs and ferrels.<br/>
+		Battens joined by light rope thus, swing 4 ft.<br/>
+		These support weight of battens, and take all strain off the flimsy matting sails. Sails with bolt rope on leach and luff.<br>
+		<br>
+		No time for more now.
+		</blockquote>
+
+		<a id="2.7"></a>
+		<p>
+		The men capture and board the Mustika and on 30 September, Davidson writes:
+		</p>
+
+		<blockquote>
+		&ldquo;PORPOISE came alongside after dark and took us in tow. Loaded 7 SBs and 2 containers of stores. PORPOISE cast off at about 0300.&rdquo; 
+		</blockquote>
+
+		<p>
+		From now on, the men will fend for themselves.
+		</p>
+
+		<a id="2.8"></a>
+		<p>
+		The Rimau men need to go &lsquo;undercover&rsquo; so that they can reach the final target undetected. They wear a rough disguise &ndash; bare feet, face paint, and sarongs &ndash; and spend long stretches below deck to avoid being spied. Even the labels on supplies, cooking utensils and rations (&lsquo;compo&rsquo; or &lsquo;romp&rsquo;) are camouflaged and, when a plane or ship is seen, the men raise the Japanese flag.
+		</p>
+
+		<a id="2.9"></a>
+		<h4>October 10, 1944.</h4>
+		<p>
+		Ten long days later the crew are making good progress and nearing their target &ndash; they are within reach of the final act: the raid on Japanese ships &ndash; and then, disaster strikes. As they sail toward the Island of Kasu the crew comes too close to a township obscured from the south-west. 
+		</p>
+
+		<a id="2.10"></a>
+		<p>
+		A local police boat comes to investigate and the crew panic, mistake the unarmed police boat for enemy patrol. They shout, &lsquo;Patroller! Patroller!&rsquo; then open fire within view of the settlement on Kasu. The patrol boat sinks and most of its crew are killed.
+		</p>
+
+		<p>
+		There is no chance of a stealth attack on Singapore Harbour now and Lyon calls off the mission.
+		</p>
+
+		</div>
+
+		</section>
+
+		<section id="section-3">
+
+		<div class="content">
+
+		<h2>Retreat</h2>
+		<h3>Date?</h3>
+		<p><b>(Interactive map)</b></p>
+
+		<a id="3.1"></a>
+		<p>
+		The men split into four groups and, in dinghies, head for Merapas. This is their best hope for survival, the only chance to reach the Tantalus submarine, and the rescue party: the &ldquo;pickup crew&rdquo;
+		</p>
+
+		<a id="3.2"></a>
+		<h4>16 October 1944</h4>
+		<p>
+		One of the smaller groups, led by Lyon, takes a risk. They ask locals on Pangkil Island about Japanese shipping. The locals report their encounter to the Japanese, and Lyon, and his men, are tracked down by a Japanese vessel.
+		</p>
+		<a id="3.3"></a>
+		<p>
+		There&rsquo;s a battle and heavy fire &ndash; and heavy losses: On Soreh, Lyon and Ross are killed. Stewart is captured and Davidson and Campbell are wounded during an escape attempt. Both men are found dead by Japanese on the Island of Tapai.
+		</p>
+
+		<a id="3.4"></a>
+		<p>
+		Those who are not killed or captured make it back to Merapas; there, they use the best of their tactical training to keep cover, but they&rsquo;re also discovered by a Japanese patrol: Riggs and Cameron are cornered and killed covering for their mates.
+		</p>
+		<p>
+		Only a few escape to neighbouring islands.
+		</p>
+
+		<p><b>Interactive map to show where Rimau men each end up.</b></p>
+
+		</div>
+
+		</section>
+
+		<section id="section-4">
+
+		<div class="content">
+
+		<a id="4.1"></a>
+		<h2>Rendezvous</h3>
+		<h3>5 days later &ndash; 21 November:</h3>
+
+		<h3>&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h3>
+
+		<p>All sentences inside quotations are from Walter Chapman&rsquo;s report.</p>
+
+		<p>
+		The Tantalus rescue vessel and the &ldquo;pick up crew&rdquo; &ndash; Major Walter Chapman and Corporal Ron Croton &ndash; finally arrives at Merapas. It's after midnight, the moon has set, the sky is cloudless and visibility is fair. 
+		</p>
+		<p>
+		The search halts when the weather turns foul: heavy surf and rising tides. The pick-up party takes the Tantalus for a "lie off" until the swell settles but &ldquo;&hellip;at 15 to 20 yards off the shore it is obvious that it would not be worth the risk of attempting a landing.&rdquo; The search party heads toward "the lee side of Punai Pt." where &ndash; at 0200 hours &ndash;  they hide their kayak in the foreshore scrub.
+		</p>
+		<p>
+		And yet there are signs of hope: the pick-up crew find the "Hammock tree", "the rendezvous point" of the Rimau crew. At 0435 hours, the two men are "rather tired" and the party is "laid up for an hour&hellip;" (Croton has spent 38 days in the submarine and Chapman, 69 days, with a break of 4 days). After a rest, "at first light" they go on with the search, and they do this even though they know something "untoward has occurred": None of the Rimau men are waiting.
+		</p>
+		<p>
+		The pick-up crew find nothing but a few pieces of silver wrapping paper near the Hammock tree "&hellip;from chocolate rations&hellip;" Yet, they go on &ndash; head up the hill and ridge to the East where there is "&hellip;no trace of habitation&hellip;" except a "disused path" and a scrawny "&hellip;pi-dog type&hellip;" It sniffs at the men and walks away. 
+		</p>
+		<p>
+		&ldquo;No signs of a fight were apparent&rdquo;, Chapman puzzles. &ldquo;No spent cartridges&hellip; no bodies or signs of burial", and there are no "&hellip;signs of enemy occupation." And though the men are bone-tired now, they head for the swamp area and where find two water holes&ndash; both well-concealed, both dug under low trees. The holes are &ldquo;&hellip;about 100 feet apart, each 2 feet in diameter&rdquo;.
+		</p>
+		<p>
+		The rescue team finds:
+		</p>
+		<ul>
+		<li>an empty 02 Ration tin,</li>
+		<li>a sweat rag,</li>
+		<li>an empty beer bottle: &ldquo;&hellip;probably off the junk&hellip;&rdquo;,</li>
+		<li>empty cardboard packets of Three Castles Cigarettes,</li>
+		<li>a bunch of cut unripe bananas,</li>
+		<li>the lid of a Dixie, &ldquo;&hellip;obviously used as bailers&hellip;&rdquo;,</li>
+		<li>a bandage hanging on a tree overlooking the first hole,</li>
+		<li>two bailing tins &ldquo;&hellip;made from Compo Ration tins cut in half&hellip;&rdquo; perhaps used for washing,</li>
+		<li>six food cooking in tins (marked &ldquo;Base A&rdquo;),</li>
+		<li>fires that had been &ldquo;&hellip;kicked out&hellip;&rdquo;,
+		and an unfinished shelter with  &ldquo;&hellip;interlaced palm leaf (as) covering&hellip;" and a palm leaf floor,</li>
+		<li>a broken drinking bowl &ldquo;&hellip;originally owned by the Malays from the Junk&hellip;&rdquo;,</li>
+		<li>an oil can &ndash; &ldquo;&hellip;part of the S.B. maintenance kit&hellip;&rdquo;</li>
+		</ul>
+		<p>
+		The signals are confusing: no foot prints and the earth is smooth, but there are &ldquo;two obvious paths&hellip;&rdquo; heading to &ldquo;the back of the pool area&rdquo; up-hill; clear of the swamp. Maybe the men are alive after all &ndash; have camped further up the hill and the pick-up crew see something in the clearing &ndash; the makings of a &ldquo;&hellip;large lean-to shelter&hellip; our party had been living in&rdquo;. 
+		</p>
+		<p>The two rescuers take a final path, but find nothing but broken pieces of a drinking bowl and pieces of silver paper. And, after all that, the news seems bad: the "&hellip;main dump of stores was not found, nor any trace of where it had been&hellip;" and at 2200, the Tantalus comes back and the pick-up crew paddle out to her. Chapman reports his meeting with the Commanding Officer: "&hellip;it was agreed that no further purpose would be served by returning next night" and "reluctantly the pickup was abandoned."
+		</p>
+
+		</div>
+
+		</section>
+
+		<section id="section-5">
+
+		<div class="content">
+
+		<h2>Retribution</h2>
+		<h3>Dates?</h3>
+		<a id="5.1"></a>
+		<p>
+		The ten surviving men &ndash; those not killed in skirmishes on the islands, during escapes and who haven&rsquo;t drowned &ndash; are captured and taken by the Japanese to Outram Road Gaol. They wait for their trial &lsquo;for espionage&rsquo; in filthy cells, sometimes hanging by their wrists from chains bolted to the walls. 
+		</p>
+
+		<p>
+		They suffer the same, stink the same, and look the same: there&rsquo;s no soap or water and with no shaving, all the men have long beards and knotted hair. 
+		</p>
+		<p>
+		<p>
+		In the final weeks, though hungry and in pain, there are moments of soaring hope for freedom. The men find small, sly ways to cheer the rumours they&rsquo;ve heard of allied victory: turn away from guards, huddle and share their fantasies of reunions, and in joint imagining, it&rsquo;s all as good as real.
+		</p>
+		<p>
+		At the local pub, down the beach, at picnics with wives and 
+		children; the details so clear and true that Bob Page can feel the soft skin of Roma&rsquo;s arms &ndash; and when she says his name, he knows her strength. It&rsquo;s as though she could still stop him from setting off on the treacherous mission; just as she&rsquo;d told him in the first place. (See Furuta 21 October 1945.)
+		</p>
+
+		<a id="5.2"></a>
+		<p>All text from the trial transcripts of Captain Robert Page:</p>
+
+		<h4>CAPTAIN PAGE:</h4>
+
+		<dl>
+		<dt>Question 1. Is there any point that you wish to object among the charges that were read for you just now?</dt>
+		<dd>Answer:	 no, there is none. They are quite correct.</dd>
+		<dt>Question 2.	Is there anything that you should like to differ from all the statements that Major Ingleton had made just now? Or any opinion?</dt>
+		<dd>Answer:	none, except that I saw once Lieut-Col. Lyon wearing his badge of rank on the junk, but where it was I have forgotten.</dd>
+		<dt>Question 3.	Did you also not use beret cap or badge of rank after off Merapas Island?</dt>
+		<dd>Answer:	I did not use it since we left Pejantang Island.</dd>
+		<dt>Question 4.	We are given to understand that you were wearing salong on the junk? Is it correct.</dt>
+		<dd>Answer:	it is quite correct.</dd>
+		<dt>Question 5.	Did you bring over that salong from Australia?	</dt>
+		<dd>Answer:	 I used the one which I found on the junk and so I do not know where it came from. I am inclined to consider that it was the one used by the Malayan crew of the junk.</dd>
+		<dt>Question 6. Did you also shoot at the time when your party attacked the police boat near Kasu Island?</dt>
+		<dd>Answer:	yes, I did. I thought it was a navy patrol ship and I shot it.</dd>
+		<dt>Question 7.	How many times did you fight against the Japanese force after that?</dt>
+		<dd>Answer:	once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
+		</dl>
+
+		<a id="5.4"></a>
+		<p><b>Roma Video</b></p>
+
+		<a id="5.5"></a>
+		<p>
+		The men are sentenced to death by decapitation, which is Japanese custom. Robert Page is 25 years old and his last words are for his father who was captured by the Japanese in Papua New Guinea:
+		</p>
+		<blockquote>
+		&lsquo;I trust my father will approve the way I took in giving up my studies and joining the Army&rsquo; (see Furuta 21 October 1945)
+		</blockquote>
+		<p>
+		Clair Mackie Stewart is 35. His last words are for, and of, his wife:
+		</p>
+		<blockquote>
+		&lsquo;I hope my wife will excuse me for not saying a special good-bye when I saw her the night before I left for the operation. I did not want to worry her with my danger&rsquo;
+		</blockquote>
+		<p>
+		No mercy is permitted, in part because the Japanese interpret the mission&rsquo;s &lsquo;crimes&rsquo; in strict accordance to their particular martial code of heroism. They liken the Rimau men to Japanese who died in the failed 1942 Japanese submarine raid on Sydney harbour:
+		</p>
+		<blockquote>
+		&ldquo;We do not hesitate to call them the real heroes of forlorn hope&rdquo;
+		</blockquote>
+		<blockquote>
+		&ldquo;The last moment of a hero must be glorious. It must be historic and it must be dramatic. Heroes have more regard for their reputation than anything else. This is the feeling of the Japanese people&rsquo;
+		</blockquote>
+
+		<a id="5.6"></a>
+		<p>
+		It&rsquo;s the morning, 7 July, and the men are taken to the execution site. Japanese sources say the men are in &lsquo;good spirits and composure&rsquo; as they meet their fate. But records of exhumation show that the burials were neither &lsquo;glorious&rsquo; nor &lsquo;honourable&rsquo;. 
+		</p>
+		<p>
+		Ten Rimau men are buried in three graves, each grave four-foot deep. Five are blindfolded and one is &lsquo;partially&rsquo; decapitated. No identification is found with the men, and none wear shoes or boots. The site of burial is &lsquo;thick scrub on the shoulder of a hill&rsquo; and marked by two brown, wooden crosses.
+		</p>
+		<p>
+		The Rimau men are exhumed and moved to Singapore&rsquo;s Kranji Cemetery on
+		</p>
+
+		</div>
+
+		</section>
+
+		<section>
+
+		<div class="content">
+
+		<h3>FULL DETAILS OF ALL MEN who embark on Rimau:</h3>
+		<h4>Australians: </h4>
+		<ul>
+		<li>Sergeant C.B. (Colin) Cameron, AIF, VX81605;</li>
+		<li>Corporal A.G.P. (Archie) Campbell, AIF, QX5791;</li>
+		<li>Lieutenant Walter G. Carey AIF, NX58159;</li>
+		<li>Corporal C.M. (Colin) Craft, WX11688;</li>
+		<li>Able Seaman W.G. (Wally) Falls S/6543;</li>
+		<li>Corporal R.B. (Ron) Fletcher, AIF, NX80005;</li>
+		<li>Sergeant D.B. (David) Gooley, AIF VX109893;</li>
+		<li>Lance-Corporal J.T. (Jack) Hardy, AIF, NX140476;</li>
+		<li>Able Seaman A.W.G. (Andrew 'Happy') Huston, Royal Australian Naval Reserve, B3312;</li>
+		<li>Able Seaman F.W.L. (Fred 'Boof') Marsh, Royal Australian Naval Reserve, A6770;</li>
+		<li>Corporal H.J. (Hugo) Pace, AIF;</li>
+		<li>Captain Robert C. Page, AIF, NX19158;</li>
+		<li>Lieutenant B.P. (Bruno) Reymond, RANR, A6769; Lieutenant A.L. (&lsquo;Blondie&rsquo;)</li> <li>Sargent, AIF, VX15290;</li>
+		<li>Corporal C.M. (Clair Mackie) Stewart, AIF, WX15839;</li>
+		<li>Private D.R. (Doug) Warne, AIF QX21698; Warrant Officer A. (Alf) Warren, AIF, VX52239;</li>
+		<li>Warrant Officer, J. (Jeffrey) Willersdorf, AIF, VX81821.</li>
+		</ul>
+		<h4>British: </h4>
+		<ul>
+		<li>Lieutenant Colonel Ivan Lyon, Gordon Highlanders;</li>
+		<li>Lieut-Commander Donald Davidson, Royal Naval Volunteer Reserve;</li>
+		<li>Lieutenant H.R. (Harold) Ross, British Army General List;</li>
+		<li>Major R.N. Ingleton, Royal Marines;</li>
+		<li>Sub-Lieutenant J.G.M. Riggs, RNVR.</li>
+		</ul>
+
+		<h4>Involved in the deployment and retrieval of mission:</h4>
+		<ul>
+		<li>Major Walter Chapman</li>
+		</ul>
+
+
+		<h4>Personnel</h4>
+
+		<ul>
+		<li>Cameron
+		<a href="http://soda.naa.gov.au/record/6065194/1">http://soda.naa.gov.au/record/6065194/1</a></li>
+
+		<li>Campbell
+		<a href="http://soda.naa.gov.au/record/4838369/1">http://soda.naa.gov.au/record/4838369/1</a></li>
+
+		<li>Carey
+		<a href="http://soda.naa.gov.au/record/4640537/1">http://soda.naa.gov.au/record/4640537/1</a></li>
+
+		<li>Craft
+		<a href="http://soda.naa.gov.au/record/6469177/1">http://soda.naa.gov.au/record/6469177/1</a></li>
+
+		<li>Falls
+		<a href="http://soda.naa.gov.au/record/4548357/1">http://soda.naa.gov.au/record/4548357/1</a></li>
+
+		<li>Fletcher
+		<a href="http://soda.naa.gov.au/record/4620324/1">http://soda.naa.gov.au/record/4620324/1</a></li>
+
+		<li>Gooley
+		<a href="http://soda.naa.gov.au/record/6096655/1">http://soda.naa.gov.au/record/6096655/1</a></li>
+
+		<li>Hardy
+		<a href="http://soda.naa.gov.au/record/5628180/1">http://soda.naa.gov.au/record/5628180/1</a></li>
+
+		<li>Huston
+		<a href="http://soda.naa.gov.au/record/4425433/1">http://soda.naa.gov.au/record/4425433/1</a></li>
+
+		<li>Marsh
+		<a href="http://soda.naa.gov.au/record/5410466/1">http://soda.naa.gov.au/record/5410466/1</a></li>
+
+		<li>Pace
+		<a href="http://soda.naa.gov.au/record/4497549/1">http://soda.naa.gov.au/record/4497549/1</a></li>
+
+		<li>Page
+		<a href="http://soda.naa.gov.au/record/4618017/1">http://soda.naa.gov.au/record/4618017/1</a></li>
+
+		<li>Reymond
+		<a href="http://soda.naa.gov.au/record/5423003/1">http://soda.naa.gov.au/record/5423003/1</a></li>
+
+		<li>Sargent
+		<a href="http://soda.naa.gov.au/record/6203373/1">http://soda.naa.gov.au/record/6203373/1</a></li>
+
+		<li>Stewart
+		<a href="http://soda.naa.gov.au/record/6466169/1">http://soda.naa.gov.au/record/6466169/1</a></li>
+
+		<li>Warne
+		<a href="http://soda.naa.gov.au/record/4490209/1">http://soda.naa.gov.au/record/4490209/1</a></li>
+
+		<li>Warren
+		<a href="http://soda.naa.gov.au/record/6121334/1">http://soda.naa.gov.au/record/6121334/1</a></li>
+
+		<li>Willersdorf
+		<a href="http://soda.naa.gov.au/record/6065234/1">http://soda.naa.gov.au/record/6065234/1</a></li>
+		</ul>
+
+		<h4>Resources and credits</h4>
+		<p>The first, the interrogation of Furuta is here: <a href="http://soda.naa.gov.au/record/403646/39">http://soda.naa.gov.au/record/403646/39</a></p>
+
+		<p>The exhumation memo is here: <a href="http://soda.naa.gov.au/record/403646/16">http://soda.naa.gov.au/record/403646/16</a></p>
+
+		<p>The summary of the trial transcript is here: <a href="http://soda.naa.gov.au/record/773975/46">http://soda.naa.gov.au/record/773975/46</a></p>
+
+		</div>
+
+		</section>
+
+	</article>
+
+</body>
+</html>
