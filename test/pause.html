@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"> 
+	<title>Operation Rimau experiment</title>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
+	<script src="/assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
+	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
+	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+<style>
+html, body {
+	height: 100%;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	background-color: #fff;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-weight: 300;
+	font-size: 1em;
+}
+
+header {
+	position: fixed;
+	background: #000;
+	width: 100%;
+	z-index: 9999;
+	top: 0;
+	padding: 0 1em;
+}
+header a {
+	color: #ccc;
+}
+.navbar-toggle {
+	display: none;
+}
+.navbar-header {
+	float: left;
+}
+.navbar-header a.navbar-brand {
+	display: inline-block;
+	margin: 0.5em;
+}
+ul.nav {
+	margin: 0;
+	list-style: none;
+}
+ul.nav li {
+	float: left;
+	margin: 0.5em;
+}
+
+h1 {
+	text-align: center;
+}
+
+article {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+section {
+	display: block;
+/*	z-index: 5;*/
+}
+
+section:after {
+	content: "";
+	clear: left;
+	display: block;
+}
+
+#section-0 {
+	position: relative;
+	background-color: #000;
+	color: #ccc; 
+}
+
+
+.content {
+	z-index: 10;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 0 1em;
+}
+
+.ScrollSceneIndicators {
+	z-index: 1000 !important;
+}
+
+h3 {
+	padding-top: 3em;
+}
+
+</style>
+<script>
+
+$(function(){
+
+	var bodyDims, body = $('body'), controller = new ScrollMagic();
+	
+	function getBodyDims() {
+		bodyDims = { w: body.width(), h: body.height() };
+		return bodyDims;
+	}
+
+	function fixImageDims() {
+	
+		d = getBodyDims();
+		$('h1').css({width: d.w, height: d.h, lineHeight: (d.h) + 'px'});
+		//$('.p-sequence').css({width: d.w, height: d.h});
+		
+	}
+		
+	$(window).on('resize', fixImageDims);
+	
+	fixImageDims();
+	
+	function setupImages() {
+		
+		$('.p-sequence').each(function(ix, el){
+			
+			sequence = $(el);
+			
+			scene = $('.scene', sequence);
+			
+			sceneCount = scene.length; // the number of transitions
+			framesPerScene = 4; // the number of frames in a scene
+			frameOverlap = 2; // the number of frames which overlap between scenes
+			frameHeight = (bodyDims.h / 2); // the height of a 'scene' in pixels (half a window height)
+	
+			frameCount = (sceneCount * framesPerScene) + frameOverlap;
+	
+			totalDuration = frameCount *  frameHeight;
+
+			console.log('sceneCount: %o, frameCount: %o, frameHeight: %o, duration: %o', sceneCount, frameCount, frameHeight, totalDuration);
+	
+			// Create a timeline for the tweens to happen on
+			timeline = new TimelineMax({onUpdate: function(){
+				// console.log('update',this.time(), this.currentLabel(), this.getChildren())
+			}});
+	
+			// Add a label (timestamp) for each sceneCount x framesPerScene + frameOverlap	
+			for (var ix = -1; ++ix <= frameCount;) {
+				// labels offset from 0 - ie first is scene-0
+				timeline.add('scene-' + ix, ix);
+			}
+
+			// Add four steps for each scene - fade in, scroll in, scroll out, fade out
+			for (var sceneNumber = 0; sceneNumber < sceneCount; sceneNumber++) {
+			
+				currMedia = $('.media', scene[sceneNumber]);
+				currCaption = $('.caption', scene[sceneNumber]);
+				
+				console.log('scene %i has media: %o, has caption: %o', sceneNumber, currMedia.length === 1, currCaption.length === 1);
+				
+				// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
+				sceneStartFrame = (framesPerScene * sceneNumber);
+				console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
+	
+				fadeInStartLabel = 'scene-' + sceneStartFrame;
+				scrollInStartLabel = 'scene-' + (sceneStartFrame + 1);
+				scrollOutStartLabel = 'scene-' + (sceneStartFrame + 4);
+				fadeOutStartLabel = 'scene-' + (sceneStartFrame + 5);
+	
+			}
+	
+			
+		});
+		
+	}
+	
+	setupImages();
+	
+});
+	
+</script>
+<style type="text/css">
+.scene img {
+	width: 100%;
+}
+</style>
+</head>
+<body>
+
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Rimau</a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="#section-1">Section 1</a></li>
+						<li><a href="#section-2">Section 2</a></li>
+						<li><a href="#section-3">Section 3</a></li>
+						<li><a href="#section-4">Section 4</a></li>
+						<li><a href="#section-5">Section 5</a></li>
+						<li><a href="#section-6">Section 6</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	
+	<article>
+
+		<h1>Operation Rimau</h1>
+
+		<section id="section-0">
+			<div class="p-sequence content">
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/boats/boat-1.png" />
+					</div>
+					<div class="caption">
+						<p>Here is a caption which is pithy and emotional all at the same time.  This will stay until the next image has gone.</p>
+					</div>
+				</div>
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/boats/boat-2.png" />
+					</div>
+				</div>
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/boats/boat-3.png" />
+					<div class="caption">
+						<p>Here is a fresh caption which is not quite as pithy and emotional all at the same time.</p>
+					</div>
+					</div>
+				</div>
+				<div class="scene">
+					<div class="caption">
+						<p>Here is another caption over the same image which is just as pithy and emotional all at the same time, all over again.</p>
+					</div>
+				</div>
+				<div class="scene">
+					<div class="media">
+						<img src="/assets/stills/boats/boat-5.png" />
+					</div>
+					<div class="caption">
+						<p>Here is yet another caption which is far more as pithy and emotional all at the same time, all over again ad nauseum.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section id="section-2">
+			<div class="content">
+				<h3>I am section 2</h3>
+				<p>Praesent vitae elit molestie, eleifend nunc vel, sollicitudin ante. Curabitur molestie vel libero rhoncus commodo. Mauris volutpat id lacus eu molestie. In in sapien pulvinar, pharetra nunc et, gravida velit. Quisque quis suscipit felis. Nullam sed egestas sapien, at interdum elit. Aenean ullamcorper lobortis urna vel dignissim. Aenean ac augue auctor, scelerisque neque quis, semper tellus. Sed eget leo purus. Nulla facilisi. Nam faucibus dui vestibulum sem molestie, in consequat sapien euismod. In hac habitasse platea dictumst. Nunc tincidunt nisl tellus, in tincidunt turpis vehicula eu. Cras molestie enim dolor. Curabitur nec consequat erat.</p>
+				<p>Aliquam dapibus leo dolor, nec eleifend urna rhoncus et. Curabitur tortor odio, ultricies vel malesuada sed, tincidunt at augue. Sed convallis magna tellus. Aliquam quam nunc, imperdiet sit amet nisl eget, tristique rhoncus mi. Phasellus ultricies eget felis et bibendum. Vivamus consequat mi sit amet enim imperdiet bibendum. In pulvinar lorem vel magna faucibus facilisis. Fusce eu elit in dui bibendum rutrum. Sed eu iaculis turpis. Nulla auctor imperdiet mauris, vitae condimentum tellus malesuada ac.</p>
+				<p>Phasellus malesuada risus id commodo auctor. Cras eget mauris et mi pulvinar ullamcorper. In id ullamcorper nisi. Integer nec nibh bibendum, congue eros at, vestibulum leo. Quisque gravida, nisl et dapibus malesuada, risus elit faucibus velit, nec lobortis eros sem non neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+				<p>Sed sit amet erat tortor. Mauris accumsan id dui quis ultrices. Nulla tempor elementum erat, eu consectetur ante ultrices at. Suspendisse ut lectus ac nunc blandit mattis. Aenean at magna quis tellus pellentesque porta. Pellentesque malesuada pharetra porttitor. Mauris elementum pretium nulla, non scelerisque enim pellentesque in. Nullam at erat sit amet eros venenatis cursus.</p>
+				<p>Fusce sed lorem ut quam elementum porttitor. Duis non libero tempus, imperdiet tortor ac, varius nisi. Nunc vulputate magna vel tellus luctus scelerisque. Nullam ut metus eros. Sed non cursus neque. Vivamus neque odio, vestibulum sed laoreet eu, faucibus at dolor. Etiam arcu elit, semper sit amet diam eu, posuere aliquam leo. Praesent vel quam quis nibh cursus tempus. Mauris sed diam odio. Donec semper sodales nunc, ac sollicitudin enim consequat a.</p>
+				<p>Praesent vitae elit molestie, eleifend nunc vel, sollicitudin ante. Curabitur molestie vel libero rhoncus commodo. Mauris volutpat id lacus eu molestie. In in sapien pulvinar, pharetra nunc et, gravida velit. Quisque quis suscipit felis. Nullam sed egestas sapien, at interdum elit. Aenean ullamcorper lobortis urna vel dignissim. Aenean ac augue auctor, scelerisque neque quis, semper tellus. Sed eget leo purus. Nulla facilisi. Nam faucibus dui vestibulum sem molestie, in consequat sapien euismod. In hac habitasse platea dictumst. Nunc tincidunt nisl tellus, in tincidunt turpis vehicula eu. Cras molestie enim dolor. Curabitur nec consequat erat.</p>
+				<p>Aliquam dapibus leo dolor, nec eleifend urna rhoncus et. Curabitur tortor odio, ultricies vel malesuada sed, tincidunt at augue. Sed convallis magna tellus. Aliquam quam nunc, imperdiet sit amet nisl eget, tristique rhoncus mi. Phasellus ultricies eget felis et bibendum. Vivamus consequat mi sit amet enim imperdiet bibendum. In pulvinar lorem vel magna faucibus facilisis. Fusce eu elit in dui bibendum rutrum. Sed eu iaculis turpis. Nulla auctor imperdiet mauris, vitae condimentum tellus malesuada ac.</p>
+				<p>Phasellus malesuada risus id commodo auctor. Cras eget mauris et mi pulvinar ullamcorper. In id ullamcorper nisi. Integer nec nibh bibendum, congue eros at, vestibulum leo. Quisque gravida, nisl et dapibus malesuada, risus elit faucibus velit, nec lobortis eros sem non neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+				<p>Sed sit amet erat tortor. Mauris accumsan id dui quis ultrices. Nulla tempor elementum erat, eu consectetur ante ultrices at. Suspendisse ut lectus ac nunc blandit mattis. Aenean at magna quis tellus pellentesque porta. Pellentesque malesuada pharetra porttitor. Mauris elementum pretium nulla, non scelerisque enim pellentesque in. Nullam at erat sit amet eros venenatis cursus.</p>
+				<p>Fusce sed lorem ut quam elementum porttitor. Duis non libero tempus, imperdiet tortor ac, varius nisi. Nunc vulputate magna vel tellus luctus scelerisque. Nullam ut metus eros. Sed non cursus neque. Vivamus neque odio, vestibulum sed laoreet eu, faucibus at dolor. Etiam arcu elit, semper sit amet diam eu, posuere aliquam leo. Praesent vel quam quis nibh cursus tempus. Mauris sed diam odio. Donec semper sodales nunc, ac sollicitudin enim consequat a.</p>
+			</div>
+		</section>
+
+		<section id="section-3">
+			<div class="content">
+				<h3>I am section 3</h3>
+				<p>Cras gravida ante vitae adipiscing porttitor. Ut leo odio, viverra quis urna eu, pretium tincidunt dolor. Nam imperdiet vitae lacus vitae bibendum. Duis cursus, est ac volutpat dignissim, enim lacus dignissim metus, vitae eleifend diam urna non urna. Praesent velit mi, dignissim sed neque at, bibendum elementum libero. Mauris quis facilisis augue, quis hendrerit risus. Proin vel porta est.</p>
+				<p>Nam molestie, est sit amet rutrum luctus, augue massa cursus magna, sit amet consequat metus erat eget neque. Suspendisse at eros ornare est pulvinar sagittis. Nam posuere nulla sed ipsum consectetur fermentum. Phasellus eu diam quis nibh varius eleifend. Nullam magna nulla, accumsan ut tortor eget, consequat ornare libero. Suspendisse nec metus velit. Fusce at congue nisl. Suspendisse potenti. Vivamus sodales metus augue, vel pretium eros tincidunt at. Quisque vestibulum ipsum sed urna pharetra vulputate. Mauris justo sem, hendrerit ut imperdiet vitae, condimentum sed neque. Ut vel aliquet elit. In dolor turpis, scelerisque adipiscing tempor in, fringilla a purus. Donec at diam ipsum. Vivamus pharetra arcu id lorem venenatis ullamcorper. Etiam a purus non neque consectetur sagittis sed non lectus.</p>
+				<p>Pellentesque at mi orci. Ut commodo justo ut felis imperdiet fringilla. Pellentesque et imperdiet sapien. Curabitur viverra dictum sem, at laoreet felis commodo fermentum. Nam in tortor nec dolor consequat pharetra. Mauris quis tempor massa. Sed est tortor, posuere ut porttitor vitae, sodales ac nisi. Mauris id diam ipsum.</p>
+				<p>Fusce hendrerit massa in elit faucibus, euismod gravida ligula euismod. Mauris in placerat metus. Suspendisse sed diam ut velit adipiscing dapibus. Maecenas erat enim, interdum eget dignissim a, pulvinar in eros. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent a ligula non felis hendrerit mattis. In id urna nisl. Fusce lorem nibh, rhoncus in eros eu, placerat placerat odio.</p>
+				<p>Vestibulum fringilla, elit eu mollis ullamcorper, dolor ante posuere nunc, ullamcorper commodo metus lorem nec eros. Aliquam erat volutpat. Nam laoreet, ipsum ac egestas tincidunt, dolor lorem viverra turpis, a iaculis arcu lorem non arcu. Morbi vitae eros neque. Etiam at purus dolor. Nulla eget enim mi. Vestibulum est mauris, semper nec pretium vel, laoreet vel enim. Nunc tristique nulla massa, et imperdiet nulla facilisis quis. Pellentesque fringilla, risus ac rutrum auctor, purus nulla sodales dui, a ultrices magna libero et lorem. Proin egestas justo ut libero convallis, vel consectetur mauris bibendum. Vivamus pulvinar non enim eu accumsan.</p>
+				<p>Cras gravida ante vitae adipiscing porttitor. Ut leo odio, viverra quis urna eu, pretium tincidunt dolor. Nam imperdiet vitae lacus vitae bibendum. Duis cursus, est ac volutpat dignissim, enim lacus dignissim metus, vitae eleifend diam urna non urna. Praesent velit mi, dignissim sed neque at, bibendum elementum libero. Mauris quis facilisis augue, quis hendrerit risus. Proin vel porta est.</p>
+				<p>Nam molestie, est sit amet rutrum luctus, augue massa cursus magna, sit amet consequat metus erat eget neque. Suspendisse at eros ornare est pulvinar sagittis. Nam posuere nulla sed ipsum consectetur fermentum. Phasellus eu diam quis nibh varius eleifend. Nullam magna nulla, accumsan ut tortor eget, consequat ornare libero. Suspendisse nec metus velit. Fusce at congue nisl. Suspendisse potenti. Vivamus sodales metus augue, vel pretium eros tincidunt at. Quisque vestibulum ipsum sed urna pharetra vulputate. Mauris justo sem, hendrerit ut imperdiet vitae, condimentum sed neque. Ut vel aliquet elit. In dolor turpis, scelerisque adipiscing tempor in, fringilla a purus. Donec at diam ipsum. Vivamus pharetra arcu id lorem venenatis ullamcorper. Etiam a purus non neque consectetur sagittis sed non lectus.</p>
+				<p>Pellentesque at mi orci. Ut commodo justo ut felis imperdiet fringilla. Pellentesque et imperdiet sapien. Curabitur viverra dictum sem, at laoreet felis commodo fermentum. Nam in tortor nec dolor consequat pharetra. Mauris quis tempor massa. Sed est tortor, posuere ut porttitor vitae, sodales ac nisi. Mauris id diam ipsum.</p>
+				<p>Fusce hendrerit massa in elit faucibus, euismod gravida ligula euismod. Mauris in placerat metus. Suspendisse sed diam ut velit adipiscing dapibus. Maecenas erat enim, interdum eget dignissim a, pulvinar in eros. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent a ligula non felis hendrerit mattis. In id urna nisl. Fusce lorem nibh, rhoncus in eros eu, placerat placerat odio.</p>
+				<p>Vestibulum fringilla, elit eu mollis ullamcorper, dolor ante posuere nunc, ullamcorper commodo metus lorem nec eros. Aliquam erat volutpat. Nam laoreet, ipsum ac egestas tincidunt, dolor lorem viverra turpis, a iaculis arcu lorem non arcu. Morbi vitae eros neque. Etiam at purus dolor. Nulla eget enim mi. Vestibulum est mauris, semper nec pretium vel, laoreet vel enim. Nunc tristique nulla massa, et imperdiet nulla facilisis quis. Pellentesque fringilla, risus ac rutrum auctor, purus nulla sodales dui, a ultrices magna libero et lorem. Proin egestas justo ut libero convallis, vel consectetur mauris bibendum. Vivamus pulvinar non enim eu accumsan.</p>
+			</div>
+		</section>
+
+	</article>
+
+</body>
+</html>
