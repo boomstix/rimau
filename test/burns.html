@@ -3,9 +3,11 @@
 <head>
 	<meta charset="utf-8"> 
 	<title>Operation Rimau experiment</title>
-	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.11.7/TweenMax.min.js"></script>-->
-	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
+	<script src="/assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
 	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
 
@@ -20,7 +22,7 @@ body {
 	padding: 0;
 	color: #333;
 	background-color: #fff;
-	font-family: 'Open Sans Condensed', Arial, sans-serif;
+	font-family: 'Open Sans', Arial, sans-serif;
 	font-weight: 300;
 	font-size: 1em;
 }
@@ -146,6 +148,29 @@ h1 {
 	right: 50px;
 }
 
+
+#content-wrapper {
+	height: 100%;
+	position: relative;
+}
+
+.scrollContainer {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	width: 100%;
+}
+.scrollContainer {
+	height: 100%;
+	margin: auto;
+}
+#content-wrapper .scrollContent {
+	height: 100%;
+}
+#content-wrapper.scrollContainer .scrollContent {
+	width: 100%;
+	height: auto;
+}
+
 </style>
 <script>
 
@@ -225,22 +250,7 @@ $(function() {
 		// updates the w/h of video holders
 		w_h = getBodyDims();
 		$('h1').css({width: w_h.w, height: w_h.h, lineHeight: (w_h.h) + 'px'});
-		$('div.burns').each(function(ix, el){
-			$(this).css({
-//				width: w_h.w
-//			,	height: w_h.w * 9 / 16
-//			, left: 0
-			});
-		});
-		$('div.burns .burns-holder').each(function(ix, el){
-			newLeft = -(w_h.w - $(this).data('orig-width')) / 2
-			$(this).css({
-//				width: w_h.w
-//			,	height: w_h.w * 9 / 16
-//				marginLeft: newLeft < 0 ? newLeft: 0
-//			,	marginTop: -(w_h.h - $(this).data('orig-height')) / 2
-			});
-		});
+
 	}
 
 	function replaceBurns(ix, el) {
@@ -323,10 +333,29 @@ $(function() {
 	//console.log(extractDims('10px,-10px'));
 	//console.log(extractDims('-10px,50%'));
 	
-	controller = new ScrollMagic();
+	controller = new ScrollMagic(/*{container: "#content-wrapper"}*/);
 	
 	// replace burns-n.jpg with bg-n.jpg and subject-1.png
 	replaceBurns();
+	
+	/*
+	if (Modernizr.touch) {
+		// using iScroll but deactivating -webkit-transform because pin wouldn't work because of a webkit bug: https://code.google.com/p/chromium/issues/detail?id=20574
+		// if you dont use pinning, keep "useTransform" set to true, as it is far better in terms of performance.
+		var myScroll = new IScroll('#content-wrapper', {scrollX: false, scrollY: true, scrollbars: true, useTransform: false, useTransition: false, probeType: 3});
+		
+		// overwrite scroll position calculation to use child's offset instead of container's scrollTop();
+		controller.scrollPos(function () {
+			return -myScroll.y;
+		});
+
+		// thanks to iScroll 5 we now have a real onScroll event (with some performance drawbacks)
+		myScroll.on("scroll", function () {
+			controller.update();
+		});
+
+	}
+	*/
 	
 	// reset the sizes
 	$(window).on('resize', fixDims);
@@ -366,6 +395,9 @@ $(function() {
 			</div>
 		</nav>
 	</header>
+	
+	<div id="content-wrapper"><!-- class="scrollContainer">
+			<div class="scrollContent" style="position: relative;"-->
 	
 	<article>
 	
@@ -493,8 +525,12 @@ $(function() {
 				<p>Duis est tellus, auctor sed ante ac, aliquam congue lorem. Aenean mauris nulla, congue at arcu et, gravida vestibulum enim. Nullam non purus vel risus sollicitudin blandit. Integer interdum nisi tortor, interdum viverra sapien vehicula in. Duis mattis ornare urna sit amet tempus. Nullam nec dignissim nunc. Integer ullamcorper feugiat justo sed ultrices.</p>
 			</div>
 		</section>
-	
+		
 	</article>
+	
+		<!--/div-->
+	
+	</div>
 
 </body>
 </html>
