@@ -13,6 +13,8 @@
 	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+	<script src="/assets/html5/q-and-a.js" type="text/javascript"></script>
+	<script src="/assets/html5/portrait.js" type="text/javascript"></script>
 <style>
 html, body {
 	height: 100%;
@@ -29,10 +31,10 @@ body {
 	font-size: 1em;
 }
 a {
-	color: #ccc;
+	color: #fff;
 }
 a:active, a:hover {
-	color: #fff;
+	color: #ccc;
 }
 header {
 	position: fixed;
@@ -92,8 +94,8 @@ img.bg {
 .panel h2,
 .panel h3,
 .panel h4 {
-	padding-left: 10px;
-	padding-right: 10px;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 ul.credits {
@@ -106,11 +108,31 @@ ul.credits li {
 	margin: 0;
 	padding: 0;
 }
+.memorial ul {
+	padding: 0;
+	margin: 0 auto;
+	max-width: 22em;
+	list-style: none;
+}
+.memorial li {
+	margin: 0 0 1em 0;
+	padding: 0;
+	text-align: center;
+}
+.memorial li a {
+	text-shadow: 1px 1px 2px #000;
+	text-decoration: none;
+}
+.memorial li a:hover {
+	text-decoration: underline;
+}
+.memorial h4 {
+	text-align: center;
+	text-transform: uppercase;
+	margin-top: 2em;
+}
 
 blockquote {
-/* 
-	font-family: 'Nothing You Could Do', cursive;
- */
 	font-style: italic; 
 }
 
@@ -120,6 +142,13 @@ blockquote {
 	border: 1px solid red;
 	box-sizing:border-box;
 */
+}
+
+dl {
+	margin: 1em 0;
+}
+dt, dd {
+	margin: 1em 0;
 }
 
 /* applies to things over 480px */
@@ -138,11 +167,62 @@ blockquote {
 		margin-left: auto;
 	}
 	.panel .content {
-		padding: 16em 4em 8em;
+		padding: 4em;
 		max-width: 920px;
 		margin: 0 auto;
 	}
 
+	dt {
+		width: 48%; float: left; clear: left;
+	}
+	dd {
+		width: 48%; float: left; margin-left: 4%;
+	}
+
+	.portrait {
+/* 
+		background-color: transparent;
+		background-attachment: fixed;
+		background-size: 920px 518px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+ */
+	/*	margin-top: 518px;*/
+	/*	margin-bottom: 518px;*/
+	}
+	.portrait .panel.fix {
+		position: relative;
+		width: 100%;
+		height: 518px;
+/* 		border: 1px solid red; */
+	}
+	.portrait .panel.fix .media {
+		position: fixed;
+		top: 0;
+		left: 0;
+	/*	height: 420px;*/
+	}
+	.portrait .panel.fix img {
+		height: 420px;
+	}
+	.portrait .panel.fix .caption {
+		position: absolute;
+		top: 50%;
+		right: 10%;
+		color: #fff;
+		text-shadow: 1px 1px 2px #000;
+	}
+
+}
+
+/* applies to things over 768px */
+@media (min-width: 768px) {
+	.panel .content {
+		padding: 16em 4em 8em;
+	}
+	.q-and-a .panel .content {
+		padding: 3em 1em 0;
+	}
 }
 
 /* applies to things under 768px */
@@ -152,7 +232,7 @@ blockquote {
 		margin-left: -240px;
 	}
 	.panel .content {
-		padding: 8em 4em;
+		padding: 4em;
 	}
 }
 
@@ -194,7 +274,6 @@ blockquote {
 }
 
 .panel {
-	background-color: #000;
 	color: #fff;
 	text-shadow: 1px 1px 2px #000;
 }
@@ -208,30 +287,42 @@ blockquote {
 </style>
 
 <script>
-/*
+
+var bodyDims = {}
+, body = null
+, contentWidth = 920
+, contentHeight = 518
+, controller = new ScrollMagic()
+;
+
+function getBodyDims() {
+	bodyDims = { w: body.width(), h: body.height() };
+	// console.log('bodyDims: ', bodyDims);
+	return bodyDims;
+}
+
+function fixImageDims() {
+
+	d = getBodyDims();
+	// $('#section-0').css({width: d.w, height: d.h});
+	// $('.over, .dark, .light').css({width: d.w, height: d.h});
+
+}
+
 $(function() {
 
-	var bodyDims, body = $('body'), controller = new ScrollMagic();
-	
-	function getBodyDims() {
-		bodyDims = { w: body.width(), h: body.height() };
-		return bodyDims;
-	}
+	body = $('body');
 
-	function fixImageDims() {
+	$(window).on('resize', fixImageDims);
 	
-		d = getBodyDims();
-		// $('#section-0').css({width: d.w, height: d.h});
-		$('.over, .dark, .light').css({width: d.w, height: d.h});
-
-	}
-		
-	//$(window).on('resize', fixImageDims);
+	fixImageDims();
 	
-	//fixImageDims();
+	setupPortraitGallery();
+	
+	setupQA();
 	
 })
-*/
+
 </script>
 
 </head>
@@ -272,16 +363,13 @@ $(function() {
 		
 			<div class="panel bg">
 				<div class="media">
-					<img src="/assets/stills/section-1/1.jpg" class="res bg" alt="" />
+					<img src="/assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
 				</div>
-			</div>
-			
-			<div class="panel">	
 				<div class="content">
 					<h1>Operation Rimau: The True Account of a Secret WWII Raid.</h1>
 				</div>
 			</div>
-				
+			
 			<div class="panel">	
 				<div class="content">
 					<ul class="credits">
@@ -310,7 +398,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/2.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/porpoise.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -331,7 +419,7 @@ $(function() {
 		<div class="video-content">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/2.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/training-video-placeholder.jpg" class="res" alt="" />
 				</div>
 			</div>
 		</div>
@@ -350,33 +438,33 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/3.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/sleeping-beauty-submerging.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Caption boat 1
+					Sleeping Beauty - submerging
 					</p>
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/4.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/sleeping-beauty-development.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Caption boat 2
+					Sleeping Beauty - Development
 					</p>
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/5.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/sleeping-beauty-profile.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Caption boat 3
+					Sleeping Beauty - Profile
 					</p>
 				</div>
 			</div>
@@ -396,7 +484,7 @@ $(function() {
 		<div class="video-content">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/8.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/sleeping-beauty-video-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p><b>5 x chapterised documentary</b></p>
@@ -418,7 +506,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/9.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/plan-z-page-1.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -429,7 +517,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/10.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/plan-z-page-2.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -440,7 +528,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/11.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/plan-z-page-3.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -451,7 +539,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/12.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/plan-z-page-4.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -491,7 +579,7 @@ $(function() {
 		<div class="gallery portrait">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/page.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-page.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -502,7 +590,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/carey.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-carey.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -513,7 +601,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/falls.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-falls.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -524,7 +612,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/hardy.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-hardy.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -535,7 +623,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/sargent.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-sargent.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -546,7 +634,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/men/davidson.png" class="" alt="" />
+					<img src="/assets/stills/content/portrait-davidson.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -570,7 +658,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/19.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/jaywick-aboard-1.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -581,7 +669,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/20.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/jaywick-aboard-2.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -592,7 +680,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/21.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/jaywick-aboard-3.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -603,7 +691,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/22.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/jaywick-celebrations.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -625,11 +713,11 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/6.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/norman-wallace.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Quote from interview
+					Quote from interview with Norman Wallace
 					</p>
 				</div>
 			</div>
@@ -638,11 +726,11 @@ $(function() {
 		<div class="video-content">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/7.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/norman-wallace-video-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Interview with Norman
+					Interview with Norman Wallace
 					</p>
 				</div>
 			</div>
@@ -653,7 +741,7 @@ $(function() {
 		<div class="gallery old">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/23.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/lyon-1.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<h3>Rimau&rsquo;s Commander</h3>
@@ -665,7 +753,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/24.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/lyon-2.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -676,7 +764,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-1/25.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/lyon-newspaper.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
@@ -690,7 +778,7 @@ $(function() {
 		
 				<div class="panel bg">
 					<div class="media">
-						<img src="/assets/stills/section-2/1.jpg" class="res" alt="" />
+						<img src="/assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
 					</div>
 					<div class="content">
 						<h2>Merapas: A &lsquo;Safe&rsquo; Island</h2>
@@ -702,7 +790,7 @@ $(function() {
 		
 			<div class="panel">
 					<div class="media">
-						<img src="/assets/stills/section-2/1.jpg" class="res" alt="" />
+						<img src="/assets/stills/content/sandy-beach-placeholder.jpg" class="res" alt="" />
 					</div>
 
 					<div class="content">
@@ -720,7 +808,7 @@ $(function() {
 		
 			<div class="panel">
 					<div class="media">
-						<img src="/assets/stills/section-2/3.jpg" class="res" alt="" />
+						<img src="/assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
 					</div>
 					<div class="content">
 						<p>
@@ -735,7 +823,7 @@ $(function() {
 			<a id="2.3"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/4.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/jungle-inhabitants-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<blockquote>
@@ -760,7 +848,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/5.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/rocky-shore-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<h4>September 27</h4>
@@ -791,7 +879,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/6.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/mustika-sketch-1.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -806,7 +894,7 @@ $(function() {
 
 			<div class="panel light">
 				<div class="media">
-					<img src="/assets/stills/section-2/7.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/mustika-sketch-2.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<blockquote>
@@ -836,33 +924,33 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/8.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/mustika-boarding.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Potential caption
+					Boarding the Mustika
 					</p>
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/9.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/mustika-profile.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Potential caption
+					The Mustika
 					</p>
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/10.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/mustika-loading.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Potential caption
+					Loading the Mustika
 					</p>
 				</div>
 			</div>
@@ -892,7 +980,7 @@ $(function() {
 			<a id="2.8"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/11.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -904,7 +992,7 @@ $(function() {
 			<a id="2.9"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-2/12.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/open-water-2-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<h4>October 10, 1944.</h4>
@@ -941,7 +1029,7 @@ $(function() {
 			<a id="3.2"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-3/2.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/takes-a-risk.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<h4>16 October 1944</h4>
@@ -954,7 +1042,7 @@ $(function() {
 			<a id="3.3"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-3/3.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/theres-a-battle.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -966,7 +1054,7 @@ $(function() {
 			<a id="3.4"></a>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/section-3/4.jpg" class="res" alt="" />
+					<img src="/assets/stills/content/those-who-are-not-killed.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1063,6 +1151,16 @@ $(function() {
 					</p>
 				</div>
 			</div>
+			<div class="panel">
+				<div class="media">
+					<img src="/assets/stills/content/roma-page.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<p>
+					Interview with Roma Page
+					</p>
+				</div>
+			</div>
 		</div>
 
 		<div class="video-content">
@@ -1084,19 +1182,19 @@ $(function() {
 
 					<dl>
 					<dt>Question 1: Is there any point that you wish to object among the charges that were read for you just now?</dt>
-					<dd>Answer:	 no, there is none. They are quite correct.</dd>
+					<dd>Answer 1:	 no, there is none. They are quite correct.</dd>
 					<dt>Question 2:	Is there anything that you should like to differ from all the statements that Major Ingleton had made just now? Or any opinion?</dt>
-					<dd>Answer:	none, except that I saw once Lieut-Col. Lyon wearing his badge of rank on the junk, but where it was I have forgotten.</dd>
+					<dd>Answer 2:	none, except that I saw once Lieut-Col. Lyon wearing his badge of rank on the junk, but where it was I have forgotten.</dd>
 					<dt>Question 3:	Did you also not use beret cap or badge of rank after off Merapas Island?</dt>
-					<dd>Answer:	I did not use it since we left Pejantang Island.</dd>
+					<dd>Answer 3:	I did not use it since we left Pejantang Island.</dd>
 					<dt>Question 4:	We are given to understand that you were wearing salong on the junk? Is it correct.</dt>
-					<dd>Answer:	it is quite correct.</dd>
+					<dd>Answer 4:	it is quite correct.</dd>
 					<dt>Question 5:	Did you bring over that salong from Australia?	</dt>
-					<dd>Answer:	 I used the one which I found on the junk and so I do not know where it came from. I am inclined to consider that it was the one used by the Malayan crew of the junk.</dd>
+					<dd>Answer 5:	 I used the one which I found on the junk and so I do not know where it came from. I am inclined to consider that it was the one used by the Malayan crew of the junk.</dd>
 					<dt>Question 6: Did you also shoot at the time when your party attacked the police boat near Kasu Island?</dt>
-					<dd>Answer:	yes, I did. I thought it was a navy patrol ship and I shot it.</dd>
+					<dd>Answer 6:	yes, I did. I thought it was a navy patrol ship and I shot it.</dd>
 					<dt>Question 7:	How many times did you fight against the Japanese force after that?</dt>
-					<dd>Answer:	once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
+					<dd>Answer 7:	once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
 					</dl>
 				</div>
 			</div>
@@ -1105,6 +1203,9 @@ $(function() {
 		<div class="sequence">
 			<a id="5.5"></a>
 			<div class="panel">
+				<div class="media">
+					<img src="/assets/stills/content/robert-page.jpg" class="res" alt="" />
+				</div>
 				<div class="content">
 					<p>
 					The men are sentenced to death by decapitation, which is Japanese custom. Robert Page is 25 years old and his last words are for his father who was captured by the Japanese in Papua New Guinea:
@@ -1115,6 +1216,9 @@ $(function() {
 				</div>
 			</div>
 			<div class="panel">
+				<div class="media">
+					<img src="/assets/stills/content/mackie-stewart-tbc.jpg" class="res" alt="" />
+				</div>
 				<div class="content">
 					<p>
 					Clair Mackie Stewart is 35. His last words are for, and of, his wife:
@@ -1155,13 +1259,13 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<p>sword image</p>
+					<img src="/assets/stills/content/execution.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<p>graves movie</p>
+					<img src="/assets/stills/content/war-graves-video-placeholder.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
@@ -1171,48 +1275,52 @@ $(function() {
 
 	<section>
 
-		<h4>Australians</h4>
-		<ul>
-		<li><a href="http://soda.naa.gov.au/record/6065194/1">Sergeant C.B. (Colin) Cameron, AIF, VX81605</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4838369/1">Corporal A.G.P. (Archie) Campbell, AIF, QX5791</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4640537/1">Lieutenant Walter G. Carey AIF, NX58159</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6469177/1">Corporal C.M. (Colin) Craft, WX11688</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4548357/1">Able Seaman W.G. (Wally) Falls S/6543</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4620324/1">Corporal R.B. (Ron) Fletcher, AIF, NX80005</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6096655/1">Sergeant D.B. (David) Gooley, AIF VX109893</a></li>
-		<li><a href="http://soda.naa.gov.au/record/5628180/1">Lance-Corporal J.T. (Jack) Hardy, AIF, NX140476</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4425433/1">Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston, Royal Australian Naval Reserve, B3312</a></li>
-		<li><a href="http://soda.naa.gov.au/record/5410466/1">Able Seaman F.W.L. (Fred &lsquo;Boof&rsquo;) Marsh, Royal Australian Naval Reserve, A6770</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4497549/1">Corporal H.J. (Hugo) Pace, AIF</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4618017/1">Captain Robert C. Page, AIF, NX19158</a></li>
-		<li><a href="http://soda.naa.gov.au/record/5423003/1">Lieutenant B.P. (Bruno) Reymond, RANR, A6769</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6203373/1">Lieutenant A.L. (&lsquo;Blondie&rsquo;) Sargent, AIF, VX15290</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6466169/1">Corporal C.M. (Clair Mackie) Stewart, AIF, WX15839</a></li>
-		<li><a href="http://soda.naa.gov.au/record/4490209/1">Private D.R. (Doug) Warne, AIF QX21698</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6121334/1">Warrant Officer A. (Alf) Warren, AIF, VX52239</a></li>
-		<li><a href="http://soda.naa.gov.au/record/6065234/1">Warrant Officer, J. (Jeffrey) Willersdorf, AIF, VX81821</a></li>
-		</ul>
-		<h4>British</h4>
-		<ul>
-		<li>Lieutenant Colonel Ivan Lyon, Gordon Highlanders;</li>
-		<li>Lieut-Commander Donald Davidson, Royal Naval Volunteer Reserve;</li>
-		<li>Lieutenant H.R. (Harold) Ross, British Army General List;</li>
-		<li>Major R.N. Ingleton, Royal Marines;</li>
-		<li>Sub-Lieutenant J.G.M. Riggs, RNVR.</li>
-		</ul>
+		<div class="panel">
+			<div class="content memorial">
 
-		<h4>Involved in the deployment and retrieval of mission:</h4>
-		<ul>
-		<li>Major Walter Chapman</li>
-		</ul>
+				<h4>Australians</h4>
+				<ul class="memorial">
+				<li><a href="http://soda.naa.gov.au/record/6065194/1">Sergeant C.B. (Colin) Cameron, <br/>AIF, VX81605</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4838369/1">Corporal A.G.P. (Archie) Campbell, <br/>AIF, QX5791</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4640537/1">Lieutenant Walter G. Carey, <br/>AIF, NX58159</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6469177/1">Corporal C.M. (Colin) Craft, <br/>WX11688</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4548357/1">Able Seaman W.G. (Wally) Falls, <br/>S/6543</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4620324/1">Corporal R.B. (Ron) Fletcher, <br/>AIF, NX80005</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6096655/1">Sergeant D.B. (David) Gooley, <br/>AIF VX109893</a></li>
+				<li><a href="http://soda.naa.gov.au/record/5628180/1">Lance-Corporal J.T. (Jack) Hardy, <br/>AIF, NX140476</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4425433/1">Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston, <br/>Royal Australian Naval Reserve, B3312</a></li>
+				<li><a href="http://soda.naa.gov.au/record/5410466/1">Able Seaman F.W.L. (Fred &lsquo;Boof&rsquo;) Marsh, <br/>Royal Australian Naval Reserve, A6770</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4497549/1">Corporal H.J. (Hugo) Pace, <br/>AIF</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4618017/1">Captain Robert C. Page, AIF, <br/>NX19158</a></li>
+				<li><a href="http://soda.naa.gov.au/record/5423003/1">Lieutenant B.P. (Bruno) Reymond, <br/>RANR, A6769</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6203373/1">Lieutenant A.L. (&lsquo;Blondie&rsquo;) Sargent, <br/>AIF, VX15290</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6466169/1">Corporal C.M. (Clair Mackie) Stewart, <br/>AIF, WX15839</a></li>
+				<li><a href="http://soda.naa.gov.au/record/4490209/1">Private D.R. (Doug) Warne, <br/>AIF, QX21698</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6121334/1">Warrant Officer A. (Alf) Warren, <br/>AIF, VX52239</a></li>
+				<li><a href="http://soda.naa.gov.au/record/6065234/1">Warrant Officer, J. (Jeffrey) Willersdorf, <br/>AIF, VX81821</a></li>
+				</ul>
 
-		<h4>Resources and credits</h4>
-		<ul>
-		<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
-		<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
-		<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
-		</ul>
-		
+				<h4>British</h4>
+				<ul class="memorial">
+				<li>Lieutenant Colonel Ivan Lyon, <br/>Gordon Highlanders;</li>
+				<li>Lieut-Commander Donald Davidson, <br/>Royal Naval Volunteer Reserve;</li>
+				<li>Lieutenant H.R. (Harold) Ross, <br/>British Army General List;</li>
+				<li>Major R.N. Ingleton, <br/>Royal Marines;</li>
+				<li>Sub-Lieutenant J.G.M. R<br/>iggs, RNVR.</li>
+				</ul>
+
+				<h4>Involved in the deployment and retrieval of mission:</h4>
+				<ul class="memorial">
+				<li>Major Walter Chapman</li>
+				</ul>
+
+				<h4>Resources and credits</h4>
+				<ul class="memorial">
+				<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
+				<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
+				<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
+				</ul>
+			</div>
 		</div>
 
 	</section>
