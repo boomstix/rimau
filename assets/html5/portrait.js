@@ -59,9 +59,6 @@
 			el = $(el);
 			photos = $('.panel', el);
 			
-			// add padding div.photo to bottom
-			el.append('<div class="panel fix"></div>');
-			
 			duration = /*wH.h*/ contentHeight * (photos.length + 1); // pulls end past
 			
 			var timeline = new TimelineMax()
