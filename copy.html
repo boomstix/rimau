@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Operation Rimau experiment</title>
 	<!--link href="/experiment/foundation-essentials-5.2.3/css/foundation.min.css" rel="stylesheet" type="text/css" /-->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
-	<link href="http://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet" type="text/css">
+	<!--link href="http://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet" type="text/css"-->
 	<link href="/experiment/normalize.css-master/normalize.css" rel="stylesheet" type="text/css" />
 	<script src="/assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
 	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
@@ -13,6 +14,7 @@
 	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+	<script src="/assets/html5/galleries.js" type="text/javascript"></script>
 	<script src="/assets/html5/q-and-a.js" type="text/javascript"></script>
 	<script src="/assets/html5/portrait.js" type="text/javascript"></script>
 <style>
@@ -153,6 +155,9 @@ dt, dd {
 
 /* applies to things over 480px */
 @media (min-width: 480px) {
+	.gallery {
+		width: 100%;
+	}
 	.gallery .panel {
 		position: relative;
 	}
@@ -162,6 +167,7 @@ dt, dd {
 		left: 50%;
 		margin-left: -360px;
 		max-width: 720px;
+		z-index: 3;
 	}
 	.gallery.portrait .panel .caption {
 		margin-left: auto;
@@ -179,28 +185,42 @@ dt, dd {
 		width: 48%; float: left; margin-left: 4%;
 	}
 
-	.portrait {
-/* 
-		background-color: transparent;
-		background-attachment: fixed;
-		background-size: 920px 518px;
-		background-repeat: no-repeat;
-		background-position: 50% 50%;
- */
-	/*	margin-top: 518px;*/
-	/*	margin-bottom: 518px;*/
+}
+
+/* applies to things over 768px */
+@media (min-width: 768px) {
+	.panel .content {
+		padding: 16em 4em 8em;
 	}
+	.q-and-a .panel .content {
+		padding: 3em 1em 0;
+	}
+	
+	.portrait .panel {
+		position: relative;
+		margin: 1em 0;
+	}
+	.portrait .panel .caption {
+		position: absolute;
+		bottom: 40%;
+		left: 50%;
+		max-width: 720px;
+		margin-left: auto;
+	}
+	.portrait .media {
+		padding-left: 10%;
+	}
+	
+	/* enhanced portrait gallery */
 	.portrait .panel.fix {
 		position: relative;
 		width: 100%;
 		height: 518px;
-/* 		border: 1px solid red; */
 	}
 	.portrait .panel.fix .media {
 		position: fixed;
 		top: 0;
 		left: 0;
-	/*	height: 420px;*/
 	}
 	.portrait .panel.fix img {
 		height: 420px;
@@ -212,17 +232,33 @@ dt, dd {
 		color: #fff;
 		text-shadow: 1px 1px 2px #000;
 	}
-
-}
-
-/* applies to things over 768px */
-@media (min-width: 768px) {
-	.panel .content {
-		padding: 16em 4em 8em;
+	
+	.panel.enhanced {
+		position: fixed;
 	}
-	.q-and-a .panel .content {
-		padding: 3em 1em 0;
+
+
+	.panel.enhanced .caption {
+		border: 1px solid red;
+		bottom: auto;
+		top: 70%;
 	}
+	
+	.panel.enhanced .content-wrapper,
+	.panel.enhanced .media {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 2;
+	}
+
+	.enhanced .media img, .enhanced .media video {
+		width: 100%;
+		z-index: 3;
+	}
+	
 }
 
 /* applies to things under 768px */
@@ -232,7 +268,16 @@ dt, dd {
 		margin-left: -240px;
 	}
 	.panel .content {
-		padding: 4em;
+		padding: auto;
+	}
+
+	.portrait .panel .caption,
+	.portrait .panel .content {
+		margin-left: auto;
+	}
+	.portrait .panel .media,
+	.portrait .panel .caption {
+		text-align: center;
 	}
 }
 
@@ -246,10 +291,6 @@ dt, dd {
 	.gallery .panel .content {
 		margin-left: auto;
 	}
-	.gallery.portrait .media,
-	.gallery.portrait .caption {
-		text-align: center;
-	}
 	.gallery .caption {
 		font-size: 85%;
 	}
@@ -258,17 +299,17 @@ dt, dd {
 .panel.dark, .panel.light {
 }
 
-.gallery.portrait .media,
+.portrait .media,
 .gallery.old .media {
 	max-width: 920px;
 }
 
-.gallery.portrait .content,
+.portrait .content,
 .gallery.old .content {
 	max-width: 600px;
 }
 
-.gallery.portrait .media,
+.portrait .media,
 .gallery.old .media {
 	margin: 0 auto;
 }
@@ -278,6 +319,7 @@ dt, dd {
 	text-shadow: 1px 1px 2px #000;
 }
 
+.panel.light .content-wrapper,
 .panel.light {
 	background-color: #ccc;
 	color: #000;
@@ -288,12 +330,34 @@ dt, dd {
 
 <script>
 
+var isMobile = function() {
+	return /iPad|iPod|iPhone|Android/.test(navigator.userAgent) || window.innerWidth <= 768;
+}
+
 var bodyDims = {}
 , body = null
 , contentWidth = 920
 , contentHeight = 518
 , controller = new ScrollMagic()
 ;
+
+var DimManager = function() {
+	
+	selectors = [{
+		sel: 'h1'
+	,	app: {
+			w: function(){ return 100; }
+		,	h: function(){ return 200; }
+		}
+	}];
+	
+	function updateDims(){
+		
+	};
+	
+	$(window).on('resize', updateDims);
+	
+}
 
 function getBodyDims() {
 	bodyDims = { w: body.width(), h: body.height() };
@@ -306,6 +370,20 @@ function fixImageDims() {
 	d = getBodyDims();
 	// $('#section-0').css({width: d.w, height: d.h});
 	// $('.over, .dark, .light').css({width: d.w, height: d.h});
+	$('.gallery .panel').css({width: d.w, height: d.h});
+	$('.old .media').each(function(ix, el){
+		media = $(this);
+		img = $('img', media);
+		correction = {};
+		i = { w: img.width(), h: img.height() };
+		if (i.w !== d.w) {
+			correction.paddingLeft = (d.w - i.w) / 2;
+		}
+		correction.paddingTop = (d.h - i.h) / 2;
+		console.log('body: w:%o h:%o, img: w:%o h:%o corr: %o', d.w, d.h, i.w, i.h, correction);
+		media.css(correction);
+	});
+	// css({left: (d.w - $(this).width()) / 2, top: d.h});
 
 }
 
@@ -313,13 +391,19 @@ $(function() {
 
 	body = $('body');
 
-	$(window).on('resize', fixImageDims);
+	if (!isMobile() && true) {
 	
-	fixImageDims();
+		fixImageDims();
+		
+		$(window).on('resize', fixImageDims);
 	
-	setupPortraitGallery();
+		setupGalleries();
 	
-	setupQA();
+		setupPortraitGallery();
+	
+		setupQA();
+		
+	}
 	
 })
 
@@ -576,7 +660,7 @@ $(function() {
 			
 		</div>
 
-		<div class="gallery portrait">
+		<div class="portrait">
 			<div class="panel">
 				<div class="media">
 					<img src="/assets/stills/content/portrait-page.jpg" class="" alt="" />
@@ -763,7 +847,7 @@ $(function() {
 			</div>
 
 			<div class="panel">
-				<div class="media">
+				<div class="content">
 					<img src="/assets/stills/content/lyon-newspaper.jpg" class="res" alt="" />
 				</div>
 			</div>
@@ -771,7 +855,7 @@ $(function() {
 		</div>
 		
 	</section>
-		
+	
 	<section id="section-2">
 
 		<a id="2.1"></a>
@@ -1272,7 +1356,7 @@ $(function() {
 		</div>
 
 	</section>
-
+	
 	<section>
 
 		<div class="panel">

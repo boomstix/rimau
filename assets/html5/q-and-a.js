@@ -14,9 +14,10 @@
 			//console.log(qns);
 			
 			// Create a timeline for the tweens to happen on
-			timeline = new TimelineMax({onUpdate: function(){
-				// console.log('update',this.time(), this.currentLabel(), this.getChildren())
-			}});
+			timeline = new TimelineMax();
+			//{onUpdate: function(){
+			//	console.log('update',this.time(), this.currentLabel(), this.getChildren())
+			//}}
 	
 			sceneCount = qns.length; // the number of transitions
 			framesPerScene = 3; // the number of frames in a scene
@@ -73,7 +74,7 @@
 			.setPin(sequence)
 			.setTween(timeline)
 			.addTo(controller)
-			.addIndicators({suffix: 'scene'})
+			// .addIndicators({suffix: 'scene'})
 			;
 		
 		});
