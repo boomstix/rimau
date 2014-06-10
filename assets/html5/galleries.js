@@ -59,13 +59,41 @@ function setupGalleries() {
 			currContent = $('.content', panel);
 			currCaption = $('.caption', panel);
 			
+			if (panel.hasClass('light')) {
+				// is this scene's bg light and the next scene's bg light? if so, make gallery background light
+				console.log('scene %i of %i: not last scene', sceneNumber, sceneCount - 1);
+				console.log('transition gallery bg to white bg at scene %i', sceneNumber);
+				timeline
+				.add(TweenMax
+					.to(gallery, 0.1, {
+						backgroundColor: '#ccc'
+					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to white start');}
+					,	onStartParams: [sceneNumber]
+					})
+				,	fadeInStartLabel
+				);
+			}
+			else {
+				console.log('scene %i of %i: IS last scene', sceneNumber, sceneCount - 1);
+				console.log('transition gallery bg to black bg at scene %i', sceneNumber);
+				timeline
+				.add(TweenMax
+					.to(gallery, 0.1, {
+						backgroundColor: '#000'
+					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to black start');}
+					,	onStartParams: [sceneNumber]
+					})
+				,	fadeInStartLabel
+				);
+			}
+			
 			if (currContent.length > 0) {
 			
 				console.log('fading text only');
 				// console.log(currContent.text());
 				
 				wrap = currContent.wrap('<div class="content-wrapper"></div>').parent();
-				console.log(wrap);
+				// console.log(wrap);
 				
 				timeline
 				.add(TweenMax
@@ -75,8 +103,9 @@ function setupGalleries() {
 					,	onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade in complete');}
 					,	onCompleteParams: [sceneNumber]
+					,	ease: Power4.easeInOut
 					})
-				,	scrollInStartLabel
+				,	fadeInStartLabel
 				)
 				.add(TweenMax
 					.to(panel, 1, {
@@ -85,17 +114,50 @@ function setupGalleries() {
 					,	onStartParams: [sceneNumber]
 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade out complete');}
 					,	onCompleteParams: [sceneNumber]
+					,	ease: Power4.easeInOut
 					})
-				, scrollOutStartLabel
+				, fadeOutStartLabel
 				)
 				;
 				
 			}
-			else {
 			
-				console.log('fading image scrolling text')
+			if (currCaption.length > 0) {
+			
+				console.log('scrolling text')
 				// console.log($('.caption', panel).text());
 				
+				timeline
+				.add(TweenMax
+					.from(currCaption, 1, {
+						top: '100%'
+					,	autoAlpha: 0
+					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
+					,	onStartParams: [sceneNumber]
+					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
+					,	onCompleteParams: [sceneNumber]
+					})
+				,	scrollInStartLabel
+				);
+
+				timeline
+				.add(TweenMax
+					.to(currCaption, 2.5, {
+						top: '-100%'
+					,	autoAlpha: 0
+					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
+					,	onStartParams: [sceneNumber]
+					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
+					,	onCompleteParams: [sceneNumber]
+					})
+				,	scrollOutStartLabel
+				);
+				
+			}
+
+			if (currMedia.length > 0) {
+			
+				console.log('fading image')
 				// add each step at each each frame
 				timeline
 				.add(TweenMax
@@ -107,29 +169,9 @@ function setupGalleries() {
 					,	onCompleteParams: [sceneNumber]
 					})
 				,	fadeInStartLabel
-				)
-				.add(TweenMax
-					.from(currCaption, 1, {
-						top: '170%'
-					,	autoAlpha: 0
-					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
-					,	onCompleteParams: [sceneNumber]
-					})
-				,	scrollInStartLabel
-				)
-				.add(TweenMax
-					.to(currCaption, 2.5, {
-						top: '-70%'
-					,	autoAlpha: 0
-					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
-					,	onCompleteParams: [sceneNumber]
-					})
-				,	scrollOutStartLabel
-				)
+				);
+
+				timeline
 				.add(TweenMax
 					.to(currMedia, 1, {
 						autoAlpha: 0
@@ -139,9 +181,8 @@ function setupGalleries() {
 					,	onCompleteParams: [sceneNumber]
 					})
 				, fadeOutStartLabel
-				)
-				;
-							
+				);
+				
 			}
 			
 		}
