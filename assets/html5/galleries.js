@@ -15,14 +15,14 @@ function setupGalleries() {
 
 		sceneCount = panels.length; // the number of transitions
 		framesPerScene = 6; // the number of frames in a scene
-		frameOverlap = 1; // the number of frames which overlap between scenes
+		frameOverlap = 2; // the number of frames which overlap between scenes
 		frameHeight = (bodyDims.h / 2); // the height of a 'scene' in pixels (half a window height)
 
 		frameCount = (sceneCount * framesPerScene) - (sceneCount - 1) * frameOverlap;
 
 		totalDuration = frameCount *  frameHeight;
 
-		console.log('frameCount: %o, frameHeight: %o, duration: %o', frameCount, frameHeight, totalDuration);
+		// console.log('frameCount: %o, frameHeight: %o, duration: %o', frameCount, frameHeight, totalDuration);
 
 		// set the height of the fixed sequence wrapper to which we are pinning the scrollscene
 		gallery.height(bodyDims.h);
@@ -44,7 +44,7 @@ function setupGalleries() {
 			
 			// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
 			sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
-			console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
+			// console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
 
 			// if a panel has a light or dark class, it is just text, and should fade in and out
 			// if not, it will have a media panel which will be fixed and fade in, then the caption will scroll past
@@ -61,27 +61,27 @@ function setupGalleries() {
 			
 			if (panel.hasClass('light')) {
 				// is this scene's bg light and the next scene's bg light? if so, make gallery background light
-				console.log('scene %i of %i: not last scene', sceneNumber, sceneCount - 1);
-				console.log('transition gallery bg to white bg at scene %i', sceneNumber);
+				// console.log('scene %i of %i: not last scene', sceneNumber, sceneCount - 1);
+				// console.log('transition gallery bg to white bg at scene %i', sceneNumber);
 				timeline
 				.add(TweenMax
 					.to(gallery, 0.1, {
 						backgroundColor: '#ccc'
-					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to white start');}
-					,	onStartParams: [sceneNumber]
+// 					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to white start');}
+// 					,	onStartParams: [sceneNumber]
 					})
 				,	fadeInStartLabel
 				);
 			}
 			else {
-				console.log('scene %i of %i: IS last scene', sceneNumber, sceneCount - 1);
-				console.log('transition gallery bg to black bg at scene %i', sceneNumber);
+				// console.log('scene %i of %i: IS last scene', sceneNumber, sceneCount - 1);
+				// console.log('transition gallery bg to black bg at scene %i', sceneNumber);
 				timeline
 				.add(TweenMax
 					.to(gallery, 0.1, {
 						backgroundColor: '#000'
-					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to black start');}
-					,	onStartParams: [sceneNumber]
+// 					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to black start');}
+// 					,	onStartParams: [sceneNumber]
 					})
 				,	fadeInStartLabel
 				);
@@ -89,7 +89,7 @@ function setupGalleries() {
 			
 			if (currContent.length > 0) {
 			
-				console.log('fading text only');
+				// console.log('fading text only');
 				// console.log(currContent.text());
 				
 				wrap = currContent.wrap('<div class="content-wrapper"></div>').parent();
@@ -99,24 +99,24 @@ function setupGalleries() {
 				.add(TweenMax
 					.from(panel, 1, {
 						autoAlpha: 0
-					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade in start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade in complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade in start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade in complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					,	ease: Power4.easeInOut
 					})
-				,	fadeInStartLabel
+				,	scrollInStartLabel
 				)
 				.add(TweenMax
 					.to(panel, 1, {
 						autoAlpha: 0
-					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade out start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade out complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade out start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade out complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					,	ease: Power4.easeInOut
 					})
-				, fadeOutStartLabel
+				, scrollOutStartLabel
 				)
 				;
 				
@@ -124,7 +124,7 @@ function setupGalleries() {
 			
 			if (currCaption.length > 0) {
 			
-				console.log('scrolling text')
+				// console.log('scrolling text')
 				// console.log($('.caption', panel).text());
 				
 				timeline
@@ -132,10 +132,10 @@ function setupGalleries() {
 					.from(currCaption, 1, {
 						top: '100%'
 					,	autoAlpha: 0
-					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					})
 				,	scrollInStartLabel
 				);
@@ -145,10 +145,10 @@ function setupGalleries() {
 					.to(currCaption, 2.5, {
 						top: '-100%'
 					,	autoAlpha: 0
-					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					})
 				,	scrollOutStartLabel
 				);
@@ -157,16 +157,16 @@ function setupGalleries() {
 
 			if (currMedia.length > 0) {
 			
-				console.log('fading image')
+				// console.log('fading image')
 				// add each step at each each frame
 				timeline
 				.add(TweenMax
 					.from(currMedia, 1, {
 						autoAlpha: 0
-					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					})
 				,	fadeInStartLabel
 				);
@@ -175,10 +175,10 @@ function setupGalleries() {
 				.add(TweenMax
 					.to(currMedia, 1, {
 						autoAlpha: 0
-					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
-					,	onStartParams: [sceneNumber]
-					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
-					,	onCompleteParams: [sceneNumber]
+// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
+// 					,	onStartParams: [sceneNumber]
+// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
+// 					,	onCompleteParams: [sceneNumber]
 					})
 				, fadeOutStartLabel
 				);
@@ -194,7 +194,7 @@ function setupGalleries() {
 		.setPin(gallery)
 		.setTween(timeline)
 		.addTo(controller)
-		.addIndicators({suffix: 'scene'})
+// 		.addIndicators({suffix: 'scene'})
 		;
 		
 	});

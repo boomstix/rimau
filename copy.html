@@ -4,19 +4,17 @@
 	<meta charset="utf-8"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Operation Rimau experiment</title>
-	<!--link href="/experiment/foundation-essentials-5.2.3/css/foundation.min.css" rel="stylesheet" type="text/css" /-->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css" />
-	<!--link href="http://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet" type="text/css"-->
-	<link href="/experiment/normalize.css-master/normalize.css" rel="stylesheet" type="text/css" />
-	<script src="/assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
-	<script src="/assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
-	<script src="/experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
-	<script src="/experiment/iscroll-master/build/iscroll.js" type="text/javascript"></script>
-	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
-	<script src="/experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
-	<script src="/assets/html5/galleries.js" type="text/javascript"></script>
-	<script src="/assets/html5/q-and-a.js" type="text/javascript"></script>
-	<script src="/assets/html5/portrait.js" type="text/javascript"></script>
+	<link href="experiment/normalize.css-master/normalize.css" rel="stylesheet" type="text/css" />
+	<script src="assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
+	<script src="assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
+	<script src="experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
+	<script src="experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+	<script src="assets/html5/sequence.js" type="text/javascript"></script>
+	<script src="assets/html5/galleries.js" type="text/javascript"></script>
+	<script src="assets/html5/q-and-a.js" type="text/javascript"></script>
+	<script src="assets/html5/portrait.js" type="text/javascript"></script>
 <style>
 html, body {
 	height: 100%;
@@ -69,7 +67,7 @@ ul.nav li {
 }
 
 .text-center,
-h1, h2 {
+h1, h2, h3 {
 	text-align: center;
 }
 
@@ -173,6 +171,7 @@ dt, dd {
 	.gallery.portrait .panel .caption {
 		margin-left: auto;
 	}
+	.panel .content.memorial,
 	.panel .content {
 		padding: 4em;
 		max-width: 920px;
@@ -384,7 +383,7 @@ function fixImageDims() {
 			correction.left = (d.w - i.w) / 2;
 		}
 		correction.top = (d.h - i.h) / 2;
-		console.log('body: w:%o h:%o, img: w:%o h:%o corr: %o', d.w, d.h, i.w, i.h, correction);
+		// console.log('body: w:%o h:%o, img: w:%o h:%o corr: %o', d.w, d.h, i.w, i.h, correction);
 		media.css(correction);
 	});
 	$('.caption').css('bottom', '10%');
@@ -403,6 +402,8 @@ $(function() {
 		$(window).on('resize', fixImageDims);
 	
 		$(window).trigger('resize');
+		
+		setupSequences();
 		
 		setupGalleries();
 	
@@ -435,10 +436,10 @@ $(function() {
 				</div>
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="#section-1">The Plan</a></li>
-						<li><a href="#section-2">A &lsquo;Safe&rsquo; Island</a></li>
-						<li><a href="#section-3">The Mission</a></li>
-						<li><a href="#section-5">Aftermath</a></li>
+						<li><a href="#section-1">The Mission</a></li>
+						<li><a href="#section-2">Launch</a></li>
+						<li><a href="#section-3">Pursued</a></li>
+						<li><a href="#section-5">Singapore</a></li>
 					</ul>
 				</div>
 			</div>
@@ -454,16 +455,20 @@ $(function() {
 			
 		<div class="sequence">
 		
-			<div class="panel bg">
-				<div class="media">
-					<img src="/assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
+			<div class="panel">
+				<div class="media" data-video="00017_0_hero">
+					<img src="assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
 				</div>
 				<div class="content">
-					<h1>Operation Rimau: The True Account of a Secret WWII Raid.</h1>
+					<p>
+					Not long after midnight &ndash; on 11 September 1944 &ndash; a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.
+					</p>
 				</div>
-			</div>
-			
-			<div class="panel">	
+				
+				<div class="content">
+					<h3>Operation Rimau: The True Account of a Secret WWII Raid.</h3>
+				</div>
+
 				<div class="content">
 					<ul class="credits">
 					<li>Written by M. J. Hyland</li>
@@ -475,31 +480,13 @@ $(function() {
 					<li>Produced by SBS Online</li>
 					</ul>
 				</div>
+				
 			</div>
 			
 		</div>
 		
 		<div class="gallery old">
 		
-			<div class="panel dark">
-				<div class="content">
-					<p>
-					Not long after midnight &ndash; on 11 September 1944 &ndash; a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.
-					</p>
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/porpoise.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					An image of the Porpoise.
-					</p>
-				</div>
-			</div>
-			
 			<div class="panel dark">
 				<div class="content">
 					<p>
@@ -510,7 +497,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/training-video-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/training-video-placeholder.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
@@ -526,34 +513,19 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/sleeping-beauty-submerging.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Sleeping Beauty - submerging
-					</p>
+					<img src="assets/stills/content/sleeping-beauty-submerging.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/sleeping-beauty-development.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Sleeping Beauty - Development
-					</p>
+					<img src="assets/stills/content/sleeping-beauty-development.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/sleeping-beauty-profile.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Sleeping Beauty - Profile
-					</p>
+					<img src="assets/stills/content/sleeping-beauty-profile.jpg" class="res" alt="" />
 				</div>
 			</div>
 
@@ -565,10 +537,32 @@ $(function() {
 				</div>
 			</div>
 			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/norman-wallace.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<blockquote>
+					When we first came across the Sleeping Beauties,<br/> we thought &lsquo;this is going to be interesting&rsquo;.
+					</blockquote>
+				</div>
+			</div>
+
+			<div class="panel video-content">
+				<div class="media">
+					<img src="assets/stills/content/norman-wallace-video-placeholder.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<p>
+					Interview with Norman Wallace
+					</p>
+				</div>
+			</div>
+		
 			<div class="panel video-content">
 				<a id="1.3"></a>
 				<div class="media">
-					<img src="/assets/stills/content/sleeping-beauty-video-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/sleeping-beauty-video-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p><b>5 x chapterised documentary</b></p>
@@ -586,45 +580,25 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/plan-z-page-1.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/plan-z-page-1.jpg" class="res" alt="" />
 				</div>
 			</div>
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/plan-z-page-2.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/plan-z-page-2.jpg" class="res" alt="" />
 				</div>
 			</div>
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/plan-z-page-3.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/plan-z-page-3.jpg" class="res" alt="" />
 				</div>
 			</div>
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/plan-z-page-4.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/plan-z-page-4.jpg" class="res" alt="" />
 				</div>
 			</div>
 
@@ -658,7 +632,7 @@ $(function() {
 		<div class="portrait">
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-page.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-page.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -669,7 +643,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-carey.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-carey.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -680,7 +654,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-falls.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-falls.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -691,7 +665,7 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-hardy.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-hardy.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -702,18 +676,18 @@ $(function() {
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-sargent.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-sargent.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Lieutenant A.L. (‘Blondie’) Sargent,<br/>
+					Lieutenant A.L. (‘Blondie&rsquo;) Sargent,<br/>
 					AIF, VX15290
 					</p>
 				</div>
 			</div>
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/portrait-davidson.jpg" class="" alt="" />
+					<img src="assets/stills/content/portrait-davidson.jpg" class="" alt="" />
 				</div>
 				<div class="caption">
 					<p>
@@ -737,52 +711,44 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/jaywick-aboard-1.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/jaywick-canoe.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/jaywick-aboard-2.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/jaywick-boat.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/jaywick-aboard-3.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+					<img src="assets/stills/content/jaywick-crew.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/jaywick-celebrations.jpg" class="res" alt="" />
+					<img src="assets/stills/content/jaywick-aboard-1.jpg" class="res" alt="" />
 				</div>
-				<div class="caption">
-					<p>
-					Potential caption
-					</p>
+			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/jaywick-aboard-2.jpg" class="res" alt="" />
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/jaywick-celebrations.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
 			<div class="panel light">
 				<div class="content">
 					<p>
-					Fourteen commandos paddled in canoes to Singapore Harbour, attached limpet mines to the hulls of ships and destroyed more than 36,000 tonnes of essential Japanese shipping.
+					Between <strong>September &ndash; October 1943</strong>, six commandos paddled in canoes to Singapore Harbour, attached limpet mines to the hulls of ships and destroyed more than 36,000 tonnes of essential Japanese shipping.
 					</p>
 					<p>
 					<strong>Though Jaywick was a triumph, and its crew decorated, the outcome remained top-secret.</strong>
@@ -790,56 +756,45 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/norman-wallace.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Quote from interview with Norman Wallace
-					</p>
-				</div>
-			</div>
-
-			<div class="panel video-content">
-				<div class="media">
-					<img src="/assets/stills/content/norman-wallace-video-placeholder.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Interview with Norman Wallace
-					</p>
-				</div>
-			</div>
-		
 		<a id="1.7"></a>
 		
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/lyon-1.jpg" class="res" alt="" />
+					<img src="assets/stills/content/lyon-1.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<h3>Rimau&rsquo;s Commander</h3>
 					<p> 
-					Ivan Lyon was commander of Jaywick and now, he is commander of &lsquo;Rimau&rsquo; (the Malay word for tiger &ndash; chosen because of the large multi-coloured tiger-head tattoo on Lyon&rsquo;s chest). 	Lyon&rsquo;s track-record is maverick but impressive and he&rsquo;s spent months pushing for the launch of this second raid in spite of grave concerns &ndash; not least of all that, so soon after Jaywick, the enemy will be on high and vengeful alert. 
-					</p>		
-				</div>
-			</div>
-
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/lyon-2.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Five months before the Rimau launch, Lyon gets news: his wife and child are being held at Fukushima Civilian Interment Camp. Lyon&rsquo;s determination is potent and powerful; driven by professional and personal reasons. The crew knows this, and they know Lyon will work them like the blazes &ndash; but they trust and respect him enough to follow him into wretched waters.
+					Ivan Lyon was commander of Jaywick and now, he is commander of &lsquo;Rimau&rsquo; (the Malay word for tiger &ndash; chosen because of the large multi-coloured tiger-head tattoo on Lyon&rsquo;s chest).
 					</p>
 				</div>
 			</div>
 
 			<div class="panel">
-				<div class="content">
-					<img src="/assets/stills/content/lyon-newspaper.jpg" class="res" alt="" />
+				<div class="media">
+					<img src="assets/stills/content/lyon-2.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<p>
+					Lyon&rsquo;s track-record is maverick but impressive and he&rsquo;s spent months pushing for the launch of this second raid in spite of grave concerns &ndash; not least of all that, so soon after Jaywick, the enemy will be on high and vengeful alert.
+					</p>
+				</div>
+			</div>
+
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/roma-page.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<p>
+					It should have been cancelled.
+					</p>
+				</div>
+			</div>
+			
+			<div class="panel video-content">
+				<div class="media">
+					<p><b>Roma Video</b></p>
 				</div>
 			</div>
 			
@@ -853,7 +808,7 @@ $(function() {
 				<div class="panel bg">
 					<a id="2.1"></a>
 					<div class="media">
-						<img src="/assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
+						<img src="assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
 					</div>
 					<div class="content">
 						<h2>Merapas: A &lsquo;Safe&rsquo; Island</h2>
@@ -864,12 +819,13 @@ $(function() {
 		<div class="sequence">
 		
 			<div class="panel">
+				<a id="2.2"></a>
 				<div class="media">
-					<img src="/assets/stills/content/sandy-beach-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
 				</div>
-
+				
 				<div class="content">
-					<h4>Merapas: Position &ndash; approximately 00&deg;56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h4>
+					<h3>Merapas: Position &ndash; approximately 00&deg;56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h3>
 				</div>
 
 				<div class="content">
@@ -880,9 +836,15 @@ $(function() {
 			</div>
 		
 			<div class="panel">
+				<div class="content">
+					<img src="assets/stills/content/porpoise-dock.jpg" class="res" alt="" />
+				</div>
+			</div>
+
+			<div class="panel">
 				<a id="2.2"></a>
 				<div class="media">
-					<img src="/assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -897,7 +859,7 @@ $(function() {
 			<div class="panel">
 				<a id="2.3"></a>
 				<div class="media">
-					<img src="/assets/stills/content/jungle-inhabitants-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/jungle-inhabitants-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<blockquote>
@@ -906,8 +868,13 @@ $(function() {
 				</div>
 			</div>
 			
-			<div class="panel light">
+			<div class="panel">
 				<a id="2.4"></a>
+				
+				<div class="media">
+					<img src="assets/stills/content/jungle-foliage.jpg" class="res" alt="" />
+				</div>
+				
 				<div class="content">
 					<p>
 					Walter Carey is asked to act as watchman on Merapas and he&rsquo;s equipped with a silenced Sten rifle and a revolver. The rest of the crew set out in Porpoise in search of a local fishing boat for capture.
@@ -916,14 +883,7 @@ $(function() {
 					&ldquo;Lonely job, which I don&rsquo;t envy him, in the least.&rdquo;
 					</blockquote>
 				</div>
-			</div>
 
-
-			<div class="panel">
-				<a id="2.5"></a>
-				<div class="media">
-					<img src="/assets/stills/content/rocky-shore-placeholder.jpg" class="res" alt="" />
-				</div>
 				<div class="content">
 					<h4>September 27</h4>
 					<p>
@@ -932,11 +892,19 @@ $(function() {
 					<blockquote>
 					&ldquo;&hellip;the absence of boats is&hellip;unexpected and annoying&hellip;&rdquo; and &ldquo;&hellip;it will be just hell if junks have decided to go inland for some peculiar reason&hellip;&rdquo; 
 					</blockquote>
+				</div>
+				
+				<div class="content">
 					<p>
 					Davidson&rsquo;s frustration is worsening; he&rsquo;d seen plenty of native boats, just a year ago, and in &ldquo;&hellip;the vicinity of the Borneo coast&rdquo;.
 					</p>
 				</div>
+				
 			</div>
+			
+		</div>
+		
+		<div class="gallery">
 
 			<div class="panel light">
 				<div class="content">
@@ -948,12 +916,14 @@ $(function() {
 					</blockquote>
 				</div>
 			</div>
+			
+		</div>
 
-
+		<div class="sequence">
 			<div class="panel">
 				<a id="2.6"></a>
 				<div class="media">
-					<img src="/assets/stills/content/mustika-sketch-1.jpg" class="res" alt="" />
+					<img src="assets/stills/content/mustika-sketch-1.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -968,7 +938,7 @@ $(function() {
 
 			<div class="panel light">
 				<div class="media">
-					<img src="/assets/stills/content/mustika-sketch-2.jpg" class="res" alt="" />
+					<img src="assets/stills/content/mustika-sketch-2.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<blockquote>
@@ -981,51 +951,33 @@ $(function() {
 					</blockquote>
 				</div>
 			</div>
-
 		
-			<div class="panel light">
+			<div class="panel">
 				<a id="2.7"></a>
-				<div class="content">
+				<div class="media">
+					<img src="assets/stills/content/mustika-boarding.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
 					<p>
-					The men capture and board the Mustika and on 30 September, Davidson writes:
+					The men capture and board the Mustika, and on <strong>30 September</strong>, Davidson writes:
 					</p>
-
-					<blockquote>
-					&ldquo;PORPOISE came alongside after dark and took us in tow. Loaded 7 SBs and 2 containers of stores. PORPOISE cast off at about 0300.&rdquo; 
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/mustika-profile.jpg" class="res" alt="" />
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/mustika-loading.jpg" class="res" alt="" />
+				</div>
+				<div class="caption">
+					<blockqoute>
+					&ldquo;PORPOISE came alongside after dark and took us in tow.  Loaded 7 SBs and 2 containers of stores.  PORPOISE cast off at about 03:00.&rdquo;
 					</blockquote>
-				</div>
-			</div>
-
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/mustika-boarding.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Boarding the Mustika
-					</p>
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/mustika-profile.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					The Mustika
-					</p>
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/mustika-loading.jpg" class="res" alt="" />
-				</div>
-				<div class="caption">
-					<p>
-					Loading the Mustika
-					</p>
 				</div>
 			</div>
 
@@ -1044,7 +996,7 @@ $(function() {
 	<section id="section-3">
 
 			<div class="panel">
-				<h2>The Mission</h2>
+				<h2>Pursued</h2>
 				<h3>1<sup>st</sup> October 1944</h3>
 				<p><b>(Interactive map)</b></p>
 			</div>
@@ -1054,7 +1006,7 @@ $(function() {
 			<div class="panel">
 				<a id="2.8"></a>
 				<div class="media">
-					<img src="/assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1066,12 +1018,12 @@ $(function() {
 			<div class="panel">
 				<a id="2.9"></a>
 				<div class="media">
-					<img src="/assets/stills/content/open-water-2-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/open-water-2-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<h4>October 10, 1944.</h4>
 					<p>
-					Ten long days later the crew are making good progress and nearing their target &ndash; they are within reach of the final act: the raid on Japanese ships &ndash; and then, disaster strikes. As they sail toward the Island of Kasu the crew comes too close to a township obscured from the south-west. 
+					Ten long days later the crew are making good progress and nearing their target &ndash; they are within reach of the final act: the raid on Japanese ships &ndash; and then, disaster strikes. As they sail past the Island of Kasu, the crew sails too close to a township that they hadn&rsquo;t seen until it was too late.
 					</p>
 				</div>
 				<a id="2.10"></a>
@@ -1082,10 +1034,9 @@ $(function() {
 				</div>
 			</div>
 
-
 			<div class="panel dark">
 				<div class="content">
-					<p>
+					<p class="text-center">
 					There is no chance of a stealth attack on Singapore Harbour now and Lyon calls off the mission.
 					</p>
 				</div>
@@ -1094,6 +1045,7 @@ $(function() {
 			<div class="panel dark">
 				<a id="3.1"></a>
 				<div class="content">
+					<h4>10 October 1944</h4>
 					<p>
 					The men split into four groups and, in dinghies, head for Merapas. This is their best hope for survival, the only chance to reach the Tantalus submarine, and the rescue party: the &ldquo;pickup crew&rdquo;
 					</p>
@@ -1103,10 +1055,10 @@ $(function() {
 			<div class="panel">
 				<a id="3.2"></a>
 				<div class="media">
-					<img src="/assets/stills/content/takes-a-risk.jpg" class="res" alt="" />
+					<img src="assets/stills/content/takes-a-risk.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
-					<h4>16 October 1944</h4>
+					<h4>15 October 1944</h4>
 					<p>
 					One of the smaller groups, led by Lyon, takes a risk. They ask locals on Pangkil Island about Japanese shipping. The locals report their encounter to the Japanese, and Lyon, and his men, are tracked down by a Japanese vessel.
 					</p>
@@ -1116,7 +1068,7 @@ $(function() {
 			<div class="panel">
 				<a id="3.3"></a>
 				<div class="media">
-					<img src="/assets/stills/content/theres-a-battle.jpg" class="res" alt="" />
+					<img src="assets/stills/content/theres-a-battle.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1128,7 +1080,7 @@ $(function() {
 			<div class="panel">
 				<a id="3.4"></a>
 				<div class="media">
-					<img src="/assets/stills/content/those-who-are-not-killed.jpg" class="res" alt="" />
+					<img src="assets/stills/content/those-who-are-not-killed.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1136,11 +1088,36 @@ $(function() {
 					</p>
 				</div>
 			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="">
+				</div>
+				<div class="content">
+					<p>
+					With the men hounded out of their Merapas base by the Japanese patrol, they face a long and arduous journey through occupied waters to Australia.
+					</p>
+					<p>
+					None of the extensive planning for the mission covered a long escape.  The men are on their own in the South China Sea, still to the north of the Equator, more than two thousand kilometres back to Australia through the hostile, busy shipping lanes.  It seems that the men divided into two groups in their haste to escape the Japanese.
+					</p>
+				</div>
+			</div>
+
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="">
+				</div>
+				<div class="content">
+					<p>
+					The first travel comparatively swiftly on small fishing boats, even commandeering a larger junk from an unwilling crew.  The second paddle in their mates' wake from island to island, hoping to avoid discovery, waiting for a chance to make a break for Australia.
+					</p>
+				</div>
+			</div>
 
 			<div class="panel dark">
 				<div class="content">
 					<p class="text-center">
-					Only a few escape to neighbouring islands.
+					None make it home.
 					</p>
 				</div>
 			</div>
@@ -1154,42 +1131,19 @@ $(function() {
 				<h3>&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h3>
 				<p>All sentences inside quotations are from Walter Chapman&rsquo;s report.</p>
 				<p>
-				The Tantalus rescue vessel and the &ldquo;pick up crew&rdquo; &ndash; Major Walter Chapman and Corporal Ron Croton &ndash; finally arrives at Merapas. It's after midnight, the moon has set, the sky is cloudless and visibility is fair. 
+				The <strong>Tantalus</strong> submarine finally arrives at <strong>Merapas</strong>. After midnight Major Walter Chapman and Corporal Ron Croton paddle silently through the cloudless night. But the weather is foul. Heavy surf breaks on the rocky shore of the northern beaches, forcing a lengthy paddle around the island. It&rsquo;s 0200 hours before they land, hiding their boat in the foreshore scrub.
 				</p>
 				<p>
-				The search halts when the weather turns foul: heavy surf and rising tides. The pick-up party takes the Tantalus for a &ldquo;lie off&rdquo; until the swell settles but &ldquo;&hellip;at 15 to 20 yards off the shore it is obvious that it would not be worth the risk of attempting a landing.&rdquo; The search party heads toward &ldquo;the lee side of Punai Pt.&rdquo; where &ndash; at 0200 hours &ndash;  they hide their kayak in the foreshore scrub.
+				The men scrabble up the hill to the &lsquo;Hammock Tree&rsquo; &mdash; a prominent tree used to signal boats offshore &mdash; in the dark, arriving four and half hours after they had left the submarine, grateful that the Japanese are not waiting for them. Tired from long weeks cooped up in the submarine, the men rest until first light. 
 				</p>
 				<p>
-				And yet there are signs of hope: the pick-up crew find the &ldquo;Hammock tree&rdquo;, &ldquo;the rendezvous point&rdquo; of the Rimau crew. At 0435 hours, the two men are &ldquo;rather tired" and the party is &ldquo;laid up for an hour&hellip;&rdquo; (Croton has spent 38 days in the submarine and Chapman, 69 days, with a break of 4 days). After a rest, &ldquo;at first light&rdquo; they go on with the search, and they do this even though they know something &ldquo;untoward has occurred&rdquo;: None of the Rimau men are waiting.
+				A search finds nothing to indicate the presence of the men. Making their way quietly down the hill, the pair come upon a camp in disarray. Ration tins have been abandoned on the ground, some still containing uneaten food, fires kicked out. It is clear that the men whom Chapman had watched sail off on the <strong>Mustika</strong> had returned to the island, the heavy iron cooking bowl from the boat was among the debris.
 				</p>
 				<p>
-				The pick-up crew find nothing but a few pieces of silver wrapping paper near the Hammock tree &ldquo;&hellip;from chocolate rations&hellip;&rdquo; Yet, they go on &ndash; head up the hill and ridge to the East where there is &ldquo;&hellip;no trace of habitation&hellip;&rdquo; except a &ldquo;disused path&rdquo; and a scrawny &ldquo;&hellip;pi-dog type&hellip;&rdquo; It sniffs at the men and walks away. 
+				Yet something is clearly wrong. Hidden in the undergrowth is a small rake used to sweep over footprints in the sand, a tool beloved by Davidson &mdash; would he have left it behind? There was also a bunch of bananas Chapman judged to have been cut two weeks ago &mdash; why leave them behind and why leave such a mess? There seemed to be only one conclusion, yet there was no obvious evidence of a skirmish.
 				</p>
 				<p>
-				&ldquo;No signs of a fight were apparent&rdquo;, Chapman puzzles. &ldquo;No spent cartridges&hellip; no bodies or signs of burial&rdquo;, and there are no &ldquo;&hellip;signs of enemy occupation.&rdquo; And though the men are bone-tired now, they head for the swamp area and where find two water holes&ndash; both well-concealed, both dug under low trees. The holes are &ldquo;&hellip;about 100 feet apart, each 2 feet in diameter&rdquo;.
-				</p>
-				<p>
-				The rescue team finds:
-				</p>
-				<ul>
-					<li>an empty 02 Ration tin,</li>
-					<li>a sweat rag,</li>
-					<li>an empty beer bottle: &ldquo;&hellip;probably off the junk&hellip;&rdquo;,</li>
-					<li>empty cardboard packets of Three Castles Cigarettes,</li>
-					<li>a bunch of cut unripe bananas,</li>
-					<li>the lid of a Dixie, &ldquo;&hellip;obviously used as bailers&hellip;&rdquo;,</li>
-					<li>a bandage hanging on a tree overlooking the first hole,</li>
-					<li>two bailing tins &ldquo;&hellip;made from Compo Ration tins cut in half&hellip;&rdquo; perhaps used for washing,</li>
-					<li>six food cooking in tins (marked &ldquo;Base A&rdquo;),</li>
-					<li>fires that had been &ldquo;&hellip;kicked out&hellip;&rdquo;,
-					and an unfinished shelter with  &ldquo;&hellip;interlaced palm leaf (as) covering&hellip;" and a palm leaf floor,</li>
-					<li>a broken drinking bowl &ldquo;&hellip;originally owned by the Malays from the Junk&hellip;&rdquo;,</li>
-					<li>an oil can &ndash; &ldquo;&hellip;part of the S.B. maintenance kit&hellip;&rdquo;</li>
-				</ul>
-				<p>
-				The signals are confusing: no foot prints and the earth is smooth, but there are &ldquo;two obvious paths&hellip;&rdquo; heading to &ldquo;the back of the pool area&rdquo; up-hill; clear of the swamp. Maybe the men are alive after all &ndash; have camped further up the hill and the pick-up crew see something in the clearing &ndash; the makings of a &ldquo;&hellip;large lean-to shelter&hellip; our party had been living in&rdquo;. 
-				</p>
-				<p>The two rescuers take a final path, but find nothing but broken pieces of a drinking bowl and pieces of silver paper. And, after all that, the news seems bad: the "&hellip;main dump of stores was not found, nor any trace of where it had been&hellip;" and at 2200, the Tantalus comes back and the pick-up crew paddle out to her. Chapman reports his meeting with the Commanding Officer: &ldquo;&hellip;it was agreed that no further purpose would be served by returning next night&rdquo; and &ldquo;reluctantly the pickup was abandoned.&rdquo;
+				Paddling back to the submarine the next night, Chapman reported the grim news. The men would not make their rendezvous, and &lsquo;it was agreed that no further purpose would be served by returning next night&rsquo;.
 				</p>
 			</div>
 		</div>
@@ -1201,7 +1155,7 @@ $(function() {
 		<div class="sequence">
 			<div class="panel">
 				<div class="content">
-					<h2>Aftermath</h2>
+					<h2>Singapore</h2>
 					<h3>Dates?</h3>
 				</div>
 			</div>
@@ -1209,40 +1163,34 @@ $(function() {
 				<a id="5.1"></a>
 				<div class="content">
 					<p>
-					The ten surviving men &ndash; those not killed in skirmishes on the islands, during escapes and who haven&rsquo;t drowned &ndash; are captured and taken by the Japanese to Outram Road Gaol. They wait for their trial &lsquo;for espionage&rsquo; in filthy cells, sometimes hanging by their wrists from chains bolted to the walls. 
+					The ten surviving men &mdash; those not killed in skirmishes on the islands, during escapes and who haven&rsquo;t drowned &mdash; are captured and taken by the Japanese to <strong>Outram Road Gaol</strong> where they await their trial &lsquo;for espionage&rsquo;. The Gaol is filthy, with cruel chains bolted from the walls used to hang prisoners. 
 					</p>
-
 					<p>
 					They suffer the same, stink the same, and look the same: there&rsquo;s no soap or water and with no shaving, all the men have long beards and knotted hair. 
 					</p>
 					<p>
-					<p>
-					In the final weeks, though hungry and in pain, there are moments of soaring hope for freedom. The men find small, sly ways to cheer the rumours they&rsquo;ve heard of allied victory: turn away from guards, huddle and share their fantasies of reunions, and in joint imagining, it&rsquo;s all as good as real.
-					</p>
-					<p>
-					At the local pub, down the beach, at picnics with wives and 
-					children; the details so clear and true that Bob Page can feel the soft skin of Roma&rsquo;s arms &ndash; and when she says his name, he knows her strength. It&rsquo;s as though she could still stop him from setting off on the treacherous mission; just as she&rsquo;d told him in the first place. (See Furuta 21 October 1945.)
+					In the final weeks, though hungry and in pain, there are moments of soaring hope for freedom. The men find small, sly ways to cheer the rumours they&rsquo;ve heard of allied victory: details so clear and true that Bob Page can feel the soft skin of Roma&rsquo;s arms &mdash; and when she says his name, he knows her strength. It&rsquo;s as though she could still stop him from setting off on the treacherous mission; just as she&rsquo;d told him in the first place. 
 					</p>
 				</div>
 			</div>
+			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/roma-page.jpg" class="res" alt="" />
+					<img src="assets/stills/content/roma-page.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
 					<p>
-					Interview with Roma Page
+					There were headlines in the paper that were a terrible shock.
 					</p>
 				</div>
 			</div>
-		</div>
-
-		<div class="video-content">
-			<div class="panel">
+			
+			<div class="panel video-content">
 				<div class="media">
 					<p><b>Roma Video</b></p>
 				</div>
 			</div>
+			
 		</div>
 
 		<div class="q-and-a">
@@ -1251,6 +1199,8 @@ $(function() {
 				<div class="content">
 					<p>All text from the trial transcripts of Captain Robert Page:</p>
 					<h4>CAPTAIN PAGE</h4>
+					<h4>3 July, 1944</h4>
+
 					<dl>
 					<dt>Question 1: Is there any point that you wish to object among the charges that were read for you just now?</dt>
 					<dd>Answer 1:	 no, there is none. They are quite correct.</dd>
@@ -1271,11 +1221,11 @@ $(function() {
 			</div>
 		</div>
 
-		<div class="sequence">
+		<div class="gallery">
 			<div class="panel">
 				<a id="5.5"></a>
 				<div class="media">
-					<img src="/assets/stills/content/robert-page.jpg" class="res" alt="" />
+					<img src="assets/stills/content/robert-page.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1289,7 +1239,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="media">
-					<img src="/assets/stills/content/mackie-stewart-tbc.jpg" class="res" alt="" />
+					<img src="assets/stills/content/mackie-stewart-tbc.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<p>
@@ -1301,7 +1251,7 @@ $(function() {
 				</div>
 			</div>
 			
-			<div class="panel">
+			<div class="panel dark">
 				<div class="content">
 					<p>
 					No mercy is permitted, in part because the Japanese interpret the mission&rsquo;s &lsquo;crimes&rsquo; in strict accordance to their particular martial code of heroism. They liken the Rimau men to Japanese who died in the failed 1942 Japanese submarine raid on Sydney harbour:
@@ -1309,6 +1259,11 @@ $(function() {
 					<blockquote>
 					&ldquo;We do not hesitate to call them the real heroes of forlorn hope&rdquo;
 					</blockquote>
+				</div>
+			</div>
+			
+			<div class="panel dark">
+				<div class="content">
 					<blockquote>
 					&ldquo;The last moment of a hero must be glorious. It must be historic and it must be dramatic. Heroes have more regard for their reputation than anything else. This is the feeling of the Japanese people&rsquo;
 					</blockquote>
@@ -1324,21 +1279,17 @@ $(function() {
 					<p>
 					Ten Rimau men are buried in three graves, each grave four-foot deep. Five are blindfolded and one is &lsquo;partially&rsquo; decapitated. No identification is found with the men, and none wear shoes or boots. The site of burial is &lsquo;thick scrub on the shoulder of a hill&rsquo; and marked by two brown, wooden crosses.
 					</p>
-					<p>
-					The Rimau men are exhumed and moved to Singapore&rsquo;s Kranji Cemetery on
+				</div>
+			</div>
+			
+			<div class="panel">
+				<div class="media">
+					<img src="assets/stills/content/war-graves-video-placeholder.jpg" class="res" alt="" />
+				</div>
+				<div class="content">
+					<p class="text-center">
+					The Rimau men are exhumed on 21 November and then reburied in Singapore&rsquo;s Kranji Cemetery.
 					</p>
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/execution.jpg" class="res" alt="" />
-				</div>
-			</div>
-			
-			<div class="panel">
-				<div class="media">
-					<img src="/assets/stills/content/war-graves-video-placeholder.jpg" class="res" alt="" />
 				</div>
 			</div>
 			
@@ -1348,53 +1299,91 @@ $(function() {
 	
 	<section>
 
-		<div class="panel">
-			<div class="content memorial">
+		<div class="gallery">
+		
+			<div class="panel">
+				<div class="content memorial">
+			
+					<h3>Full Details of All Men who Embark on Rimau</h3>
+					<h4>Australians</h4>
+					<ul class="memorial">
+					<li><a href="http://soda.naa.gov.au/record/6065194/1"><strong>Sergeant C.B. (Colin) Cameron</strong>, <br/>AIF, VX81605</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4838369/1"><strong>Corporal A.G.P. (Archie) Campbell</strong>, <br/>AIF, QX5791</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4640537/1"><strong>Lieutenant Walter G. Carey</strong>, <br/>AIF, NX58159</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6469177/1"><strong>Corporal C.M. (Colin) Craft</strong>, <br/>WX11688</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4548357/1"><strong>Able Seaman W.G. (Wally) Falls</strong>, <br/>S/6543</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4620324/1"><strong>Corporal R.B. (Ron) Fletcher</strong>, <br/>AIF, NX80005</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6096655/1"><strong>Sergeant D.B. (David) Gooley</strong>, <br/>AIF VX109893</a></li>
+					<li><a href="http://soda.naa.gov.au/record/5628180/1"><strong>Lance-Corporal J.T. (Jack) Hardy</strong>, <br/>AIF, NX140476</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4425433/1"><strong>Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston</strong>, <br/>Royal Australian Naval Reserve, B3312</a></li>
+					</ul>
+				</div>
+			</div>
 
-				<h4>Australians</h4>
-				<ul class="memorial">
-				<li><a href="http://soda.naa.gov.au/record/6065194/1">Sergeant C.B. (Colin) Cameron, <br/>AIF, VX81605</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4838369/1">Corporal A.G.P. (Archie) Campbell, <br/>AIF, QX5791</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4640537/1">Lieutenant Walter G. Carey, <br/>AIF, NX58159</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6469177/1">Corporal C.M. (Colin) Craft, <br/>WX11688</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4548357/1">Able Seaman W.G. (Wally) Falls, <br/>S/6543</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4620324/1">Corporal R.B. (Ron) Fletcher, <br/>AIF, NX80005</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6096655/1">Sergeant D.B. (David) Gooley, <br/>AIF VX109893</a></li>
-				<li><a href="http://soda.naa.gov.au/record/5628180/1">Lance-Corporal J.T. (Jack) Hardy, <br/>AIF, NX140476</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4425433/1">Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston, <br/>Royal Australian Naval Reserve, B3312</a></li>
-				<li><a href="http://soda.naa.gov.au/record/5410466/1">Able Seaman F.W.L. (Fred &lsquo;Boof&rsquo;) Marsh, <br/>Royal Australian Naval Reserve, A6770</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4497549/1">Corporal H.J. (Hugo) Pace, <br/>AIF</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4618017/1">Captain Robert C. Page, AIF, <br/>NX19158</a></li>
-				<li><a href="http://soda.naa.gov.au/record/5423003/1">Lieutenant B.P. (Bruno) Reymond, <br/>RANR, A6769</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6203373/1">Lieutenant A.L. (&lsquo;Blondie&rsquo;) Sargent, <br/>AIF, VX15290</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6466169/1">Corporal C.M. (Clair Mackie) Stewart, <br/>AIF, WX15839</a></li>
-				<li><a href="http://soda.naa.gov.au/record/4490209/1">Private D.R. (Doug) Warne, <br/>AIF, QX21698</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6121334/1">Warrant Officer A. (Alf) Warren, <br/>AIF, VX52239</a></li>
-				<li><a href="http://soda.naa.gov.au/record/6065234/1">Warrant Officer, J. (Jeffrey) Willersdorf, <br/>AIF, VX81821</a></li>
-				</ul>
 
-				<h4>British</h4>
-				<ul class="memorial">
-				<li>Lieutenant Colonel Ivan Lyon, <br/>Gordon Highlanders;</li>
-				<li>Lieut-Commander Donald Davidson, <br/>Royal Naval Volunteer Reserve;</li>
-				<li>Lieutenant H.R. (Harold) Ross, <br/>British Army General List;</li>
-				<li>Major R.N. Ingleton, <br/>Royal Marines;</li>
-				<li>Sub-Lieutenant J.G.M. Riggs, <br/>RNVR.</li>
-				</ul>
+			<div class="panel">
+				<div class="content memorial">
+			
+					<h3>Full Details of All Men who Embark on Rimau</h3>
+					<h4>Australians</h4>
+					<ul class="memorial">
+					<li><a href="http://soda.naa.gov.au/record/5410466/1"><strong>Able Seaman F.W.L. (Fred &lsquo;Boof&rsquo;) Marsh</strong>, <br/>Royal Australian Naval Reserve, A6770</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4497549/1"><strong>Corporal H.J. (Hugo) Pace</strong>, <br/>AIF</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4618017/1"><strong>Captain Robert C. Page</strong>, AIF, <br/>NX19158</a></li>
+					<li><a href="http://soda.naa.gov.au/record/5423003/1"><strong>Lieutenant B.P. (Bruno) Reymond</strong>, <br/>RANR, A6769</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6203373/1"><strong>Lieutenant A.L. (&lsquo;Blondie&rsquo;) Sargent</strong>, <br/>AIF, VX15290</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6466169/1"><strong>Corporal C.M. (Clair Mackie) Stewart</strong>, <br/>AIF, WX15839</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4490209/1"><strong>Private D.R. (Doug) Warne</strong>, <br/>AIF, QX21698</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6121334/1"><strong>Warrant Officer A. (Alf) Warren</strong>, <br/>AIF, VX52239</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6065234/1"><strong>Warrant Officer, J. (Jeffrey) Willersdorf</strong>, <br/>AIF, VX81821</a></li>
+					</ul>
+				</div>
+			</div>
 
-				<h4>Involved in the deployment and retrieval of mission:</h4>
-				<ul class="memorial">
-				<li>Major Walter Chapman</li>
-				</ul>
 
+			<div class="panel">
+				<div class="content memorial">
+			
+					<h3>Full Details of All Men who Embark on Rimau</h3>
+					<h4>British</h4>
+					<ul class="memorial">
+					<li><strong>Lieutenant Colonel Ivan Lyon</strong>, <br/>Gordon Highlanders;</li>
+					<li><strong>Lieut-Commander Donald Davidson</strong>, <br/>Royal Naval Volunteer Reserve;</li>
+					<li><strong>Lieutenant H.R. (Harold) Ross</strong>, <br/>British Army General List;</li>
+					<li><strong>Major R.N. Ingleton</strong>, <br/>Royal Marines;</li>
+					<li><strong>Sub-Lieutenant J.G.M. Riggs</strong>, <br/>RNVR.</li>
+					</ul>
+
+					<h4>Involved in the deployment and retrieval of mission:</h4>
+					<ul class="memorial">
+					<li>Major Walter Chapman</li>
+					</ul>
+
+				</div>
+			</div>
+
+			<div class="panel">
+				<div class="media">
+					<img src="/assets/stills/content/execution.jpg" class="res" alt="">
+				</div>
+			</div>
+
+			<div class="panel">
+				<div class="content memorial">
+			
 				<h4>Resources and credits</h4>
 				<ul class="memorial">
 				<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
 				<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
 				<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
 				</ul>
+
+				</div>
 			</div>
+
 		</div>
+
+
 
 	</section>
 
