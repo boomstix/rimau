@@ -28,7 +28,7 @@ function setupSequences() {
 
 		// Create a timeline for the tweens to happen on
 		timeline = new TimelineMax({onUpdate: function(){
-			console.log('sequence update',this.time(), this.currentLabel());
+			// console.log('sequence update',this.time(), this.currentLabel());
 		}});
 
 		// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	

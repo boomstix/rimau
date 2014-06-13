@@ -29,7 +29,7 @@ function setupGalleries() {
 
 		// Create a timeline for the tweens to happen on
 		timeline = new TimelineMax({onUpdate: function(){
-			console.log('gallery update',this.time(), this.currentLabel()/*, this.getChildren()*/)
+			// console.log('gallery update',this.time(), this.currentLabel()/*, this.getChildren()*/)
 		}});
 
 		// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	
