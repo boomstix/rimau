@@ -83,6 +83,10 @@ section:after {
 	display: block;
 }
 
+.ScrollSceneIndicators {
+	z-index: 1000 !important;
+}
+
 img.res {
 	display: block;
 	width: 100%;
@@ -307,6 +311,7 @@ dt, dd {
 }
 
 .portrait .content,
+.sequence .enhanced .content,
 .gallery.old .content {
 	max-width: 600px;
 }
@@ -372,9 +377,10 @@ function fixImageDims() {
 	d = getBodyDims();
 	// $('#section-0').css({width: d.w, height: d.h});
 	// $('.over, .dark, .light').css({width: d.w, height: d.h});
+	$('.gallery, .sequence').css({height:d.h});
 	$('.gallery .panel').css({width: d.w, height: d.h});
 	// correct top,left padding for media which are fixed
-	$('.enhanced .media').each(function(ix, el){
+	$('.gallery .enhanced .media').each(function(ix, el){
 		media = $(this);
 		img = $('img', media);
 		correction = { height: contentHeight };
@@ -385,6 +391,13 @@ function fixImageDims() {
 		correction.top = (d.h - i.h) / 2;
 		// console.log('body: w:%o h:%o, img: w:%o h:%o corr: %o', d.w, d.h, i.w, i.h, correction);
 		media.css(correction);
+	});
+	$('.sequence .enhanced .media').each(function(ix, el){
+		media = $(this);
+		//el.css({ width: d.w, height: d.h, left: 0 });
+		height16x9 = d.w * 9 / 16;
+		centreTop = ((d.h - height16x9)/ 2);
+		media.css({ top: centreTop + 'px', height: height16x9 + 'px' });
 	});
 	$('.caption').css('bottom', '10%');
 	// css({left: (d.w - $(this).width()) / 2, top: d.h});
@@ -432,14 +445,14 @@ $(function() {
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#section-0">Operation Rimau</a>
+					<a class="navbar-brand" href="#">Operation Rimau</a>
 				</div>
 				<div class="collapse navbar-collapse" id="navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="#section-1">The Mission</a></li>
 						<li><a href="#section-2">Launch</a></li>
 						<li><a href="#section-3">Pursued</a></li>
-						<li><a href="#section-5">Singapore</a></li>
+						<li><a href="#section-4">Singapore</a></li>
 					</ul>
 				</div>
 			</div>
@@ -464,11 +477,9 @@ $(function() {
 					Not long after midnight &ndash; on 11 September 1944 &ndash; a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.
 					</p>
 				</div>
-				
 				<div class="content">
 					<h3>Operation Rimau: The True Account of a Secret WWII Raid.</h3>
 				</div>
-
 				<div class="content">
 					<ul class="credits">
 					<li>Written by M. J. Hyland</li>
@@ -480,7 +491,6 @@ $(function() {
 					<li>Produced by SBS Online</li>
 					</ul>
 				</div>
-				
 			</div>
 			
 		</div>
@@ -804,24 +814,23 @@ $(function() {
 	
 	<section id="section-2">
 
-		
-				<div class="panel bg">
-					<a id="2.1"></a>
-					<div class="media">
-						<img src="assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
-					</div>
-					<div class="content">
-						<h2>Merapas: A &lsquo;Safe&rsquo; Island</h2>
-						<h3>24 September, 1944</h3>
-					</div>
-				</div>
-				
 		<div class="sequence">
 		
+			<div class="panel bg">
+				<a id="2.1"></a>
+				<div class="media">
+					<img src="assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
+				</div>
+				<div class="content">
+					<h2>Merapas: A &lsquo;Safe&rsquo; Island</h2>
+					<h3>24 September, 1944</h3>
+				</div>
+			</div>
+	
 			<div class="panel">
 				<a id="2.2"></a>
 				<div class="media">
-					<img src="assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
+					<img src="assets/stills/content/sandy-beach-placeholder.jpg" class="res" alt="" />
 				</div>
 				
 				<div class="content">
@@ -842,7 +851,6 @@ $(function() {
 			</div>
 
 			<div class="panel">
-				<a id="2.2"></a>
 				<div class="media">
 					<img src="assets/stills/content/starry-sky-placeholder.jpg" class="res" alt="" />
 				</div>
@@ -911,6 +919,11 @@ $(function() {
 					<p>
 					The crew are restless and desperate and they perform a ceremony; a rain-dance they hope might conjure a boat for capture and &ldquo;&hellip;each officer with a finger on its head and chanting, &lsquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk&rsquo;.&rdquo;
 					</p>
+				</div>
+			</div>
+			
+			<div class="panel light">
+				<div class="content">
 					<blockquote>
 					&ldquo;Yesterday, CHAPMAN completed a &ldquo;Joss&rdquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;. 
 					</blockquote>
@@ -918,7 +931,7 @@ $(function() {
 			</div>
 			
 		</div>
-
+		
 		<div class="sequence">
 			<div class="panel">
 				<a id="2.6"></a>
@@ -975,7 +988,7 @@ $(function() {
 					<img src="assets/stills/content/mustika-loading.jpg" class="res" alt="" />
 				</div>
 				<div class="caption">
-					<blockqoute>
+					<blockquote>
 					&ldquo;PORPOISE came alongside after dark and took us in tow.  Loaded 7 SBs and 2 containers of stores.  PORPOISE cast off at about 03:00.&rdquo;
 					</blockquote>
 				</div>
@@ -1122,7 +1135,6 @@ $(function() {
 				</div>
 			</div>
 		</div>
-
 		
 		<div class="panel">
 			<a id="4.1"></a>
@@ -1152,6 +1164,7 @@ $(function() {
 
 	<section id="section-4">
 
+		<!--
 		<div class="sequence">
 			<div class="panel">
 				<div class="content">
@@ -1192,6 +1205,7 @@ $(function() {
 			</div>
 			
 		</div>
+		-->
 
 		<div class="q-and-a">
 			<div class="panel">
