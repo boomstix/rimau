@@ -67,8 +67,7 @@ function setupGalleries() {
 				.add(TweenMax
 					.to(gallery, 0.1, {
 						backgroundColor: '#ccc'
-// 					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to white start');}
-// 					,	onStartParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to white start');}
 					})
 				,	fadeInStartLabel
 				);
@@ -80,8 +79,7 @@ function setupGalleries() {
 				.add(TweenMax
 					.to(gallery, 0.1, {
 						backgroundColor: '#000'
-// 					,	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to black start');}
-// 					,	onStartParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('gallery ' +  arguments[0] + ' bg color to black start');}
 					})
 				,	fadeInStartLabel
 				);
@@ -99,10 +97,8 @@ function setupGalleries() {
 				.add(TweenMax
 					.from(panel, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade in start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade in complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('content ' +  arguments[0] + ' fade in start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('content ' +  arguments[0] + ' fade in complete');}
 					,	ease: Power4.easeInOut
 					})
 				,	scrollInStartLabel
@@ -110,10 +106,8 @@ function setupGalleries() {
 				.add(TweenMax
 					.to(panel, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' fade out start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' fade out complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('content ' +  arguments[0] + ' fade out start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('content ' +  arguments[0] + ' fade out complete');}
 					,	ease: Power4.easeInOut
 					})
 				, scrollOutStartLabel
@@ -132,23 +126,19 @@ function setupGalleries() {
 					.from(currCaption, 1, {
 						top: '100%'
 					,	autoAlpha: 0
-// 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('caption ' +  arguments[0] + ' slide in start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide in complete');}
 					})
 				,	scrollInStartLabel
 				);
 
 				timeline
 				.add(TweenMax
-					.to(currCaption, 2.5, {
+					.to(currCaption, 2, {
 						top: '-100%'
 					,	autoAlpha: 0
-// 					,	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('caption ' +  arguments[0] + ' slide out start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('caption ' +  arguments[0] + ' slide out complete');}
 					})
 				,	scrollOutStartLabel
 				);
@@ -163,10 +153,8 @@ function setupGalleries() {
 				.add(TweenMax
 					.from(currMedia, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
 					})
 				,	fadeInStartLabel
 				);
@@ -175,10 +163,8 @@ function setupGalleries() {
 				.add(TweenMax
 					.to(currMedia, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
 					})
 				, fadeOutStartLabel
 				);

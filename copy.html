@@ -192,9 +192,9 @@ dt, dd {
 }
 
 /* applies to things over 768px */
-@media (min-width: 768px) {
+@media (min-width: 769px) {
 	.panel .content {
-		padding: 16em 4em 8em;
+		/* padding: 16em 4em 8em; */
 	}
 	.q-and-a .panel .content {
 		padding: 3em 1em 0;
@@ -239,6 +239,8 @@ dt, dd {
 	
 	.panel.enhanced {
 		position: fixed;
+		width: 100%;
+		height: 100%;
 	}
 
 
@@ -246,8 +248,12 @@ dt, dd {
 		/* border: 1px solid red; */
 		/* bottom: initial; */
 		top: 0%;
-		padding-top: 45%;
+		margin-top: 35%;
 		position: fixed;
+	}
+	
+	.panel.enhanced .content {
+		margin-top: 20%;
 	}
 	
 	.panel.enhanced .content-wrapper,
@@ -305,8 +311,7 @@ dt, dd {
 .panel.dark, .panel.light {
 }
 
-.portrait .media,
-.gallery.old .media {
+.portrait .media {
 	max-width: 920px;
 }
 
@@ -348,24 +353,6 @@ var bodyDims = {}
 , controller = new ScrollMagic()
 ;
 
-var DimManager = function() {
-	
-	selectors = [{
-		sel: 'h1'
-	,	app: {
-			w: function(){ return 100; }
-		,	h: function(){ return 200; }
-		}
-	}];
-	
-	function updateDims(){
-		
-	};
-	
-	$(window).on('resize', updateDims);
-	
-}
-
 function getBodyDims() {
 	bodyDims = { w: body.width(), h: body.height() };
 	// console.log('bodyDims: ', bodyDims);
@@ -378,7 +365,8 @@ function fixImageDims() {
 	// $('#section-0').css({width: d.w, height: d.h});
 	// $('.over, .dark, .light').css({width: d.w, height: d.h});
 	$('.gallery, .sequence').css({height:d.h});
-	$('.gallery .panel').css({width: d.w, height: d.h});
+	//$('.gallery .panel').css({width: d.w, height: d.h});
+	//$('.sequence .panel').css({width: d.w, height: d.h});
 	// correct top,left padding for media which are fixed
 	$('.gallery .enhanced .media').each(function(ix, el){
 		media = $(this);
@@ -424,7 +412,7 @@ $(function() {
 	
 		setupQA();
 		
-		$(window).trigger('resize');
+		setTimeout(fixImageDims, 500);
 		
 	}
 	
@@ -819,11 +807,20 @@ $(function() {
 			<div class="panel bg">
 				<a id="2.1"></a>
 				<div class="media">
-					<img src="assets/stills/content/mission-advance-map.jpg" class="res" alt="" />
+					<img src="assets/stills/content/map-aus-merapas.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
 					<h2>Merapas: A &lsquo;Safe&rsquo; Island</h2>
 					<h3>24 September, 1944</h3>
+				</div>
+			</div>
+
+			<div class="panel bg">
+				<a id="2.1"></a>
+				<div class="media">
+					<img src="assets/stills/content/map-merapas.jpg" class="res" alt="" />
+				</div>
+				<div class="content">
 				</div>
 			</div>
 	
@@ -1118,7 +1115,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="media">
-					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="">
+					<img src="assets/stills/content/native-boat-placeholder.jpg" class="res" alt="">
 				</div>
 				<div class="content">
 					<p>
@@ -1164,14 +1161,15 @@ $(function() {
 
 	<section id="section-4">
 
-		<!--
-		<div class="sequence">
+		<div class="gallery">
+		
 			<div class="panel">
 				<div class="content">
 					<h2>Singapore</h2>
 					<h3>Dates?</h3>
 				</div>
 			</div>
+			
 			<div class="panel">
 				<a id="5.1"></a>
 				<div class="content">
@@ -1191,7 +1189,7 @@ $(function() {
 				<div class="media">
 					<img src="assets/stills/content/roma-page.jpg" class="res" alt="" />
 				</div>
-				<div class="caption">
+				<div class="content">
 					<p>
 					There were headlines in the paper that were a terrible shock.
 					</p>
@@ -1205,7 +1203,6 @@ $(function() {
 			</div>
 			
 		</div>
-		-->
 
 		<div class="q-and-a">
 			<div class="panel">
@@ -1400,7 +1397,7 @@ $(function() {
 
 
 	</section>
-
+	
 	</article>
 
 </body>

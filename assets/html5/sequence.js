@@ -17,6 +17,7 @@ function setupSequences() {
 		
 		// set the height of the fixed sequence wrapper to which we are pinning the scrollscene
 		sequence.height(bodyDims.h);
+		sequence.width(bodyDims.w);
 		
 		sceneCount = $('.content', sequence).length; // the number of transitions
 		framesPerScene = 6; // the number of frames in a scene
@@ -38,13 +39,13 @@ function setupSequences() {
 			// console.log('adding scene-%i', ix);
 		}
 
-		console.log('sceneCount: %o, frameCount: %o, frameHeight: %o, duration: %o', sceneCount, frameCount, frameHeight, totalDuration);
+		// console.log('sceneCount: %o, frameCount: %o, frameHeight: %o, duration: %o', sceneCount, frameCount, frameHeight, totalDuration);
 		
 		// sceneNumber is the overlapping set of frames - one per content
 		for (var panelNumber = 0, panelCount = panels.length, sceneNumber = 0; panelNumber < panelCount; panelNumber++) {
 		
 			panel = $(panels[panelNumber]);
-			console.log('addressing panelNumber: %o', panelNumber);
+			// console.log('addressing panelNumber: %o', panelNumber);
 			
 			currMedia = $('.media', panel);
 			currContent = $('.content', panel);
@@ -54,21 +55,19 @@ function setupSequences() {
 			
 			// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
 			sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
-			console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
+			// console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
 			
 			fadeInStartLabel = 'scene-' + sceneStartFrame;
 			
 			if (currMedia.length > 0) {
 				// fade in media
-				console.log('fading in media at %o, sceneNumber %o', fadeInStartLabel, sceneNumber);
+				// console.log('fading in media at %o, sceneNumber %o', fadeInStartLabel, sceneNumber);
 				timeline
 				.add(TweenMax
 					.from(currMedia, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('image ' +  arguments[0] + ' fade in start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('image ' +  arguments[0] + ' fade in complete');}
 					})
 				,	fadeInStartLabel
 				);
@@ -80,37 +79,33 @@ function setupSequences() {
 				// work out which labels this content happens at
 				scrollInStartLabel = 'scene-' + ((sceneStartFrame + 1) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
 				scrollOutStartLabel = 'scene-' + ((sceneStartFrame + 4) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
-				console.log('scrolling in content at label %o, sceneNumber %o', scrollInStartLabel, sceneNumber);
+ 				// console.log('scrolling in content at label %o, sceneNumber %o', scrollInStartLabel, sceneNumber);
 				
 				content = $(currContent[contentNumber]);
 				wrap = content.wrap('<div class="content-wrapper"></div>').parent();
 				
 				sceneNumber++;
 				
-				console.log('scrolling out content at %o, sceneNumber %o', scrollOutStartLabel, sceneNumber);
+				// console.log('scrolling out content at %o, sceneNumber %o', scrollOutStartLabel, sceneNumber);
 				
 				timeline
 				.add(TweenMax
 					.from(wrap, 1, {
 						top: '100%'
 					,	autoAlpha: 0
-// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' scroll in start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' scroll in complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('content ' +  arguments[0] + ' scroll in start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('content ' +  arguments[0] + ' scroll in complete');}
 					})
 				,	scrollInStartLabel
 				);
 
 				timeline
 				.add(TweenMax
-					.to(wrap, 2.5, {
+					.to(wrap, 2, {
 						top: '-100%'
 					,	autoAlpha: 0
-// 					,	onStart: function(){console.log('content ' +  arguments[0] + ' scroll out start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('content ' +  arguments[0] + ' scroll out complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('content ' +  arguments[0] + ' scroll out start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('content ' +  arguments[0] + ' scroll out complete');}
 					})
 				,	scrollOutStartLabel
 				);
@@ -121,15 +116,13 @@ function setupSequences() {
 			
 			if (currMedia.length > 0) {
 				// fade in media
-				console.log('fading out media at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber);
+				// console.log('fading out media at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber);
 				timeline
 				.add(TweenMax
 					.to(currMedia, 1, {
 						autoAlpha: 0
-// 					,	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
-// 					,	onStartParams: [sceneNumber]
-// 					,	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
-// 					,	onCompleteParams: [sceneNumber]
+// 					,	onStartParams: [sceneNumber],	onStart: function(){console.log('image ' +  arguments[0] + ' fade out start');}
+// 					,	onCompleteParams: [sceneNumber],	onComplete: function(){console.log('image ' +  arguments[0] + ' fade out complete');}
 					})
 				, fadeOutStartLabel
 				);

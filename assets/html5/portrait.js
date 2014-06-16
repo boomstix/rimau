@@ -20,10 +20,8 @@
 		,	left: "-=700"
 		,	autoAlpha: 0
 		,	top: imgHolder.data('end-top')
-		,	onStart: function(){console.log('portrait ' +  arguments[0] + ' flick in start');}
-		,	onStartParams: [ix]
-		,	onComplete: function(){console.log('portrait ' +  arguments[0] + ' flick in complete');}
-		,	onCompleteParams: [ix]
+// 		,	onStartParams: [ix],	onStart: function(){console.log('portrait ' +  arguments[0] + ' flick in start');}
+// 		,	onCompleteParams: [ix],	onComplete: function(){console.log('portrait ' +  arguments[0] + ' flick in complete');}
 		,	ease: Power2.easeOut };
 		// console.log(startPos)
 
@@ -41,10 +39,8 @@
 		,	left: "-=700"
 		,	autoAlpha: 0
 		,	top: imgHolder.data('end-top')
-		,	onStart: function(){console.log('portrait ' +  arguments[0] + ' flick in start');}
-		,	onStartParams: [ix]
-		,	onComplete: function(){console.log('portrait ' +  arguments[0] + ' flick in complete');}
-		,	onCompleteParams: [ix]
+// 		,	onStartParams: [ix],	onStart: function(){console.log('portrait ' +  arguments[0] + ' flick in start');}
+// 		,	onCompleteParams: [ix],	onComplete: function(){console.log('portrait ' +  arguments[0] + ' flick in complete');}
 		,	ease: Power2.easeOut };
 		
 		return { start: startPos, end: endPos } ;
