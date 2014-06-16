@@ -8,6 +8,7 @@
 	<link href="experiment/normalize.css-master/normalize.css" rel="stylesheet" type="text/css" />
 	<script src="assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
 	<script src="assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
+	<script src="experiment/jquery.html5loader-master/src/jquery.html5Loader.js"></script>
 	<script src="experiment/greensock-v12-js/src/uncompressed/TweenMax.js" type="text/javascript"></script>
 	<script src="experiment/ScrollMagic-master/js/jquery.scrollmagic.js" type="text/javascript"></script>
 	<script src="experiment/ScrollMagic-master/js/jquery.scrollmagic.debug.js" type="text/javascript"></script>
@@ -175,7 +176,7 @@ dt, dd {
 	.gallery.portrait .panel .caption {
 		margin-left: auto;
 	}
-	.panel .content.memorial,
+	.panel.enhanced .content.memorial,
 	.panel .content {
 		padding: 4em;
 		max-width: 920px;
@@ -331,8 +332,7 @@ dt, dd {
 	text-shadow: 1px 1px 2px #000;
 }
 
-.panel.light .content-wrapper,
-.panel.light {
+.panel.enhanced.light .content-wrapper {
 	background-color: #ccc;
 	color: #000;
 	text-shadow: 1px 1px 2px #999;	
@@ -398,21 +398,57 @@ $(function() {
 
 	if (!isMobile() && true) {
 	
-		// fixImageDims();
-		
 		$(window).on('resize', fixImageDims);
-	
-		$(window).trigger('resize');
 		
-		setupSequences();
-		
-		setupGalleries();
+		TweenMax.to('article', 0, {autoAlpha: 0});
 	
-		setupPortraitGallery();
-	
-		setupQA();
+		var asdf = $.html5Loader({
 		
-		setTimeout(fixImageDims, 500);
+			filesToLoad:'assets/html5/preload.json',
+			
+			debugMode: false,
+			
+			onComplete: function () {
+				
+				console.log("All the assets are loaded!");
+				
+				$(window).trigger('resize');
+		
+				setupSequences();
+		
+				// setupGalleries();
+	
+				setupPortraitGallery();
+	
+				setupQA();
+		
+				setTimeout(function() {
+					fixImageDims();
+					// fade the article itself in
+					TweenMax.to('article', 2, {autoAlpha: 1});
+				}, 500);
+				
+				
+		
+			},
+			
+			onMediaError: function() {
+				console.log('media error', arguments);
+			},
+			
+			onUpdate: function(perc) {
+				console.log('udpated %i%', perc);
+			},
+			
+			onElementLoaded: function ( obj, elm ){
+// 				console.log('element loaded!', obj, elm);
+// 				if(!~$.inArray(obj.type,["TEXT","SCRIPT","CSS"])) {
+// 					$("#wrapper").append(elm);
+// 				}
+			}
+
+		});
+
 		
 	}
 	
@@ -826,7 +862,7 @@ $(function() {
 	
 			<div class="panel">
 				<a id="2.2"></a>
-				<div class="media">
+				<div class="media" data-video="00017">
 					<img src="assets/stills/content/sandy-beach-placeholder.jpg" class="res" alt="" />
 				</div>
 				
@@ -863,7 +899,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="2.3"></a>
-				<div class="media">
+				<div class="media" data-video="00012">
 					<img src="assets/stills/content/jungle-inhabitants-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -876,7 +912,7 @@ $(function() {
 			<div class="panel">
 				<a id="2.4"></a>
 				
-				<div class="media">
+				<div class="media" data-video="MVI_4207">
 					<img src="assets/stills/content/jungle-foliage.jpg" class="res" alt="" />
 				</div>
 				
@@ -932,7 +968,7 @@ $(function() {
 		<div class="sequence">
 			<div class="panel">
 				<a id="2.6"></a>
-				<div class="media">
+				<div class="media" data-video="MVI_0022">
 					<img src="assets/stills/content/mustika-sketch-1.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1015,7 +1051,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="2.8"></a>
-				<div class="media">
+				<div class="media" data-video="MVI_0050">
 					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1027,7 +1063,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="2.9"></a>
-				<div class="media">
+				<div class="media" data-video="00044_0">
 					<img src="assets/stills/content/open-water-2-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1064,7 +1100,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="3.2"></a>
-				<div class="media">
+				<div class="media" data-video="Soreh">
 					<img src="assets/stills/content/takes-a-risk.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1077,7 +1113,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="3.3"></a>
-				<div class="media">
+				<div class="media" data-video="00000">
 					<img src="assets/stills/content/theres-a-battle.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1089,7 +1125,7 @@ $(function() {
 
 			<div class="panel">
 				<a id="3.4"></a>
-				<div class="media">
+				<div class="media" data-video="00020">
 					<img src="assets/stills/content/those-who-are-not-killed.jpg" class="res" alt="" />
 				</div>
 				<div class="content">
@@ -1100,7 +1136,7 @@ $(function() {
 			</div>
 			
 			<div class="panel">
-				<div class="media">
+				<div class="media" data-video="MVI_0050">
 					<img src="assets/stills/content/open-water-1-placeholder.jpg" class="res" alt="">
 				</div>
 				<div class="content">
@@ -1114,7 +1150,7 @@ $(function() {
 			</div>
 
 			<div class="panel">
-				<div class="media">
+				<div class="media" data-video="GOOD%20GOPR0047">
 					<img src="assets/stills/content/native-boat-placeholder.jpg" class="res" alt="">
 				</div>
 				<div class="content">
@@ -1294,7 +1330,7 @@ $(function() {
 			</div>
 			
 			<div class="panel">
-				<div class="media">
+				<div class="media" data-video="Kranji-Cemetary">
 					<img src="assets/stills/content/war-graves-video-placeholder.jpg" class="res" alt="" />
 				</div>
 				<div class="content">

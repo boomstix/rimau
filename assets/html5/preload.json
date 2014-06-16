@@ -1,0 +1,21 @@
+{
+	"files": [
+		{
+			"type": "VIDEO",
+			"name": "00017_0_hero",
+			"sources": {
+				"webm": {
+					"source_local": "assets/video/WebM/00017_0_hero.WebM",
+					"source": "https://rimau-video.s3.amazonaws.com/WebM/00017_0_hero.WebM",
+					"size": 7930541
+				},
+				"h264": {
+					"source_local": "assets/video/MP4/00017_0_hero.mp4",
+					"source": "https://rimau-video.s3.amazonaws.com/MP4/00017_0_hero.mp4",
+					"size": 9590590
+				}
+			}
+		}
+
+	]
+}

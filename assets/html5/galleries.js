@@ -1,5 +1,7 @@
 function setupGalleries() {
 	
+	return;
+	
 	var galleries = $('.gallery')
 	,	gallery = null
 	,	panels = null
