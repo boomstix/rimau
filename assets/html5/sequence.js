@@ -7,7 +7,7 @@ function setupSequences() {
 	,	panel = null
 	, direction = 'FORWARD'
 	, vidBaseUrl = 'https://rimau-video.s3.amazonaws.com'
-	, vidBaseUrl = 'assets/video/'
+//	, vidBaseUrl = 'assets/video'
 	, debug = false
 	;
 	
