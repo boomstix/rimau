@@ -8,7 +8,7 @@ function setupSequences() {
 	, direction = 'FORWARD'
 	, vidBaseUrl = 'https://rimau-video.s3.amazonaws.com'
 //	, vidBaseUrl = 'assets/video'
-	, debug = false
+	, debug = true
 	;
 	
 	function checkVideo(sceneType, video, sceneNumber, direction) {
@@ -81,7 +81,7 @@ function setupSequences() {
 			panel = $(panels[panelNumber]);
 			if (debug) { console.log('addressing panelNumber: %o', panelNumber); }
 			
-			currMedia = $('.media', panel);
+			currMedia = $('.media, .media-bg', panel);
 			currContent = $('.content', panel);
 			currCaption = $('.caption', panel);
 			
@@ -99,6 +99,18 @@ function setupSequences() {
 			fadeOutStartLabel = 'scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 5);
 			fadeOutEndLabel = 'scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 6);
 			
+			//if (panelNumber > 0 || sequenceNumber > 0) {
+				timeline
+				.add(TweenMax
+					.from(panel, 0.1, {
+						width: "0%"
+					,	onStartParams: [panelNumber, panel],	onStart: function(){ if (true) { console.log('panel ' +  arguments[0] + ' width in start'); }}
+					,	onCompleteParams: [panelNumber, panel],	onComplete: function(){ if (true) { console.log('panel ' +  arguments[0] + ' width in complete'); }}
+					})
+				, fadeInStartLabel
+				);
+			//}
+
 			if (currCaption.length > 0) {
 			
 				if (debug) { console.log('sliding in caption at %o, sceneNumber %o', scrollInStartLabel, sceneNumber); }
@@ -179,7 +191,7 @@ function setupSequences() {
 				}
 				
 				// bypass fadein if first video in first panel
-				if (panelNumber > 0 || sequenceNumber > 0) {
+				if (panelNumber > 0 || sequenceNumber > 0 || location.hash == '' || location.hash == '#' || location.hash == 'section-1') {
 					if (debug) { console.log('fading in media at %o, sceneNumber %o', fadeInStartLabel, sceneNumber); }
 					timeline
 					.add(TweenMax
@@ -242,8 +254,18 @@ function setupSequences() {
 				
 			}
 			
+			// make the panel 0 size again
+			timeline
+			.add(TweenMax
+				.to(panel, 0.1, {
+					width: "0%"
+				,	onStartParams: [sceneNumber, panel],	onStart: function(){ if (true) { console.log('panel ' +  arguments[0] + ' width out start'); }}
+				,	onCompleteParams: [sceneNumber, panel],	onComplete: function(){ if (true) { console.log('panel ' +  arguments[0] + ' width out complete'); }}
+				})
+			, fadeOutEndLabel
+			);
 			
-		} 
+		}
 		
 		// Create a scroll scene
 		scene = new ScrollScene({ duration: totalDuration, offset: frameHeight })
