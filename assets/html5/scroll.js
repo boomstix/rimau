@@ -63,6 +63,8 @@
 				if (!destroyed) {
 					allSequences.css({width: d.w, height: d.h});
 				}
+				allSequences.css({left: 0});
+				$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
 				// content videos need top and left correction if under 920px (options.contentWidth)
 				
 			}
@@ -195,7 +197,7 @@
 					panel = $(panels[panelNumber]);
 					if (options.debug) { console.log('addressing panelNumber: %o', panelNumber); }
 			
-					currMedia = $('.image, .atmos', panel);
+					currMedia = $('.image, .atmos, .video', panel);
 					currContent = $('.text-wrapper', panel);
 					currCaption = $('.caption', panel);
 			
@@ -218,8 +220,8 @@
 					.add(TweenMax
 						.from(panel, 1, {
 							autoAlpha: 0
-						,	onStartParams: [sceneNumber, currMedia],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in start'); }}
-						,	onCompleteParams: [sceneNumber, currMedia],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in complete'); }}
+						,	onStartParams: [sceneNumber, panel],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in start'); }}
+						,	onCompleteParams: [sceneNumber, panel],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in complete'); }}
 						})
 					,	fadeInStartLabel
 					);
@@ -229,8 +231,8 @@
 					.add(TweenMax
 						.to(panel, 1, {
 							autoAlpha: 0
-						,	onStartParams: [sceneNumber, currMedia],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out start'); }}
-						,	onCompleteParams: [sceneNumber, currMedia],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out complete'); }}
+						,	onStartParams: [sceneNumber, panel],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out start'); }}
+						,	onCompleteParams: [sceneNumber, panel],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out complete'); }}
 						})
 					, fadeOutStartLabel
 					);

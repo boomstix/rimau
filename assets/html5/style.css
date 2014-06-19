@@ -233,9 +233,9 @@ dt, dd {
 		background-image: none;
 	}
 	
-	.enhanced .text-wrapper,
-	.panel .atmos + .text-wrapper,
-	.panel .image + .text-wrapper {
+	.enhanced.mask .text-wrapper,
+	.panel.mask .atmos + .text-wrapper,
+	.panel.mask .image + .text-wrapper {
 		background-image: url(../img/text-bg-mask.png);
 		background-repeat: repeat-x;
 		/* background-position: 0 20%; */
