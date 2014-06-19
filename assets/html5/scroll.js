@@ -42,8 +42,6 @@
 			allVideoPanels = $('.video');
 			allContentVideos = $('.video video');
 			
-			console.log()
-			
 			if (d.w > options.breakPoint) {
 			
 				// console.log('setting dims');
@@ -55,7 +53,11 @@
 				allAtmosPanels.css({height: newHeight, top: newTop });
 				allImagePanels.css({height: newHeight, top: newTop });
 				
-				// 
+				// fit the videos to the midpoint if over video max-width (920px)
+				allContentVideos.css({
+					marginLeft: (d.w > options.contentWidth) ? (d.w - options.contentWidth) / 2 : 0
+				,	marginTop: (d.w > options.contentWidth && !destroyed) ? (d.h - options.contentHeight) / 2 : 0
+				})
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
@@ -70,6 +72,7 @@
 				allAtmosPanels.css({height: 'initial', top: 'initial' });
 				allImagePanels.css({height: 'initial', top: 'initial' });
 				allSequences.css({width: 'initial', height: 'initial'});
+				allContentVideos.css({marginTop: 'initial', marginLeft: 'initial'});
 
 			}
 			
