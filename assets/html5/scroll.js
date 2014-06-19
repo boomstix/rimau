@@ -160,7 +160,7 @@
 				sceneCount = 0;
 				for (var panelNumber = 0, panelCount = panels.length; panelNumber < panelCount; panelNumber++) {
 					panel = $(panels[panelNumber]);
-					sceneCount += Math.max($('.text', panel).length, $('.caption', panel).length, $('.image', panel).length);
+					sceneCount += Math.max($('.text', panel).length, $('.caption', panel).length, $('.image', panel).length, $('.video', panel).length, $('.portrait-image', panel).length);
 				}
 				framesPerScene = 6; // the number of frames in a scene
 				frameOverlap = 2; // the number of frames which overlap between scenes
