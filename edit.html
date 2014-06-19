@@ -4,8 +4,9 @@
 	<meta charset="utf-8"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Operation Rimau experiment</title>
-	<link href="assets/html5/responsive-nav.css" rel="stylesheet" type="text/css" />
 	<link href="assets/html5/normalize.css" rel="stylesheet" type="text/css" />
+	<link href="assets/html5/responsive-nav.css" rel="stylesheet" type="text/css" />
+	<link href="assets/html5/style.css" rel="stylesheet" type="text/css" />
 	<script src="assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
 	<script src="assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="assets/html5/responsive-nav.min.js"></script>
@@ -13,322 +14,18 @@
 	<script src="assets/html5/TweenMax.min.js" type="text/javascript"></script>
 	<script src="assets/html5/jquery.scrollmagic.min.js" type="text/javascript"></script>
 	<script src="assets/html5/jquery.scrollmagic.debug.js" type="text/javascript"></script>
+	<script src="assets/html5/scroll.js" type="text/javascript"></script>
+<!-- 
 	<script src="assets/html5/sequence.js" type="text/javascript"></script>
 	<script src="assets/html5/galleries.js" type="text/javascript"></script>
 	<script src="assets/html5/q-and-a.js" type="text/javascript"></script>
 	<script src="assets/html5/portrait.js" type="text/javascript"></script>
-
-<style>
-html, body {
-	height: 100%;
-}
-
-body {
-	position: relative;
-	margin: 0;
-	padding: 0;
-	background-color: #000;
-	color: #ccc;
-	font-family: Helvetica, Arial, sans-serif;
-	font-weight: 300;
-	font-size: 1em;
-}
-a {
-	color: #fff;
-}
-a:active, a:hover {
-	color: #ccc;
-}
-header {
-	position: fixed;
-	background: #000;
-	width: 100%;
-	z-index: 9999;
-	top: 0;
-	padding: 0 1em;
-}
-header a {
-	color: #ccc;
-	text-decoration: none;
-	text-transform: uppercase;
-}
-header img {
-	float: left;
-	margin-right: 2em;
-}
-
-.js nav.nav-collapse {
-	overflow: inherit;
-}
-
-.nav-toggle {
-	width: 70px;
-	height: 55px;
-	float: right;
-	text-indent: -9999px;
-	background: transparent url("assets/html5/hamburger.png") no-repeat 50% 50%;
-}
-
-ul.nav {
-	margin: 0 1em;
-	list-style: none;
-	z-index: 9999;
-}
-ul.nav li {
-	width: auto !important;
-	float: left;
-	margin: 1.5em;
-	font-size: 0.7em;
-	font-weight: bold;
-}
-
-.text-center,
-h1, h2, h3 {
-	text-align: center;
-}
-
-article {
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-section:after {
-	content: "";
-	clear: left;
-	display: block;
-}
-
-.ScrollSceneIndicators {
-	z-index: 1000 !important;
-}
-
-img.res {
-	display: block;
-	width: 100%;
-}
-
-.video,
-video {
-	width: 100%;
-	height: 100%;
-}
-
-.panel p,
-.panel h2,
-.panel h3,
-.panel h4 {
-	padding-left: 1em;
-	padding-right: 1em;
-}
-
-.panel {
-	color: #fff;
-	text-shadow: 1px 1px 2px #000;
-	background-image: url(assets/img/background-dark.jpg);
-	background-size: cover;
-	position: relative;
-	overflow: hidden;
-/*
-	border: 1px solid red;
-	box-sizing:border-box;
-*/
-}
-
-.panel.light {
-	background-image: url(assets/img/background-light.jpg);
-	color: #000;
-	text-shadow: 1px 1px 2px #999;	
-}
-
-ul.credits {
-	padding: 0;
-	margin: 0 auto;
-	max-width: 18em;
-	list-style: none;
-}
-ul.credits li {
-	margin: 0;
-	padding: 0;
-	text-align: center;
-}
-.memorial ul {
-	padding: 0;
-	margin: 0 auto;
-	max-width: 22em;
-	list-style: none;
-}
-.memorial li {
-	margin: 0 0 1em 0;
-	padding: 0;
-	text-align: center;
-}
-.memorial li a {
-	text-shadow: 1px 1px 2px #000;
-	text-decoration: none;
-}
-.memorial li a:hover {
-	text-decoration: underline;
-}
-.memorial h4 {
-	text-align: center;
-	text-transform: uppercase;
-	margin-top: 2em;
-}
-
-blockquote {
-	font-style: italic; 
-}
-
-dl {
-	margin: 1em 0;
-	padding: 0 1em;
-}
-dt, dd {
-	margin: 1em 0;
-}
-
-/* styles that apply under 480px */
-@media (max-width: 480px) {
-	.caption br {
-		display: none;
-	}
-}
-
-/* styles that apply over 480px */
-@media (min-width: 480px) {
-	.panel .text-wrapper {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
-	.panel .text {
-		padding: 4em 0;
-		max-width: 720px;
-		margin: 0 auto;
-	}
-	.sequence .panel .caption {
-		position: absolute;
-		bottom: 10%;
-		left: 50%;
-	}
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		position: absolute;
-		top: 30%;
-		left: 50%;
-	}
-
-	.sequence .panel .caption,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		max-width: 480px;
-		margin-left: -240px;
-	}
-
-	.panel .atmos + .text-wrapper .text-replace {
-		top: 10%;
-		background-image: none;
-	}
-	
-	.panel .atmos + .text-wrapper,
-	.panel .image + .text-wrapper {
-		background-image: url(assets/img/text-bg-mask.png);
-		background-repeat: repeat-x;
-		/* background-position: 0 20%; */
-		background-size: cover;
-		position: absolute;
-		top: 0;
-		left: 0;
-	}
-	
-}
-
-/* styles that apply under 768px */
-@media (max-width: 768px) {
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		top: 10%;
-	}
-	.portrait .panel .portrait-image,
-	.portrait .panel .caption {
-		text-align: center;
-	}
-}
-
-/* styles that apply over 768px */
-@media (min-width: 769px) {
-
-	.panel {
-		width: 100%;
-		height: 100%;
-	}
-
-	.panel .text:first-child {
-		padding-top: 6em;
-	}
-	.panel .text:last-child {
-		padding-bottom: 6em;
-	}
-	.panel .text {
-		padding: 3em 0;
-	}
-
-	.sequence .panel .caption,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		margin-left: -360px;
-		max-width: 720px;
-	}
-
-	.portrait .panel {
-		padding: 3em 0;
-	}
-	.portrait .portrait-image {
-		margin: auto;
-		max-width: 720px;
-	}
-
-	.portrait .panel .caption {
-		position: absolute;
-		bottom: 40%;
-		left: 50%;
-		max-width: 720px;
-		margin-left: auto;
-	}
-}
-
-
-.text-replaced {
-	text-indent: -9999em;
-}
-
-</style>
+ -->
 
 <script>
 
 var isMobile = function() {
-	return /iPad|iPod|iPhone|Android/.test(navigator.userAgent) || window.innerWidth <= 768;
-}
-
-var bodyDims = {}
-, body = null
-, contentWidth = 920
-, contentHeight = 518
-, controller = new ScrollMagic()
-;
-
-function getBodyDims() {
-	bodyDims = { w: body.width(), h: body.height() };
-	// console.log('bodyDims: ', bodyDims);
-	return bodyDims;
-}
-
-function fixImageDims() {
-
-	d = getBodyDims();
-	// $('#section-0').css({width: d.w, height: d.h});
-
+	return /iPad|iPod|iPhone|Android/.test(navigator.userAgent);
 }
 
 $(function() {
@@ -337,11 +34,14 @@ $(function() {
 
 	body = $('body');
 	
+	// wrap all the text nodes in order to get them to fit the page
 	$('.text').wrap('<div class="text-wrapper"></div>')
 
-	if (!isMobile() && true) {
+	if (!isMobile()) {
 	
-		$(window).on('resize', fixImageDims);
+		$('section').sequence({controller: new ScrollMagic(), debug: false });
+		
+		// $(window).on('resize', fixImageDims);
 		/*
 		
 		TweenMax.to('article', 0, {autoAlpha: 0});
@@ -386,7 +86,7 @@ $(function() {
 <body>
 
 	<header>
-		<a href="/"><img src="assets/html5/sbs-logo.png" height="50px" /></a>
+		<a href="/"><img src="assets/html5/sbs-logo.png" height="50" alt="SBS homepage" /></a>
 		<nav class="nav-collapse" role="navigation">
 			<ul class="nav">
 				<li><a href="#section-1">The Mission</a></li>
@@ -402,7 +102,7 @@ $(function() {
 
 	<section id="section-1">
 
-		<div class="sequence">
+		<div class="sequence" data-preload="section1.json">
 
 			<div class="panel audio-in" data-audio="section1-1">
 
@@ -411,17 +111,17 @@ $(function() {
 				</div>
 				
 					<div class="text text-replace" data-text-replace="assets/img/title-section-1.png">
-						<img src="assets/img/title-section-1.png" class="res" />
-						<!--
+						<img src="assets/img/title-section-1.png" class="res" alt="" />
+						<div style="display: none">
 						<h2>Operation Rimau</h2>
 						<h3>An account of a top&ndash;secret WWII raid drawn from records and archive</h3>
 						<p>As told by M. J. Hyland</p>
 						<p>Music by Nils Frahm</p>
-						-->
+						</div>
 					</div>
 				
 					<div class="text">
-						<p>
+						<p class="text-center">
 						Not long after midnight  &mdash; on 11 September 1944 &mdash; a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top&ndash;secret espionage mission.
 						</p>
 					</div>
@@ -441,7 +141,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="video">
-					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/training-video.jpg" rc="http://video.sbs.com.au/u/video/operation-rimau/Submarine_crop_16x9.mp4">
+					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/training-video.jpg">
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Submarine_crop_16x9.mp4" type="video/mp4" />
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Submarine_crop_16x9.WebM" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -479,7 +179,7 @@ $(function() {
 				<div class="text">
 					<a id="1.3"></a>
 					<p>
-					In theory, when a stealthy Sleeping Beauty gets in range of target, it launches, strikes and then slips quietly away; invisible to enemy.
+					In theory, when a stealthy Sleeping Beauty gets in range of target, it launches, strikes and then slips quietly away; invisible to the enemy.
 					</p>
 				</div>
 			</div>
@@ -497,7 +197,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="video">
-					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/norman-wallace.jpg" rc="http://video.sbs.com.au/u/video/operation-rimau/SB%20PART%2001%20A.mp4">
+					<video id="video-norman-wallace" controls preload="none" poster="assets/stills/placeholder/norman-wallace.jpg">
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/SB%20PART%2001%20A.mp4" type="video/mp4" />
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/SB%20PART%2001%20A.mp4" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -559,7 +259,7 @@ $(function() {
 					But the raid is so treacherous that survival depends as much on equipment and planning as the improvisational skills and cunning of the crew (all of whom voluntarily transferred from less dangerous units into the Special Operations Australia, a commando force that worked behind enemy lines in South-East Asia known as <strong>&ldquo;Z. Special&rdquo;</strong>).
 					</p>
 				</div>
-
+				
 				<div class="text">
 					<a id="1.7"></a>
 					<p>
@@ -568,87 +268,86 @@ $(function() {
 				</div>
 			</div>
 			
-		</div>
-
-		<div class="portrait">
-		
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-page.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Captain Robert C. Page,<br/>
 					AIF, NX19158
 					</p>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-carey.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Lieutenant Walter G. Carey,<br/>
 					AIF, NX58159
 					</p>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-falls.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Able Seaman W.G. (Wally) Falls<br/>
 					S/6543
 					</p>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-hardy.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Lance-Corporal J.T. (Jack) Hardy,<br/>
 					AIF, NX140476
 					</p>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-sargent.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Lieutenant A.L. (‘Blondie&rsquo;) Sargent,<br/>
 					AIF, VX15290
 					</p>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel portrait">
 				<div class="portrait-image">
 					<img src="assets/stills/content/portrait-davidson.jpg" class="" alt="" />
 				</div>
-				<div class="caption">
+				<div class="subject">
 					<p>
 					Lieutenant-Commander Donald Davidson,<br/>
 					Royal Naval Volunteer Reserve
 					</p>
 				</div>
 			</div>
-		</div>
-		
-		<div class="sequence">
+			
 			<div class="panel">
 				<div class="text">
 					<a id="1.8"></a>
 					<p>
 					Six of the Rimau men were crew on an earlier Operation  &mdash;  <strong>Jaywick</strong>  &mdash;  <strong>(September–October 1943)</strong> &mdash; a covert raid, similar to Rimau, during which, six commandos paddled in canoes to Singapore Harbour, attached limpet mines to the hulls of ships and destroyed more than 36,000 tonnes of essential Japanese shipping.
 					</p>
+				</div>
+			</div>
+			
+			<div class="panel dark-2">
+				<div class="text text-center">
 					<p>
-					<strong>Jaywick was a triumph, its crew were decorated, but its outcome and details remained a fiercely protected secret.</strong>
+					<strong>Jaywick was a triumph, its crew were decorated, but its <br />outcome and details remained a fiercely protected secret.</strong>
 					</p>
 				</div>
 			</div>
@@ -726,7 +425,7 @@ $(function() {
 			
 			<div class="panel">
 				<div class="video">
-					<video id="video-roma-1" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg" rc="http://video.sbs.com.au/u/video/operation-rimau/Roma_01_recut.mp4">
+					<video id="video-roma-1" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Roma_01_recut.mp4" type="video/mp4" />
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Roma_01_recut.WebM" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -752,7 +451,6 @@ $(function() {
 			</div>
 
 			<div class="panel">
-				<a id="2.1"></a>
 				<div class="image">
 					<img src="assets/stills/content/map-merapas.jpg" class="res" alt="" />
 				</div>
@@ -763,7 +461,7 @@ $(function() {
 					<img src="assets/stills/placeholder/sandy-beach.jpg" class="res" alt="" />
 				</div>
 				<div class="text">
-					<h4>Merapas: Position – approximately 00&deg56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h4>
+					<h4>Merapas: Position &mdash; approximately 00&deg;56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h4>
 				</div>
 				
 				<div class="text">
@@ -912,6 +610,8 @@ $(function() {
 					</p>
 				</div>
 			</div>
+			
+		</div>
 
 	</section>
 
@@ -920,7 +620,7 @@ $(function() {
 		<div class="sequence">
 		
 			<div class="panel audio-in" data-audio="section-3-1">
-				<div class="hidden-text">
+				<div class="text">
 					<h3>Subterfuge - Going &lsquo;Undercover&rsquo;</h3>
 					<h4>1<sup>st</sup> October 1944</h4>
 				</div>
@@ -1130,20 +830,20 @@ $(function() {
 					<h4>CAPTAIN PAGE:</h4>
 
 					<dl>
-					<dt>Question 1: Is there any point that you wish to object among the charges that were read for you just now?</dt>
-					<dd>Answer: No, there is none. They are quite correct.</dd>
-					<dt>Question 2: Is there anything that you should like to differ from all the statements that Major Ingleton had made just now? Or any opinion?</dt>
-					<dd>Answer: None, except that I saw once Lieut-Col. Lyon wearing his badge of rank on the junk, but where it was I have forgotten.</dd>
-					<dt>Question 3: Did you also not use beret cap or badge of rank after off Merapas Island?</dt>
-					<dd>Answer: I did not use it since we left Pejantang Island.</dd>
-					<dt>Question 4: We are given to understand that you were wearing sarong on the junk? Is it correct.</dt>
-					<dd>Answer: It is quite correct.</dd>
-					<dt>Question 5: Did you bring over that sarong from Australia?</dt>
-					<dd>Answer: I used the one which I found on the junk and so I do not know where it came from. I am inclined to consider that it was the one used by the Malayan crew of the junk.</dd>
-					<dt>Question 6: Did you also shoot at the time when your party attacked the police boat near Kasu Island?</dt>
-					<dd>Answer: Yes, I did. I thought it was a navy patrol ship and I shot it.</dd>
-					<dt>Question 7: How many times did you fight against the Japanese force after that?</dt>
-					<dd>Answer: Once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
+					<dt><span>Question 1: </span>Is there any point that you wish to object among the charges that were read for you just now?</dt>
+					<dd><span>Answer: </span>No, there is none. They are quite correct.</dd>
+					<dt><span>Question 2: </span>Is there anything that you should like to differ from all the statements that Major Ingleton had made just now? Or any opinion?</dt>
+					<dd><span>Answer: </span>None, except that I saw once Lieut-Col. Lyon wearing his badge of rank on the junk, but where it was I have forgotten.</dd>
+					<dt><span>Question 3: </span>Did you also not use beret cap or badge of rank after off Merapas Island?</dt>
+					<dd><span>Answer: </span>I did not use it since we left Pejantang Island.</dd>
+					<dt><span>Question 4: </span>We are given to understand that you were wearing sarong on the junk? Is it correct.</dt>
+					<dd><span>Answer: </span>It is quite correct.</dd>
+					<dt><span>Question 5: </span>Did you bring over that sarong from Australia?</dt>
+					<dd><span>Answer: </span>I used the one which I found on the junk and so I do not know where it came from. I am inclined to consider that it was the one used by the Malayan crew of the junk.</dd>
+					<dt><span>Question 6: </span>Did you also shoot at the time when your party attacked the police boat near Kasu Island?</dt>
+					<dd><span>Answer: </span>Yes, I did. I thought it was a navy patrol ship and I shot it.</dd>
+					<dt><span>Question 7: </span>How many times did you fight against the Japanese force after that?</dt>
+					<dd><span>Answer: </span>Once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
 					</dl>
 				</div>
 			</div>
@@ -1164,7 +864,7 @@ $(function() {
 	
 			<div class="panel">
 				<div class="video">
-					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
+					<video id="video-roma-2" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Roma_02.mp4" type="video/mp4" />
 						<source src="http://video.sbs.com.au/u/video/operation-rimau/Roma_02.WebM" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -1198,7 +898,7 @@ $(function() {
 				</div>
 				<div class="text">
 					<p>
-					It&rsquo;s the morning of July 7, and the men are taken to the execution site. Japanese sources saythat as the men meet their fate, they are in &lsquo;good spirits and composure&rsquo;. But records of exhumation show that the burials were neither &lsquo;glorious&rsquo; nor &lsquo;honourable&rsquo;.
+					It&rsquo;s the morning of July 7, and the men are taken to the execution site. Japanese sources say that as the men meet their fate, they are in &lsquo;good spirits and composure&rsquo;. But records of exhumation show that the burials were neither &lsquo;glorious&rsquo; nor &lsquo;honourable&rsquo;.
 					</p>
 				</div>
 				<div class="text">
@@ -1224,7 +924,8 @@ $(function() {
 	</section>
 
 	<section>
-	
+
+		<div class="sequence">
 			<div class="panel">
 				<div class="text">
 					<h3>Credits</h3>
@@ -1239,7 +940,8 @@ $(function() {
 					</ul>
 				</div>
 			</div>
-
+		</div>
+		
 	</section>
 	
 	</article>
