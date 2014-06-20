@@ -409,7 +409,6 @@ dt, dd {
 	max-width: 575px;
 	left: 50%;
 	margin-left: -287px;
-	top: 50%;
 	margin-top: -13px;
 }
 
@@ -461,6 +460,8 @@ dt, dd {
 
 #repl-mustika-loading-text {
 	max-width: 567px;
+	left: 50%;
+	margin-left: -283px;
 }
 
 #repl-title-section-3 {
