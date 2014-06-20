@@ -116,3 +116,41 @@
 	}
 
 })(jQuery);
+
+
+// search children for data-text-replace and replace the contents of that element
+// with an image whose src is the value data-text-replace
+(function($){
+
+	$.fn.replaceText = function() {
+	
+		function replace(ix, el) {
+		
+			var subject = $(el);
+			
+			filename = subject.data('text-replace');
+			
+			if (typeof filename !== 'undefined') {
+				subject.addClass('text-replaced');
+				title = subject.text().replace(/\s+/g, ' ').trim();
+				newPath = 'assets/img/_opt/' + filename + '.png';
+				newImg = $('<img id="repl-' + filename + '" src="' + newPath + '" title="' + title + '" class="replaced" />');
+				['top','right','bottom','left','center','floor'].map(function(el,ix){ if (subject.hasClass(el)) { newImg.addClass(el); } });
+				if (subject.hasClass('special')) {
+					subject.parent().parent().append(newImg);
+				}
+				else {
+					subject.parent().append(newImg);
+				}
+				//subject.remove();
+				subject.empty();
+			}
+			
+		}
+		
+		return this.each(replace);
+		
+	}
+	
+})(jQuery);
+

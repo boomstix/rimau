@@ -33,8 +33,8 @@
 		
 			// console.log('fixDims');
 		
-			// adjust the letterbox-ed position of the letterboxing elements
-			// adjust the sequnce frame to the dims of the window
+			// adjust the letterbox-ed position of the letter-boxing elements
+			// adjust the sequence frame to the dims of the window
 			d = getWindowDims();
 			allSequences = $('.sequence');
 			allAtmosPanels = $('.atmos');
@@ -48,12 +48,6 @@
 				// console.log('setting dims');
 				newHeight = d.w * 9 / 16;
 				newTop = (d.h - newHeight) / 2;
-				// atmos panels are letterboxed - fitting the width of the viewport
-				// and forcing the height to maintain 16x9, moving its top pos
-				// above or below the containing panel's top to compensate.
-				allAtmosPanels.css({height: newHeight, top: newTop });
-				allImagePanels.css({height: newHeight, top: newTop });
-				allTextPanels.css({height: newHeight + 1, top: newTop });
 				
 				// fit the videos to the midpoint if over video max-width (920px)
 				allContentVideos.css({
@@ -63,12 +57,17 @@
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
+					// atmos panels are letterboxed - fitting the width of the viewport
+					// and forcing the height to maintain 16x9, moving its top pos
+					// above or below the containing panel's top to compensate.
+					allAtmosPanels.css({height: newHeight, top: newTop });
+					allImagePanels.css({height: newHeight, top: newTop });
+					allTextPanels.css({height: newHeight + 1, top: newTop });
 					allSequences.css({width: d.w, height: d.h});
 				}
 				allSequences.css({left: 0});
 				
 				$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
-				// content videos need top and left correction if under 920px (options.contentWidth)
 				
 			}
 			else {
@@ -76,7 +75,7 @@
 				// console.log('un-setting dims');
 				allAtmosPanels.css({height: 'initial', top: 'initial' });
 				allImagePanels.css({height: 'initial', top: 'initial' });
-				allTextPanels.css({height: 'initial', top: 'initial' });
+				allTextPanels.css({height: 'initial', top: '' });
 				allSequences.css({width: 'initial', height: 'initial'});
 				allContentVideos.css({marginTop: 'initial', marginLeft: 'initial'});
 
@@ -169,7 +168,7 @@
 					sceneCount += Math.max($('.text', panel).length, $('.caption', panel).length, $('.image', panel).length, $('.video', panel).length, $('.portrait-image', panel).length);
 				}
 				framesPerScene = 6; // the number of frames in a scene
-				frameOverlap = 2; // the number of frames which overlap between scenes
+				frameOverlap = 1; // the number of frames which overlap between scenes
 				frameHeight = (windowDims.h / 2); // the height of a 'scene' in pixels (half a window height)
 
 				frameCount = (sceneCount * framesPerScene) - (sceneCount - 1) * frameOverlap;
@@ -202,8 +201,8 @@
 					if (options.debug) { console.log('addressing panelNumber: %o', panelNumber); }
 			
 					currMedia = $('.image, .atmos, .video', panel);
-					currContent = $('.text-wrapper', panel);
-					currCaption = $('.caption', panel);
+					currContent = $('.text-wrapper, .sketch, .caption', panel);
+					// currCaption = $('.caption', panel);
 			
 					contentCount = currContent.length > 0 ? currContent.length : 1;
 					if (options.debug) { console.log('contentCount: ' , contentCount); }

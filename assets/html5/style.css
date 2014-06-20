@@ -110,8 +110,7 @@ img.res {
 
 
 .panel {
-	color: #fff;
-	/* text-shadow: 1px 1px 2px #000; */
+	color: #ccc;
 	background-size: cover;
 	position: relative;
 	overflow: hidden;
@@ -122,19 +121,22 @@ img.res {
 }
 
 .panel.dark-1 {
-	background-image: url(../img/background-dark-1.jpg);
+	background-image: url(../img/bg/background-dark-1.jpg);
+	text-shadow: 1px 1px 2px #000;
 }
 
 .panel.dark-2 {
-	background-image: url(../img/background-dark-2.jpg);
+	background-image: url(../img/bg/background-dark-2.jpg);
+	text-shadow: 1px 1px 2px #000;
 }
 
 .panel.dark-3 {
-	background-image: url(../img/background-dark-3.jpg);
+	background-image: url(../img/bg/background-dark-3.jpg);
+	text-shadow: 1px 1px 2px #000;
 }
 
 .panel.light {
-	background-image: url(../img/background-light.jpg);
+	background-image: url(../img/bg/background-light.jpg);
 	color: #333;
 	/* text-shadow: 1px 1px 1px #999; */
 }
@@ -190,9 +192,12 @@ dt, dd {
 	margin: 1em 0;
 }
 
-.enhanced dt span, .enhanced dd span {
-	display: none;
-}
+/*
+
+.panel	.atmos
+				.text-wrapper
+
+*/
 
 /* styles that apply under 480px */
 @media (max-width: 480px) {
@@ -210,6 +215,27 @@ dt, dd {
 /* styles that apply over 480px */
 @media (min-width: 480px) {
 
+	.sketch {position: relative;}
+
+	.panel .page,
+	.panel .caption,
+	.panel .text {
+		line-height: 1.5em;
+		/* overflow: auto; */
+		max-width: 740px;
+		margin: 0 auto;
+	}
+	.panel .caption {
+		bottom: 10%;
+	}
+	.panel .caption.left {
+		left: 30%;
+	}
+	.panel .caption.top {
+		top: 10%;
+		bottom: initial;
+	}
+	
 	.panel .text-wrapper {
 		width: 100%;
 		height: 100%;
@@ -221,66 +247,13 @@ dt, dd {
 	.panel .text-wrapper:last-child {
 		padding-bottom: 6em;
 	}
-	.panel .page,
-	.panel .text {
-		line-height: 1.4em;
-		overflow: auto;
-		max-width: 740px;
-		margin: 0 auto;
-	}
-	.panel .caption {
-		bottom: 10%;
-	}
-	
-	.enhanced .text,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		top: 40%;
-	}
-	
-	.trial {
-		width: 100%;
-		height: 100%;
-	}
 
-	.trial .text {
-		top: 5%;
-	}
-
-	.enhanced .text.top,
-	.panel .atmos + .text-wrapper .text.top,
-	.panel .image + .text-wrapper .text.top {
-		top: 25%;
-	}
-
-	.enhanced .text.bottom,
-	.panel .atmos + .text-wrapper .text.bottom,
-	.panel .image + .text-wrapper .text.bottom {
-		bottom: 15%;
-		top: initial;
-	}
-
-	.panel .caption,
-	.enhanced .text,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		position: absolute;
-		max-width: 480px;
-		margin-left: -240px;
-		left: 50%;
-	}
-
-	.panel .atmos + .text-wrapper .text-replace {
-		top: 10%;
-		background-image: none;
-	}
-	
 	.enhanced .text-wrapper,
 	.panel .atmos + .text-wrapper,
 	.panel .image + .text-wrapper {
 		position: absolute;
-		top: 0;
 		left: 0;
+		top: 0;
 	}
 	
 	.enhanced.mask .text-wrapper,
@@ -296,13 +269,51 @@ dt, dd {
 		position: fixed !important;
 	}
 	
-	dt {
+	.enhanced .text,
+	.panel .atmos + .text-wrapper .text,
+	.panel .image + .text-wrapper .text {
+		top: 40%;
+	}
+	
+	.enhanced .text.top,
+	.panel .atmos + .text-wrapper .text.top,
+	.panel .image + .text-wrapper .text.top {
+		top: 25%;
+	}
+
+	.enhanced .text.bottom,
+	.panel .atmos + .text-wrapper .text.bottom,
+	.panel .image + .text-wrapper .text.bottom {
+		bottom: 20%;
+		top: initial;
+	}
+
+	.panel .caption,
+	.enhanced .text,
+	.panel .atmos + .text-wrapper .text,
+	.panel .image + .text-wrapper .text {
+		position: absolute;
+		max-width: 480px;
+		margin-left: -240px;
+		left: 50%;
+	}
+
+	.trial {
+		width: 100%;
+		height: 100%;
+	}
+
+	.trial .text {
+		top: 5%;
+	}
+
+	.trial dt {
 		margin: 0.618em 0;
 		width: 48%;
 		float: left;
 		clear: left;
 	}
-	dd {
+	.trial dd {
 		margin: 0.618em 0;
 		width: 48%;
 		float: left;
@@ -353,9 +364,113 @@ dt, dd {
 		padding: initial;
 	}
 
+	dt span, dd span {
+		display: none;
+	}
+
 }
 
+.replaced {
+	position: absolute;
+	margin: 0 auto;
+	width: 100%;
+}
 
-.text-replaced {
-	text-indent: -9999em;
+.replaced.top {
+	top: 0%;
+}
+
+/* captions */
+.panel > .replaced.top {
+	top: 15%;
+}
+
+.replaced.right {
+	right: 0%;
+}
+
+.replaced.bottom {
+	bottom: 10%;
+}
+
+.replaced.left {
+	left: 10%;
+}
+
+.replaced.floor {
+	bottom: 0%;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+#repl-title-section-1 {
+	max-width: 575px;
+	left: 50%;
+	margin-left: -287px;
+	top: 50%;
+	margin-top: -13px;
+}
+
+#repl-title-section-1-credit {
+	max-width: 165px;
+	left: 50%;
+	margin-left: -82px;
+}
+
+#repl-norman-quote {
+	max-width: 387px;
+}
+
+#repl-roma-quote1 {
+	max-width: 278px;
+}
+
+#repl-map-aus-merapas-text {
+	max-width: 414px;
+}
+
+#repl-map-aus-merapas-text-launch {
+	max-width: 414px;
+}
+
+#repl-position-merapas {
+	max-width: 372px;
+}
+
+#repl-diary-timelapse {
+	/* max-width: 920px; */
+}
+
+#repl-diary-inhabited {
+	/* max-width: 920; */
+}
+
+#repl-diary-merapas {
+	/* max-width: 920px; */
+}
+
+#repl-diary-nojunk {
+	/* max-width: 920px; */
+}
+
+#repl-diary-jungle {
+	/* max-width: 920px; */
+}
+
+#repl-mustika-loading-text {
+	max-width: 567px;
+}
+
+#repl-title-section-3 {
+	max-width: 458px;
+}
+
+#repl-title-section-4 {
+	max-width: 458px;
+}
+
+#repl-roma-quote2 {
+	max-width: 305px;
 }
