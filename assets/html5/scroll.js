@@ -38,6 +38,7 @@
 			d = getWindowDims();
 			allSequences = $('.sequence');
 			allAtmosPanels = $('.atmos');
+			allTextPanels = $('.text-wrapper');
 			allImagePanels = $('.image');
 			allVideoPanels = $('.video');
 			allContentVideos = $('.video video');
@@ -52,11 +53,12 @@
 				// above or below the containing panel's top to compensate.
 				allAtmosPanels.css({height: newHeight, top: newTop });
 				allImagePanels.css({height: newHeight, top: newTop });
+				allTextPanels.css({height: newHeight + 1, top: newTop });
 				
 				// fit the videos to the midpoint if over video max-width (920px)
 				allContentVideos.css({
 					marginLeft: (d.w > options.contentWidth) ? (d.w - options.contentWidth) / 2 : 0
-				,	marginTop: (d.w > options.contentWidth && !destroyed) ? (d.h - options.contentHeight) / 2 : 0
+				,	marginTop: (!destroyed) ? (d.h - options.contentHeight) / 2 : 0
 				})
 				
 				// sequences are made to fit the viewport
@@ -64,6 +66,7 @@
 					allSequences.css({width: d.w, height: d.h});
 				}
 				allSequences.css({left: 0});
+				
 				$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
 				// content videos need top and left correction if under 920px (options.contentWidth)
 				
@@ -73,6 +76,7 @@
 				// console.log('un-setting dims');
 				allAtmosPanels.css({height: 'initial', top: 'initial' });
 				allImagePanels.css({height: 'initial', top: 'initial' });
+				allTextPanels.css({height: 'initial', top: 'initial' });
 				allSequences.css({width: 'initial', height: 'initial'});
 				allContentVideos.css({marginTop: 'initial', marginLeft: 'initial'});
 
@@ -119,7 +123,7 @@
 			
 			allSequences = $('.sequence');
 			
-			$('.panel').removeClass('enhanced');
+			$('.panel', allSequences).removeClass('enhanced');
 			
 			$.each(allSequences, function(ix, sequence) {
 			
@@ -149,7 +153,7 @@
 			
 			sequences = $('.sequence', section);
 			
-			$('.panel').addClass('enhanced');
+			$('.panel', sequences).addClass('enhanced');
 			
 			$.each(sequences, function(sequenceNumber, sequence) {
 			
@@ -187,7 +191,7 @@
 				// Add a label (timestamp) for each sceneCount x framesPerScene - (sceneCount - 1) * frameOverlap	
 				for (var frameIx = -1; ++frameIx <= frameCount;) {
 					// labels offset from 0 - ie first is scene-0
-					timeline.add('scene-' + frameIx, frameIx);
+					timeline.add('seq-scene-' + frameIx, frameIx);
 					// if (options.debug) { console.log('adding scene-%i', frameIx); }
 				}
 				
@@ -208,12 +212,12 @@
 					sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
 					// console.log('sceneNumber: %o sceneStartFrame: %o', sceneNumber, sceneStartFrame);
 			
-					fadeInStartLabel = 'scene-' + sceneStartFrame;
-					fadeInEndLabel = 'scene-' + (sceneStartFrame + 1);
-					scrollInStartLabel = 'scene-' + (sceneStartFrame + 1);
-					scrollOutStartLabel = 'scene-' + (sceneStartFrame + 4);
-					fadeOutStartLabel = 'scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 5);
-					fadeOutEndLabel = 'scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 6);
+					fadeInStartLabel = 'seq-scene-' + sceneStartFrame;
+					fadeInEndLabel = 'seq-scene-' + (sceneStartFrame + 1);
+					scrollInStartLabel = 'seq-scene-' + (sceneStartFrame + 1);
+					scrollOutStartLabel = 'seq-scene-' + (sceneStartFrame + 4);
+					fadeOutStartLabel = 'seq-scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 5);
+					fadeOutEndLabel = 'seq-scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 6);
 					
 					if (options.debug) { console.log('fading in panel at %o, sceneNumber %o', fadeInStartLabel, sceneNumber); }
 					timeline
@@ -240,8 +244,8 @@
 					for (var contentNumber = 0; contentNumber < contentCount; contentNumber++) {
 					
 						// work out which labels this content happens at
-						scrollInStartLabel = 'scene-' + ((sceneStartFrame + ((currMedia.length > 0) ? 1 : 0)) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
-						scrollOutStartLabel = 'scene-' + ((sceneStartFrame + ((currMedia.length > 0) ? 4 : 5)) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
+						scrollInStartLabel = 'seq-scene-' + ((sceneStartFrame + ((currMedia.length > 0) ? 1 : 0)) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
+						scrollOutStartLabel = 'seq-scene-' + ((sceneStartFrame + ((currMedia.length > 0) ? 4 : 5)) + (contentNumber * framesPerScene) - (contentNumber * frameOverlap));
 						
 						content = $(currContent[contentNumber]);
 						
