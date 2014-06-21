@@ -16,7 +16,6 @@ body {
 	position: fixed;
 	bottom: 0px;
 	right: 0;
-	width: 200px;
 	z-index: 999;
 }
 a {
