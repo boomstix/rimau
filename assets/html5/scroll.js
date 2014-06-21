@@ -6,6 +6,8 @@
 		,	bodyDims = {}
 		,	win = $(window)
 		,	windowDims = {}
+		, scrollDirection = 'FORWARD'
+		, scrollState = 'BEFORE'
 		,	defaultOptions = {
 				controller: new ScrollMagic()
 			,	contentWidth: 920
@@ -43,6 +45,8 @@
 			allVideoPanels = $('.video');
 			allContentVideos = $('.video video');
 			
+			$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
+				
 			if (d.w > options.breakPoint) {
 			
 				// console.log('setting dims');
@@ -66,8 +70,6 @@
 					allSequences.css({width: d.w, height: d.h});
 				}
 				allSequences.css({left: 0});
-				
-				$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
 				
 			}
 			else {
@@ -146,7 +148,46 @@
 			
 		}
 		
+		function playVideo() {
+			// atmos
+			// if have not yet encountered vid, preload the video and 
+			// then call addSource when the element is loaded
+			// else add source tags to video tags
+		}
+		
+		function stopVideo() {
+			// remove source tags from video tag
+		}
+		
+		function contentHandler() {
+			if (options.debug)
+			{ console.log('content timeline %i %s', arguments[0], arguments[1]); }
+		}
+		
+		function panelHandler() {
+			if (options.debug)
+			{ console.log('panel timeline %i %s',  arguments[0], arguments[1]); }
+		}
+		
+		function contentTweenHandler() {
+			if (options.debug)
+			{ console.log('content tween %i %s', arguments[0], arguments[1]); }
+		}
+		
+		function panelTweenHandler() {
+			if (options.debug)
+			{ console.log('panel tween %i %s',  arguments[0], arguments[1]); }
+		}
+		
 		function setupSequence(sectionIx, section) {
+		
+			// passed a section containing panels fixed to viewport,.
+			// panels can contain video, atmos video or img which appear with it
+			// atmos video and img are letterboxed to the width of the viewport,
+			// letterboxing top and bottom of viewport.
+			// panels can also contain multiple text or caption which fade in one frame after
+			// and out one frame before the panel.
+			// panel fades in for scroll equivalent of half the viewport
 		
 			section = $(section);
 			
@@ -174,7 +215,7 @@
 				frameCount = (sceneCount * framesPerScene) - (sceneCount - 1) * frameOverlap;
 				totalDuration = frameCount *  frameHeight;
 
-				// Create a timeline for the tweens to happen on
+				// Create a timeline for the fade tweens to happen on
 				last_label = '0';
 				timeline = new TimelineMax({paused: false, onUpdate: options.debug ? function() {
 					new_label = parseInt(this.time(), 10);
@@ -201,7 +242,7 @@
 					if (options.debug) { console.log('addressing panelNumber: %o', panelNumber); }
 			
 					currMedia = $('.image, .atmos, .video', panel);
-					currContent = $('.text-wrapper, .sketch, .caption', panel);
+					currContent = $('.text-wrapper, .sketch, .page, .caption', panel);
 					// currCaption = $('.caption', panel);
 			
 					contentCount = currContent.length > 0 ? currContent.length : 1;
@@ -223,22 +264,22 @@
 					.add(TweenMax
 						.from(panel, 1, {
 							autoAlpha: 0
-						,	onStartParams: [sceneNumber, panel],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in start'); }}
-						,	onCompleteParams: [sceneNumber, panel],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade in complete'); }}
+						,	onStartParams: [sceneNumber, 'FADEINSTART', panel],	onStart: panelTweenHandler
+						,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', panel],	onComplete: panelTweenHandler
 						})
 					,	fadeInStartLabel
-					);
+					).call(panelHandler, [sceneNumber, 'FADEOUT', panel], null, fadeInStartLabel);
 					
 					if (options.debug) { console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
 					timeline
 					.add(TweenMax
 						.to(panel, 1, {
 							autoAlpha: 0
-						,	onStartParams: [sceneNumber, panel],	onStart: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out start'); }}
-						,	onCompleteParams: [sceneNumber, panel],	onComplete: function(){ if (options.debug) { console.log('panel ' +  arguments[0] + ' fade out complete'); }}
+						,	onStartParams: [sceneNumber, 'FADEOUTSTART', panel],	onStart: panelTweenHandler
+						,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', panel],	onComplete: panelTweenHandler
 						})
 					, fadeOutStartLabel
-					);
+					).call(panelHandler, [sceneNumber, 'FADEOUT', panel], null, fadeOutStartLabel);
 					
 					for (var contentNumber = 0; contentNumber < contentCount; contentNumber++) {
 					
@@ -256,11 +297,11 @@
 							.from(content, 1, {
 								autoAlpha: 0
 							// ,	top: '100%'
-							,	onStartParams: [sceneNumber, currContent],	onStart: function(){ if (options.debug) { console.log('content ' +  arguments[0] + ' scroll in start'); }}
-							,	onCompleteParams: [sceneNumber, currContent],	onComplete: function(){ if (options.debug) { console.log('content ' +  arguments[0] + ' scroll in complete'); }}
+							,	onStartParams: [sceneNumber, 'FADEINSTART', currContent],	onStart: contentTweenHandler
+							,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', currContent],	onComplete: contentTweenHandler
 							})
 						,	scrollInStartLabel
-						);
+						).call(contentHandler, [sceneNumber, 'FADEIN', content], null, scrollInStartLabel);
 
 						if (options.debug) { console.log('fading out content at %o, sceneNumber %o', scrollOutStartLabel, sceneNumber); }
 						timeline
@@ -268,11 +309,11 @@
 							.to(content, 1, {
 								autoAlpha: 0
 							// ,	top: '-100%'
-							,	onStartParams: [sceneNumber, currContent],	onStart: function(){ if (options.debug) { console.log('content ' +  arguments[0] + ' scroll out start'); }}
-							,	onCompleteParams: [sceneNumber, currContent],	onComplete: function(){ if (options.debug) { console.log('content ' +  arguments[0] + ' scroll out complete'); }}
+							,	onStartParams: [sceneNumber, 'FADEOUTSTART', currContent],	onStart: contentTweenHandler
+							,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', currContent],	onComplete: contentTweenHandler
 							})
 						,	scrollOutStartLabel
-						);
+						).call(contentHandler, [sceneNumber, 'FADEOUT', content], null, scrollOutStartLabel);
 			
 					}
 
@@ -289,10 +330,9 @@
 					.setTween(timeline)
 					.addTo(options.controller)
 					.on('progress', function(e) {
-						// console.log(e.scrollDirection);
-						if (e.scrollDirection == 'FORWARD' || e.scrollDirection == 'REVERSE') {
-							direction = e.scrollDirection;
-						}
+						// console.log(e);
+						scrollDirection = e.scrollDirection;
+						scrollState = e.state;
 					})
 					.loglevel(options.logLevel)
 				);

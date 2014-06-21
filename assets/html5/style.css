@@ -18,7 +18,7 @@ a {
 a:active, a:hover {
 	color: #ccc;
 }
-header {
+body > header {
 	position: fixed;
 	background: #000;
 	width: 100%;
@@ -26,14 +26,18 @@ header {
 	top: 0;
 	padding: 0 1em;
 }
-header a {
+body > header a {
 	color: #ccc;
 	text-decoration: none;
 	text-transform: uppercase;
 }
-header img {
+body > header img {
 	float: left;
 	margin-right: 2em;
+}
+
+article > header {
+	display: none;
 }
 
 .js nav.nav-collapse {
@@ -159,7 +163,7 @@ ul.credits li {
 .memorial ul {
 	padding: 0;
 	margin: 0 auto;
-	max-width: 22em;
+	max-width: 25em;
 	list-style: none;
 }
 .memorial li {
@@ -281,6 +285,10 @@ dt, dd {
 		top: 25%;
 	}
 
+	.enhanced .text.memorial {
+		top: 0;
+	}
+
 	.enhanced .text.bottom,
 	.panel .atmos + .text-wrapper .text.bottom,
 	.panel .image + .text-wrapper .text.bottom {
@@ -344,6 +352,15 @@ dt, dd {
 		margin-left: -360px;
 		max-width: 740px;
 		width: 100%;
+	}
+
+	.sequence .panel .caption.right-center,
+	.sequence .panel .caption.left-center {
+	}
+
+	.sequence .panel .caption.right-center {
+	}
+	.sequence .panel .caption.left-center {
 	}
 
 	.panel.enhanced {

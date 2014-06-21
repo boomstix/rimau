@@ -87,12 +87,12 @@
 					;
 			}
 			
-			timeline.add(TweenMax.to(trial, 1, {
-					autoAlpha: 0
-				, onStart: function(){ if (options.debug) { console.log('panel fade out start'); } }
-				, onComplete: function(){ if (options.debug) { console.log('panel fade out complete'); } }
-				}), "+=2"
-				);
+// 			timeline.add(TweenMax.to(trial, 1, {
+// 					autoAlpha: 0
+// 				, onStart: function(){ if (options.debug) { console.log('panel fade out start'); } }
+// 				, onComplete: function(){ if (options.debug) { console.log('panel fade out complete'); } }
+// 				}), "+=2"
+// 				);
 
 			// Create a scroll scene
 			scene = new ScrollScene({ duration: totalDuration, offset: frameHeight })
@@ -133,8 +133,8 @@
 			if (typeof filename !== 'undefined') {
 				subject.addClass('text-replaced');
 				title = subject.text().replace(/\s+/g, ' ').trim();
-				newPath = 'assets/img/_opt/' + filename + '.png';
-				newImg = $('<img id="repl-' + filename + '" src="' + newPath + '" title="' + title + '" class="replaced" />');
+				newPath = 'assets/img/' + filename + '.png';
+				newImg = $('<img id="repl-' + filename + '" src="' + newPath + '" class="replaced" />');
 				['top','right','bottom','left','center','floor'].map(function(el,ix){ if (subject.hasClass(el)) { newImg.addClass(el); } });
 				if (subject.hasClass('special')) {
 					subject.parent().parent().append(newImg);
