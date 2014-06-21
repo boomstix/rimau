@@ -1,0 +1,25 @@
+{
+	"files": [
+	
+
+		{
+			"type":"AUDIO", "name": "chapter-1a", "sources": { "mp3":{ "size":9285.632, "source":"http://rimau.local/assets/audio/Chapter-1a.mp3" } }
+		}
+		,
+		{
+			"type": "VIDEO",
+			"name": "00017-0-hero",
+			"sources": {
+				"webm": {
+					"source": "http://video.sbs.com.au/u/video/operation-rimau/video/00017_0_hero-med.webm",
+					"size": 9700619
+				},
+				"h264": {
+					"source": "http://video.sbs.com.au/u/video/operation-rimau/video/00017_0_hero-med.mp4",
+					"size": 9839622
+				}
+			}
+		}
+
+	]
+}

@@ -2,6 +2,10 @@
 
 	$.fn.sequence = function(_options) {
 		
+		// call this once per page. multiple invocations will result in a bad time.
+		
+		// console.log('defining sequence');
+		
 		var body = $('body')
 		,	bodyDims = {}
 		,	win = $(window)
@@ -15,6 +19,7 @@
 			,	breakPoint: 768			// window width above which scrollmagic kicks in
 			,	debug: false
 			,	logLevel: 2
+			, onSceneStart: function() {}
 			}
 		,	options = $.extend({}, defaultOptions, _options)
 		,	section = null
@@ -22,30 +27,45 @@
 		,	sequence = null
 		,	panels = null
 		,	panel = null
-		, lastWindowWidth = 0
-		, destroyed = true;
+		,	lastWindowWidth = 0
+		,	destroyed = true
+		,	audioHolder = null
+		,	loopAudio = true
+		,	chapter1Preload = null
+		,	remainderPreload = null
+		,	mediaSources = []
+		,	retryMax = 10 // will retry this many times to reload
+		,	retryCount = 0
+		, currAudioId = null
+		,	currAudioSrc = null
 		;
-
+		
+		// handle nav link clicks and scroll in the scene
 		function openScene(e) {
-			// e.preventDefault();
+			
+			if (options.debug)
+			{ console.log('openScene') }
+			
 			if (!destroyed) {
 				setTimeout(function() {
 					scrollPos = (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash;
 					scrollPos = $(scrollPos);
 					if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 						$('html, body').animate({
-							scrollTop: scrollPos.offset().top + $(window).height() * 2
+							scrollTop: scrollPos.offset().top + $(window).height() * 1.8
 						}, 500);
 					}
 				}, 500);
 			}
 		}
 		
+		// grab width and height of viewport
 		function getWindowDims() {
 			windowDims = { w: body.width(), h: win.height() };
 			return windowDims;
 		}
 		
+		// update height, top, left, widths of viewport filling element
 		function fixDims() {
 		
 			// console.log('fixDims');
@@ -163,35 +183,47 @@
 			
 		}
 		
-		function playVideo() {
-			// atmos
-			// if have not yet encountered vid, preload the video and 
-			// then call addSource when the element is loaded
-			// else add source tags to video tags
-		}
-		
-		function stopVideo() {
-			// remove source tags from video tag
-		}
-		
-		function contentHandler() {
+		function contentHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
-			{ console.log('content timeline %i %s', arguments[0], arguments[1]); }
+			{ console.log('content timeline %i %s', sceneNumber, timelineString); }
 		}
 		
-		function panelHandler() {
-			// if (options.debug)
-			{ console.log('panel timeline %i %s',  arguments[0], arguments[1]); }
-		}
-		
-		function contentTweenHandler() {
+		function panelHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
-			{ console.log('content tween %i %s', arguments[0], arguments[1]); }
+			{ console.log('panel timeline %i %s %s %s',  sceneNumber, timelineString, scrollDirection, scrollState); }
 		}
 		
-		function panelTweenHandler() {
+		function contentTweenHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
-			{ console.log('panel tween %i %s',  arguments[0], arguments[1]); }
+			{ console.log('content tween %i %s', sceneNumber, timelineString); }
+		}
+		
+		function panelTweenHandler(sceneNumber, timelineString, panel) {
+			if (options.debug)
+			// if (arguments[0] == 0)
+			{ console.log('panel tween %i %s', sceneNumber, timelineString); }
+			
+			atmos = $('.atmos video', panel);
+			audioIn = panel.hasClass('audio-in') ? panel.data('audio') : false;
+			audioOut = panel.hasClass('audio-out');
+			
+			if (timelineString == 'FADEINSTART') {
+				if (atmos.length) {
+					playVideo(video.attr('id'));
+				}
+				if (audioIn) {
+					playAudio(audioIn);
+				}
+			}
+			if (timelineString == 'FADEOUTSTART') {
+				if (atmos.length) {
+					stopVideo(video.attr('id'));
+				}
+				if (audioOut) {
+					stopAudio();
+				}
+			}
+			
 		}
 		
 		function setupSequence(sectionIx, section) {
@@ -283,9 +315,10 @@
 							autoAlpha: 0
 						,	onStartParams: [sceneNumber, 'FADEINSTART', panel],	onStart: panelTweenHandler
 						,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', panel],	onComplete: panelTweenHandler
+						,	onReverseCompleteParams: [sceneNumber, 'FADEINREVERSECOMPLETE', panel],	onReverseComplete: panelTweenHandler
 						})
 					,	fadeInStartLabel
-					).call(panelHandler, [sceneNumber, 'FADEOUT', panel], null, fadeInStartLabel);
+					).call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
 					
 					if (options.debug) { console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
 					timeline
@@ -294,9 +327,10 @@
 							autoAlpha: 0
 						,	onStartParams: [sceneNumber, 'FADEOUTSTART', panel],	onStart: panelTweenHandler
 						,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', panel],	onComplete: panelTweenHandler
+						,	onReverseCompleteParams: [sceneNumber, 'FADEOUTREVERSECOMPLETE', panel],	onReverseComplete: panelTweenHandler
 						})
 					, fadeOutStartLabel
-					).call(panelHandler, [sceneNumber, 'FADEOUT', panel], null, fadeOutStartLabel);
+					).call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
 					
 					for (var contentNumber = 0; contentNumber < contentCount; contentNumber++) {
 					
@@ -318,7 +352,7 @@
 							,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', currContent],	onComplete: contentTweenHandler
 							})
 						,	scrollInStartLabel
-						).call(contentHandler, [sceneNumber, 'FADEIN', content], null, scrollInStartLabel);
+						).call(contentHandler, [sceneNumber, 'FADEIN', content]);
 
 						if (options.debug) { console.log('fading out content at %o, sceneNumber %o', scrollOutStartLabel, sceneNumber); }
 						timeline
@@ -330,7 +364,7 @@
 							,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', currContent],	onComplete: contentTweenHandler
 							})
 						,	scrollOutStartLabel
-						).call(contentHandler, [sceneNumber, 'FADEOUT', content], null, scrollOutStartLabel);
+						).call(contentHandler, [sceneNumber, 'FADEOUT', content]);
 			
 					}
 
@@ -361,26 +395,227 @@
 			
 		}
 		
-		// grab the window dimensions and store for comparing on resize
+		// Setup the resize handlers to fix geometry of panels in the sequence
+		
+		// grab the window dimensions
 		d = getWindowDims();
+		// store for comparing on resize
 		lastWindowWidth = d.w;
-		
-		// fix the dimensions of the fixed elements and their children
+		// handle the resize event
 		$(window).on('resize', fixDims);
-		$(window).trigger('resize');
 		
+		// jquery plugin init this' elements
 		ret = this;
-			// setup the sequence and timeline if over breakpoint width
+		// only setup the sequence and timeline if over breakpoint width
 		if (d.w > options.breakPoint) {
 			ret = this.each(setupSequence);
 		}
 		
+		// fix the dimensions of the fixed elements and their children
 		$(window).trigger('resize');
 		
-		// handle scrolling into scene on nav clicks
+		
+		/*
+		
+		audio mp3, atmos videos, content videos:
+		strategy: replace images in atmos with video tags. no source.
+		
+		*/
+		
+		function playVideo(id) {
+			// if have not yet encountered vid, preload the video and 
+			// then call addSource when the element is loaded
+			// else add source tags to video tags
+			if (options.debug)
+			{ console.log('playVideo'); }
+		}
+		
+		function stopVideo() {
+			// remove source tags from video tag
+			if (options.debug)
+			{ console.log('stopVideo'); }
+		}
+		
+		function removeAudio(_audio) {
+		
+			var victim = $('#' + _audio.attr('id'));
+			
+			if (victim.length > 0) {
+				if (options.debug)
+				{ console.log('removeAudio()', victim); }
+				victim.get(0).pause();
+				sources = $("source", victim);
+				for (var i = 0; i < sources.length; i++) {
+						var source = sources[i];
+						source.setAttribute("src", "");
+				}
+				victim.remove();
+				victim = null;
+				_audio = null;
+			}
+			
+		}
+		
+		function stopAudio() {
+		
+			// when we call stop, we want to fade out, and remove the audio el via removeAudio
+			audio = $('#' + currAudioId);
+			
+			if (audio.length > 0) {
+				if (options.debug)
+				{ console.log('stopAudio()', currAudioId); }
+				audio.hide();
+				TweenMax
+				.to(audio, 1, {
+						volume: 0
+					,	onComplete: removeAudio
+					,	onCompleteParams: [audio]
+				});
+				
+			}
+			
+		}
+		
+		function playAudio(audioId) {
+			
+			audioSrc = mediaSources[audioId];
+			
+			if (typeof(audioSrc) == 'undefined') {
+				// it hasn't loaded yet - can't play.
+				if (options.debug)
+				{ console.log('playAudio() cannot play %s - retrying', audioId); }
+				// retry a max of ten times
+				retryCount += 1;
+				if (retryCount < retryMax) {
+					setTimeout(playAudio, 1000, audioId);
+				}
+				else {
+					retryCount = 0;
+				}
+				
+			}
+			else
+			{
+				
+				if (options.debug)
+				{ console.log('playAudio() - trying to play id ', audioId); }
+				
+				// we're want to play a new one - fade out any old
+				existing = $('#' + currAudioId, audioHolder);
+				
+				if (existing.length > 0) {
+				
+					if (existing.attr('id') == audioId) {
+						// we are trying to play the same sound - leave it alone
+						if (options.debug)
+						{ console.log('playAudio() - same id request - leaving it'); }
+						existing.get(0).volume = 1;
+						return;
+					}
+					else {
+						// fade out and remove the playing audio
+						if (options.debug)
+						{ console.log('playAudio() - new id is different so removing existing', existing.attr('id')); }
+						existing.hide();
+						TweenMax
+						.to(existing, 1, {
+								volume: 0
+							,	onComplete: removeAudio
+							,	onCompleteParams: [existing]
+						});
+					}
+					
+				}
+				
+				currAudioId = audioId;
+				currAudioSrc = audioSrc;
+				
+				// now append a new audio element
+				audio = $('<audio id="' + audioId + '" preload="auto" controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
+				if (audio.length > 0) {
+					audio.get(0).load();
+					audio.get(0).volume = 1;
+					audio.get(0).play();
+					TweenMax.to(audio, 1, { volume: 1 });
+					if (options.debug)
+					{ console.log('playAudio() - %s should be playing', audioId); }
+				}
+			}
+			
+		}
+		
+		function addMediaElement( obj, el ) {
+		
+			switch (obj.type) {
+				case 'AUDIO':
+						
+					if (options.debug)
+					{ console.log('loaded audio', obj.name); }
+					mediaSources[obj.name] = obj.source;
+
+					break;
+					
+				case 'VIDEO':
+				
+					// find the video in the 
+					if (options.debug)
+					{ console.log('loaded video', obj.name); }
+					mediaSources[obj.name] = obj.source;
+				
+					break;
+			}
+			
+		}
+				// Preload the first audio and video track and insert as they are ready.
+		// When the loader is complete (whether it work or not), add them to the page, and 
+		// start the scroll to the first scene which will try and play them if they are there
+		
+		function pageStartComplete() {
+		
+			if (options.debug)
+			{ console.log('loaded initial files - starting remaining'); }
+			
+			remainderPreload = $.html5Loader({
+	
+				filesToLoad:'assets/html5/preload-2.json',
+				debugMode: false,
+				onElementLoaded: addMediaElement
+		
+			});
+			
+			// we got the opening track - cue it by scrolling in the opening scene
+			setTimeout(function() {
+				if (options.debug)
+				{ console.log('fade in article'); }
+				// fade in the article
+				TweenMax.to('article', 2, {autoAlpha: 1});
+				// scroll into current screen
+				openScene();
+			}, 1000);
+			
+		}
+		
+
+		// Handle scrolling into scene on nav clicks
 		$('nav a').on('click', openScene);
-		// scroll into current screen
-		openScene();
+		
+		// Begin! hide the article
+		TweenMax.to('article', 0, {autoAlpha: 0});
+		
+		// create the audio holder
+		audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
+
+		// Preload chapter 1 media
+		chapter1Preload = $.html5Loader({
+		
+			filesToLoad:'assets/html5/preload-1.json',
+			debugMode: false,
+			onComplete: pageStartComplete,
+			onElementLoaded: addMediaElement
+			
+		});
+		
+		
 		
 		return ret;
 

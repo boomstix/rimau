@@ -1,0 +1,27 @@
+{
+	"files": [
+	
+
+		{
+			"type":"AUDIO", "name": "chapter-1a", "sources": { "mp3":{ "size":2892496 , "source":"http://rimau.local/assets/audio/Chapter-1a.mp3" } }
+		}
+		,
+		{
+			"type":"AUDIO", "name": "chapter-1b", "sources": { "mp3":{ "size":3873028 , "source":"http://rimau.local/assets/audio/Chapter-1b.mp3" } }
+		}
+		,
+		{
+			"type":"AUDIO", "name": "chapter-2", "sources": { "mp3":{ "size":5410700,"source":"http://rimau.local/assets/audio/Chapter-2.mp3" } }
+		}
+		,
+		{
+			"type":"AUDIO", "name": "chapter-3-4", "sources": { "mp3":{ "size":3898942, "source":"http://rimau.local/assets/audio/Chapter-3-and-4.mp3" } }
+		}
+		,
+		{
+			"type":"AUDIO", "name": "chapter-5", "sources": { "mp3":{ "size":5134847, "source":"http://rimau.local/assets/audio/Chapter-5.mp3" } }
+		}
+
+
+	]
+}

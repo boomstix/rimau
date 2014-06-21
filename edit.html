@@ -10,7 +10,7 @@
 	<script src="assets/html5/modernizr.custom.19933.js" type="text/javascript"></script> 
 	<script src="assets/html5/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="assets/html5/responsive-nav.min.js"></script>
-	<script src="assets/html5/jquery.html5Loader.min.js"></script>
+	<script src="assets/html5/jquery.html5Loader.js"></script>
 	<script src="assets/html5/TweenMax.min.js" type="text/javascript"></script>
 	<script src="assets/html5/jquery.scrollmagic.min.js" type="text/javascript"></script>
 	<script src="assets/html5/jquery.scrollmagic.debug.js" type="text/javascript"></script>
@@ -87,7 +87,7 @@ $(function() {
 	
 		<div class="sequence" data-preload="section1.json">
 
-			<div class="panel audio-in" data-audio="section1-1">
+			<div class="panel audio-in" data-audio="chapter-1a">
 
 				<div class="atmos" data-video="00017-0-hero" id="atmos-00017-0-hero">
 					<img src="assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
@@ -130,8 +130,8 @@ $(function() {
 			<div class="panel">
 				<div class="video ref-04">
 					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/training-video.jpg">
-						<source src="http://video.sbs.com.au/u/video/operation-rimau/sub-16x9-trimmed-med.mp4" type="video/mp4" />
-						<source src="http://video.sbs.com.au/u/video/operation-rimau/sub-16x9-trimmed-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
+						<source src="http://video.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.mp4" type="video/mp4" />
+						<source src="http://video.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
@@ -193,13 +193,13 @@ $(function() {
 			<div class="panel">
 				<div class="video ref-11">
 					<video id="video-norman-wallace" controls preload="none" poster="assets/stills/placeholder/norman-wallace.jpg">
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/sb-part-01-a-med.mp4" type="video/mp4" />
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/sb-part-01-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-01-a-med.mp4" type="video/mp4" />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-01-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
 
-			<div class="panel audio-in" data-audio="section1-2">
+			<div class="panel audio-in" data-audio="chapter-1b">
 				<div class="video ref-12">
 					<a id="chp-1.4"></a>
 					<p>
@@ -440,8 +440,8 @@ $(function() {
 			<div class="panel">
 				<div class="video ref-37">
 					<video id="video-roma-1" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/roma-01-recut-med.mp4" type="video/mp4" />
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/roma-01-recut-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-01-recut-med.mp4" type="video/mp4" />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-01-recut-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
@@ -450,11 +450,12 @@ $(function() {
 
 	</section>
 
+
 	<section id="launch">
 
 		<div class="sequence">
 		
-			<div class="panel audio-in" data-audio="section-2-1">
+			<div class="panel audio-in" data-audio="chapter-2">
 			
 				<div class="image">
 					<img src="assets/stills/content/map-aus-merapas.jpg" class="res" alt="" />
@@ -474,7 +475,7 @@ $(function() {
 					<img src="assets/stills/content/map-merapas.jpg" class="res" alt="" />
 				</div>
 			</div>
-	
+
 			<div class="panel">
 			
 				<div class="atmos" data-video="00017" id="atmos-00017">
@@ -550,10 +551,10 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="panel">
+			<div class="panel mask">
 			
 				<div class="atmos" data-video="atmos-morning-mvi-4643" id="atmos-morning-mvi-4643">
-					<img src="assets/stills/placeholder/jungle-inhabitants.jpg" class="res" alt="" />
+					<img src="assets/stills/placeholder/morning-mvi-4643.jpg" class="res" alt="" />
 				</div>
 				
 				<div class="text-wrapper ref-44">
@@ -568,16 +569,6 @@ $(function() {
 					</blockquote>
 				</div>
 				</div>
-				
-				<!--
-				<div class="text-wrapper replace ref-45">
-				<div class="text floor" data-text-replace="diary-jungle">
-					<p>
-					Davidson&rsquo;s frustration is worsening; he&rsquo;d seen plenty of native boats, just a year earlier, and in &ldquo;&hellip;the vicinity of the Borneo coast&rdquo;.
-					</p>
-				</div>
-				</div>
-				-->
 				
 			</div>
 
@@ -600,15 +591,6 @@ $(function() {
 				<div class="image ref-47">
 					<img src="assets/stills/content/diary-joss.jpg" class="res" alt="" />
 				</div>
-				<!--
-				<div class="text-wrapper ref-47">
-				<div class="text">
-					<blockquote>
-					&ldquo;Yesterday, CHAPMAN completed a &lsquo;Joss&rsquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;.&rdquo;
-					</blockquote>
-				</div>
-				</div>
-				-->
 			</div>
 
 			<div class="panel mask">
@@ -632,20 +614,6 @@ $(function() {
 				<div class="image ref-49">
 					<img src="assets/stills/content/diary-sketch.jpg" class="res" alt="" />
 				</div>
-				<!--
-				<div class="text-wrapper ref-49">
-				<div class="text">
-					<blockquote>
-					&ldquo;The sketch is to remind me of rigging. Bowsprit. Forestay. 2 shrouds&hellip; Case strops on each batten round mast, loose, thus:<br/>
-					Normal junk rungs and ferrels.<br/>
-					Battens joined by light rope thus, swing 4 ft.<br/>
-					These support weight of battens, and take all strain off the flimsy matting sails. Sails with bolt rope on leach and luff.<br/>
-					<br/>
-					No time for more now.&rdquo;
-					</blockquote>
-				</div>
-				</div>
-				-->
 			</div>
 
 			<div class="panel">
@@ -700,11 +668,12 @@ $(function() {
 
 	</section>
 
+
 	<section id="subterfuge">
 
 		<div class="sequence">
 		
-			<div class="panel audio-in" data-audio="section-3-1">
+			<div class="panel audio-in" data-audio="chapter-3-4">
 			
 				<div class="image">
 					<img src="assets/stills/content/title-section-3-back.jpg" class="res" alt="" />
@@ -906,17 +875,7 @@ $(function() {
 				</div>
 			</div>
 
-<!-- 
-			<div class="panel">
-				<div class="image">
-					<p>
-					Interactive map to show where Rimau men each end up.
-					</p>
-				</div>
-			</div>
- -->
-
-			<div class="panel dark-1 audio-out">
+			<div class="panel dark-1">
 				<div class="page ref-67">
 					<a id="chp-3.12"></a>
 					<h3>5 days later &mdash; 21 November</h3>
@@ -947,11 +906,12 @@ $(function() {
 
 	</section>
 
+
 	<section id="conviction">
 
 		<div class="sequence">
 		
-			<div class="panel audio-in" data-audio="section-4-1">
+			<div class="panel audio-in" data-audio="chapter-3-4">
 				
 				<div class="image">
 					<img src="assets/stills/content/title-section-4-back.jpg" class="res" alt="" />
@@ -996,8 +956,7 @@ $(function() {
 		
 		<div class="trial">
 		
-			<div class="panel dark-2">
-				<!-- <div class="text-wrapper ref-71"> -->
+			<div class="panel dark-2 ref-71">
 				<div class="text">
 					<div class="intro">
 						<h3>3 July, 1945</h3>
@@ -1024,14 +983,14 @@ $(function() {
 					<dd><span>Answer: </span>Once on the Merapas Island and once on the other island. I am not sure if I killed any of the Japanese troops.</dd>
 					</dl>
 				</div>
-				<!-- </div> -->
+
 			</div>
 			
 		</div>
 	
 		<div class="sequence">
 		
-			<div class="panel audio-in">
+			<div class="panel">
 				<div class="image">
 					<img src="assets/stills/content/robert-page.jpg" class="res" alt="">
 				</div>
@@ -1069,13 +1028,13 @@ $(function() {
 			<div class="panel">
 				<div class="video ref-73">
 					<video id="video-roma-2" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/Roma_02.mp4" type="video/mp4" />
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/Roma_02.WebM" type='video/webm; codecs="vp8, vorbis"' />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-02-med.mp4" type="video/mp4" />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-02-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
 	
-			<div class="panel" data-audio="section-4-2">
+			<div class="panel audio-in" data-audio="chapter-5">
 				<div class="text-wrapper ref-75">
 				<div class="text">
 					<p>
@@ -1173,7 +1132,7 @@ $(function() {
 			</div>
 
 
-			<div class="panel dark-2 audio-out">
+			<div class="panel dark-2">
 
 				<div class="text-wrapper">
 				<div class="text memorial">
@@ -1200,6 +1159,7 @@ $(function() {
 		</div>
 
 	</section>
+
 
 	<section id="resources">
 

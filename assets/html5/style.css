@@ -12,6 +12,13 @@ body {
 	font-weight: 300;
 	font-size: 1em;
 }
+#audio-holder {
+	position: fixed;
+	bottom: 0px;
+	right: 0;
+	width: 200px;
+	z-index: 999;
+}
 a {
 	color: #ccc;
 }
@@ -314,6 +321,11 @@ dt, dd {
 		left: 50%;
 	}
 
+	.subject {
+		text-indent: -9999em;
+	}
+	*/
+
 	.trial {
 		width: 100%;
 		height: 100%;
@@ -336,11 +348,6 @@ dt, dd {
 		margin-left: 4%;
 	}
 	
-	.subject {
-		text-indent: -9999em;
-	}
-	*/
-
 }
 
 /* styles that apply under 768px */
@@ -422,6 +429,7 @@ dt, dd {
 		top: 0;
 	}
 
+	/* these fill horizontally and have height, top set on resize by js */
 	.enhanced .text-wrapper,
 	.enhanced .image,
 	.enhanced .atmos {
