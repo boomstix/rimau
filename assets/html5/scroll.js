@@ -23,9 +23,23 @@
 		,	panels = null
 		,	panel = null
 		, lastWindowWidth = 0
-		, destroyed = false;
+		, destroyed = true;
 		;
 
+		function openScene(e) {
+			// e.preventDefault();
+			if (!destroyed) {
+				setTimeout(function() {
+					scrollPos = (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash;
+					if ($(scrollPos).length) {
+						$('html, body').animate({
+							scrollTop: $(scrollPos).offset().top + $(window).height() * 2
+						}, 500);
+					}
+				}, 500);
+			}
+		}
+		
 		function getWindowDims() {
 			windowDims = { w: body.width(), h: win.height() };
 			return windowDims;
@@ -188,6 +202,8 @@
 			// panels can also contain multiple text or caption which fade in one frame after
 			// and out one frame before the panel.
 			// panel fades in for scroll equivalent of half the viewport
+			
+			destroyed = false;
 		
 			section = $(section);
 			
@@ -344,23 +360,26 @@
 			
 		}
 		
-		// setup the sequence and timeline
+		// grab the window dimensions and store for comparing on resize
 		d = getWindowDims();
-		
 		lastWindowWidth = d.w;
 		
 		// fix the dimensions of the fixed elements and their children
 		$(window).on('resize', fixDims);
-		
 		$(window).trigger('resize');
 		
 		ret = this;
-		
+			// setup the sequence and timeline if over breakpoint width
 		if (d.w > options.breakPoint) {
 			ret = this.each(setupSequence);
 		}
 		
 		$(window).trigger('resize');
+		
+		// handle scrolling into scene on nav clicks
+		$('nav a').on('click', openScene);
+		// scroll into current screen
+		openScene();
 		
 		return ret;
 

@@ -142,8 +142,8 @@
 				else {
 					subject.parent().append(newImg);
 				}
-				//subject.remove();
-				subject.empty();
+				subject.remove();
+				//subject.empty();
 			}
 			
 		}

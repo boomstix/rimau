@@ -25,7 +25,7 @@ var isMobile = function() {
 
 $(function() {
 
-	var nav = responsiveNav(".nav-collapse", { insert: "before" });
+	var nav = responsiveNav(".nav-collapse", { insert: "before", closeOnNavClick: true });
 
 	body = $('body');
 	
@@ -37,21 +37,6 @@ $(function() {
 		
 		$('.text, .caption, .special').replaceText();
 		
-		function openScene() {
-			setTimeout(function() {
-				scrollPos = (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash;
-				if ($(scrollPos).length) {
-					$('html, body').animate({
-						scrollTop: $(scrollPos).offset().top + $(window).height() * 2
-					}, 500);
-				}
-			}, 10);
-		}
-		
-		$('nav a').on('click', openScene);
-		openScene();
-		
-		// $(window).on('resize', fixImageDims);
 		/*
 		
 		TweenMax.to('article', 0, {autoAlpha: 0});
@@ -63,24 +48,7 @@ $(function() {
 			debugMode: false,
 			
 			onComplete: function () {
-				
-				$(window).trigger('resize');
-		
-				// setupSequences();
-		
-				// setupPortraitGallery();
-	
-				// setupQA();
-		
-				setTimeout(function() {
-					fixImageDims();
-					// fade the article itself in
-					TweenMax.to('article', 2, {autoAlpha: 1});
-					// if we are at the start
-					if (location.hash == '' || location.hash == '#section-1') {
-					}
-				}, 500);
-				
+				setTimeout(function() { TweenMax.to('article', 2, {autoAlpha: 1}); }, 500);
 			}
 			
 		});
@@ -103,6 +71,7 @@ $(function() {
 				<li><a href="#launch">Launch</a></li>
 				<li><a href="#subterfuge">Subterfuge</a></li>
 				<li><a href="#conviction">Conviction</a></li>
+				<li><a href="#resources">Resources</a></li>
 				<li><a href="#credits">Credits</a></li>
 			</ul>
 		</nav>
@@ -150,7 +119,7 @@ $(function() {
 			<div class="panel dark-1">
 				<div class="text-wrapper ref-03">
 				<div class="text">
-					<a id="1.1"></a>
+					<a id="chp-1.1"></a>
 					<p>
 					The Rimau men are commandos, hand&ndash;picked after intensive training, but the details of the mission are so sensitive that they don&rsquo;t know a damned thing about what will happen  &mdash; who or what the final target will be &mdash; nor the terror and trouble they&rsquo;ll face.
 					</p>
@@ -170,7 +139,7 @@ $(function() {
 			<div class="panel dark-1">
 				<div class="text-wrapper ref-05">
 				<div class="text">
-					<a id="1.2"></a>
+					<a id="chp-1.2"></a>
 					<p>
 					There&rsquo;s cause for confidence, though: the submarine Porpoise is loaded with a secret espionage weapon: new technology known as &lsquo;The Sleeping Beauty&rsquo;: one&ndash;man submersible canoes designed by the British to attack targets at the height of the Pacific War.
 					</p>
@@ -199,7 +168,7 @@ $(function() {
 			<div class="panel dark-1">
 				<div class="text-wrapper ref-09">
 				<div class="text">
-					<a id="1.3"></a>
+					<a id="chp-1.3"></a>
 					<p>
 					In theory, when a stealthy Sleeping Beauty gets in range of target, it launches, strikes and then slips quietly away; invisible to the enemy.
 					</p>
@@ -232,7 +201,7 @@ $(function() {
 
 			<div class="panel audio-in" data-audio="section1-2">
 				<div class="video ref-12">
-					<a id="1.4"></a>
+					<a id="chp-1.4"></a>
 					<p>
 					5 x chapterised documentary
 					</p>
@@ -242,7 +211,7 @@ $(function() {
 			<div class="panel light">
 				<div class="text-wrapper ref-13">
 				<div class="text">
-					<a id="1.5"></a>
+					<a id="chp-1.5"></a>
 					<p>
 					The crew don&rsquo;t know the details of the final raid, nor that the Rimau mission is backed by extensive planning: a 79-page document with maps, moon charts, notes on the whereabouts of enemy submarines, local fishing vessels and &lsquo;uninhabited&rsquo; islands. And, the men haven&rsquo;t a clue about the ultimate target: a raid on Japanese shipping in the heavily patrolled waters of <strong>Singapore Harbour</strong>.
 					</p>
@@ -286,7 +255,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-19">
 				<div class="text">
-					<a id="1.6"></a>
+					<a id="chp-1.6"></a>
 					<p>
 					But the raid is so treacherous that survival depends as much on equipment and planning as the improvisational skills and cunning of the crew (all of whom voluntarily transferred from less dangerous units into the Special Operations Australia, a commando force that worked behind enemy lines in South-East Asia known as <strong>&ldquo;Z. Special&rdquo;</strong>).
 					</p>
@@ -298,7 +267,7 @@ $(function() {
 			<div class="panel dark-3">
 				<div class="text-wrapper ref-20">
 				<div class="text">
-					<a id="1.7"></a>
+					<a id="chp-1.7"></a>
 					<p>
 					Among the Rimau men is a Sydney medical student, <strong>Robert (Bob) Page</strong> whose father, a Papua New Guinean administrator was held prisoner by the Japanese; the adventurous <strong>Walter Carey</strong> from rural NSW whose travels had taken his to New Guinea and China as a member of Mission 204; a New South Wales farmer  &mdash; the tall and steady <strong>W.G. Falls</strong>; and a truck driver  &mdash; <strong>J. T. (Jack) Hardy</strong> &mdash; who trained as parachutist; the Wangaratta boy  &mdash; <strong>A.L. &lsquo;Blondie&rsquo; Sargent</strong>, and the Englishman who became a Jackaroo in outback Queensland, <strong>Donald Davidson</strong>.
 					</p>
@@ -377,7 +346,7 @@ $(function() {
 			
 				<div class="text-wrapper ref-27">
 				<div class="text">
-					<a id="1.8"></a>
+					<a id="chp-1.8"></a>
 					<p>
 					Six of the Rimau men were crew on an earlier Operation  &mdash;  <strong>Jaywick</strong>  &mdash;  <strong>(September–October 1943)</strong> &mdash; a covert raid, similar to Rimau, during which, six commandos paddled in canoes to Singapore Harbour, attached limpet mines to the hulls of ships and destroyed more than 36,000 tonnes of essential Japanese shipping.
 					</p>
@@ -431,7 +400,7 @@ $(function() {
 				</div>
 				
 				<div class="caption ref-34">
-					<a id="1.9"></a>
+					<a id="chp-1.9"></a>
 					<p>
 					<strong>Ivan Lyon</strong> was commander of Jaywick and now he is commander of <strong>&lsquo;Rimau&rsquo;</strong> &mdash;  the Malay word for tiger &mdash; chosen because of the large multi-coloured tiger-head tattoo on Lyon&rsquo;s chest.
 					</p>
@@ -446,7 +415,7 @@ $(function() {
 				</div>
 				
 				<div class="caption ref-35">
-					<a id="1.10"></a>
+					<a id="chp-1.10"></a>
 					<p>
 					Lyon&rsquo;s track-record is maverick but impressive and he&rsquo;s spent months pushing for the launch of a second raid in spite of grave concerns &mdash; not least of all that, so soon after Jaywick, the enemy is on high and vengeful alert.
 					</p>
@@ -493,7 +462,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-38">
 				<div class="text bottom left" data-text-replace="map-aus-merapas-text-launch">
-					<a id="2.1"></a>
+					<a id="chp-2.1"></a>
 					<h3>A &lsquo;Safe&rsquo; Island  &mdash; 24<sup>th</sup> September, 1944</h3>
 				</div>
 				</div>
@@ -533,7 +502,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-41">
 				<div class="text floor center" data-text-replace="diary-timelapse">
-					<a id="2.2"></a>
+					<a id="chp-2.2"></a>
 					<p>
 					From the diary of Donald Davidson &mdash; 23 Sept 1944
 					</p>
@@ -553,7 +522,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-42">
 				<div class="text floor" data-text-replace="diary-inhabited">
-					<a id="2.3"></a>
+					<a id="chp-2.3"></a>
 					<blockquote>
 					&ldquo;(Merapas is) as ideal a place as can be expected. Very few islands are entirely uninhabited, and of those that are inhabited MERAPAS is as good a hideout as could be hoped for.&rdquo;
 					</blockquote>
@@ -570,7 +539,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-43">
 				<div class="text floor" data-text-replace="diary-merapas">
-					<a id="2.4"></a>
+					<a id="chp-2.4"></a>
 					<p>
 					Walter Carey is asked to act as watchman on Merapas and he&rsquo;s equipped with a silenced Sten rifle and a revolver. The rest of the crew set out in Porpoise in search of a local fishing boat for capture.
 					</p>
@@ -589,7 +558,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-44">
 				<div class="text floor" data-text-replace="diary-nojunk">
-					<a id="2.5"></a>
+					<a id="chp-2.5"></a>
 					<h4>27<sup>th</sup>September 27</h4>
 					<p>
 					The crew haven&rsquo;t found a native junk and the delay poses a real threat to the mission: no native boat means no subterfuge and no way of sailing &lsquo;undercover&rsquo; within range of Singapore.
@@ -616,19 +585,11 @@ $(function() {
 			
 				<div class="text-wrapper ref-46">
 				<div class="text">
-					<a id="2.6"></a>
+					<a id="chp-2.6"></a>
 					<p class="text-center">
 					The men are restless and nervous so they perform a ceremony  &mdash;  a rain-dance they hope might conjure a boat for capture and  &mdash;  &ldquo;&hellip;each officer with a finger on its head and chanting,
 					</p>
 					<blockquote class="text-center">&lsquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk&rsquo;.&rdquo;
-					</blockquote>
-				</div>
-				</div>
-				
-				<div class="text-wrapper ref-47">
-				<div class="text">
-					<blockquote>
-					&ldquo;Yesterday, CHAPMAN completed a &lsquo;Joss&rsquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;.&rdquo;
 					</blockquote>
 				</div>
 				</div>
@@ -639,6 +600,15 @@ $(function() {
 				<div class="image ref-47">
 					<img src="assets/stills/content/diary-joss.jpg" class="res" alt="" />
 				</div>
+				<!--
+				<div class="text-wrapper ref-47">
+				<div class="text">
+					<blockquote>
+					&ldquo;Yesterday, CHAPMAN completed a &lsquo;Joss&rsquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;.&rdquo;
+					</blockquote>
+				</div>
+				</div>
+				-->
 			</div>
 
 			<div class="panel mask">
@@ -649,7 +619,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-48">
 				<div class="text bottom">
-					<a id="2.7"></a>
+					<a id="chp-2.7"></a>
 					<p class="text-center">
 					At long last  &mdash;  <strong>@ 1300 hours on the 28th</strong>  &mdash;  a two-masted 40 tonne fishing boat is spied: <em>the Ketapang Prahu</em>  &mdash;  <em>the Mustika</em>.
 					</p>
@@ -659,7 +629,10 @@ $(function() {
 			</div>
 
 			<div class="panel">
-			
+				<div class="image ref-49">
+					<img src="assets/stills/content/diary-sketch.jpg" class="res" alt="" />
+				</div>
+				<!--
 				<div class="text-wrapper ref-49">
 				<div class="text">
 					<blockquote>
@@ -672,13 +645,7 @@ $(function() {
 					</blockquote>
 				</div>
 				</div>
-				
-			</div>
-
-			<div class="panel">
-				<div class="image ref-49">
-					<img src="assets/stills/content/diary-sketch.jpg" class="res" alt="" />
-				</div>
+				-->
 			</div>
 
 			<div class="panel">
@@ -694,7 +661,7 @@ $(function() {
 				</div>
 				
 				<div class="caption ref-51">
-					<a id="2.8"></a>
+					<a id="chp-2.8"></a>
 					<p>
 					The men capture and board the Mustika and, on 30 September, Davidson writes:
 					</p>
@@ -720,7 +687,7 @@ $(function() {
 			
 				<div class="text-wrapper ref-53">
 				<div class="text">
-					<a id="2.9"></a>
+					<a id="chp-2.9"></a>
 					<p class="text-center">
 					From now on, the crew have no choice but to fend for themselves.
 					</p>
@@ -760,7 +727,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-55">
 				<div class="text">
-					<a id="3.1"></a>
+					<a id="chp-3.1"></a>
 					<p>
 					The men need to go &lsquo;undercover&rsquo;, (to reach the final target undetected) and so they wear a rough disguise  &mdash; bare feet, face paint, and sarongs &mdash; and spend long stretches below deck to avoid being spotted. Even the labels on supplies, cooking utensils and rations (&lsquo;compo&rsquo; or &lsquo;romp&rsquo;) are camouflaged and, when a plane or ship is seen, the men raise the Japanese flag.
 					</p>
@@ -777,7 +744,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-56">
 				<div class="text bottom">
-					<a id="3.2"></a>
+					<a id="chp-3.2"></a>
 					<h4>10<sup>th</sup>October, 1944</h4>
 					<p>
 					Ten long slow days later &mdash; when the men are within reach of the final act: a major raid on the Japanese in Singapore Harbour &mdash; disaster strikes: They sail too close to the Island of Kasu, on which there&rsquo;s a township. The men didn&rsquo;t know about the township, but now, they&rsquo;ve been seen, and it&rsquo;s too late.
@@ -787,7 +754,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-57">
 				<div class="text bottom">
-					<a id="3.3"></a>
+					<a id="chp-3.3"></a>
 					<p>
 					A local police boat comes to investigate; the crew panic and mistake the unarmed police boat for enemy patrol. They shout, &lsquo;Patroller! Patroller!&rsquo; then open fire within view of the settlement on Kasu. The patrol boat sinks and most of its crew are killed.
 					</p>
@@ -800,7 +767,7 @@ $(function() {
 			
 				<div class="text-wrapper ref-58">
 				<div class="text">
-					<a id="3.4"></a>
+					<a id="chp-3.4"></a>
 					<p class="text-center">
 					Now, there is no chance of a stealth attack on Singapore Harbour and Lyon calls off the mission. 
 					</p>
@@ -813,7 +780,7 @@ $(function() {
 			
 				<div class="text-wrapper ref-59">
 				<div class="text">
-					<a id="3.5"></a>
+					<a id="chp-3.5"></a>
 					<h4>15<sup>th</sup> October, 1944</h4>
 					<p>
 					The men split into four groups and head for <em>Merapas</em> in dinghies. This is their best hope for survival, the only real chance to meet up with the rescue &ldquo;pick-up&rdquo; team on the submarine, <em>Tantalus</em>.
@@ -831,7 +798,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-60">
 				<div class="text bottom">
-					<a id="3.6"></a>
+					<a id="chp-3.6"></a>
 					<h4>16<sup>th</sup> October, 1944</h4>
 					<p>
 					One of the smaller groups, led by Lyon, takes a risk: they ask locals on Pangkil Island about Japanese shipping. The locals report this encounter to the Japanese, and Lyon and his men are tracked down by a Japanese vessel.
@@ -849,7 +816,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-61">
 				<div class="text bottom">
-					<a id="3.7"></a>
+					<a id="chp-3.7"></a>
 					<p>
 					There&rsquo;s a battle and heavy fire  &mdash;  and heavy losses: On Soreh, Lyon and Ross are killed. Stewart is captured and Davidson and Campbell are wounded during an escape attempt. 
 					</p>
@@ -882,7 +849,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-63">
 				<div class="text bottom">
-					<a id="3.8"></a>
+					<a id="chp-3.8"></a>
 					<p>
 					Those who aren&rsquo;t killed or captured make it back to Merapas and there, they use tactical training to keep cover. But soon they too are discovered by Japanese patrol: Riggs and Cameron are cornered and killed while they cover for their mates.
 					</p>
@@ -899,7 +866,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-64">
 				<div class="text">
-					<a id="3.9"></a>
+					<a id="chp-3.9"></a>
 					<p>
 					With the men hounded from the Merapas base by the Japanese, they face a two thousand kilometre journey back to Australia through occupied waters.
 					</p>
@@ -919,7 +886,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-65">
 				<div class="text dark-text top">
-					<a id="3.10"></a>
+					<a id="chp-3.10"></a>
 					<p>
 					The first group travel quite quickly on small fishing boats and, remarkably, commandeer a large junk from its unwilling crew. The second group paddle in their mates&rsquo; wake  &mdash;  hopping from island to island  &mdash; desperate to avoid discovery, and wait for a break to reach Australia.
 					</p>
@@ -931,7 +898,7 @@ $(function() {
 			<div class="panel dark-2">
 				<div class="text-wrapper ref-66">
 				<div class="text">
-					<a id="3.11"></a>
+					<a id="chp-3.11"></a>
 					<p class="text-center">
 					None make it home.
 					</p>
@@ -951,7 +918,7 @@ $(function() {
 
 			<div class="panel dark-1 audio-out">
 				<div class="page ref-67">
-					<a id="3.12"></a>
+					<a id="chp-3.12"></a>
 					<h3>5 days later &mdash; 21 November</h3>
 					<h4>&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h4>
 
@@ -1003,7 +970,7 @@ $(function() {
 			
 				<div class="text-wrapper ref-69">
 				<div class="text">
-					<a id="4.1"></a>
+					<a id="chp-4.1"></a>
 					<p>
 					The ten surviving men  &mdash;  those not killed in skirmishes on the islands or killed or drowned during escapes  &mdash;  are captured and taken by the Japanese to Outram Road Gaol where they are held for trial &lsquo;for espionage&rsquo;. The gaol is filthy, overcrowded, and infested with vermin and disease. Fellow prisoners show the signs of malnutrition and physical degradation. Those who transgress an unwritten code of rules are beaten by guards.
 					</p>
@@ -1241,7 +1208,7 @@ $(function() {
 				<div class="text-wrapper">
 				<div class="text">
 					<h3>Resources and credits</h3>
-					<ul class="memorial">
+					<ul class="credits">
 					<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
 					<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
 					<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
