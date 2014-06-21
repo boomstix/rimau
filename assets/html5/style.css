@@ -13,10 +13,10 @@ body {
 	font-size: 1em;
 }
 a {
-	color: #fff;
+	color: #ccc;
 }
 a:active, a:hover {
-	color: #ccc;
+	color: #fff;
 }
 body > header {
 	position: fixed;
@@ -155,6 +155,9 @@ img.res {
 
 .dark-text {
 	color: #333;
+}
+
+#credits {
 }
 
 ul.credits {
@@ -367,12 +370,14 @@ dt, dd {
 		height: 100%;
 		position: relative;
 	}
+/* 
 	.panel .text-wrapper:first-child {
 		padding-top: 6em;
 	}
 	.panel .text-wrapper:last-child {
 		padding-bottom: 6em;
 	}
+ */
 
 	/* sits top left of parent panel */
 	.panel .atmos + .text-wrapper,
@@ -392,14 +397,19 @@ dt, dd {
 		max-width: 740px;
 		width: 100%;
 	}
-
-	.sequence .panel .caption.right-center,
-	.sequence .panel .caption.left-center {
+	
+	.panel .page {
+		max-width: 740px;
+		padding-top: 50px;
 	}
 
-	.sequence .panel .caption.right-center {
+	.sequence .caption.right-center,
+	.sequence .caption.left-center {
 	}
-	.sequence .panel .caption.left-center {
+
+	.sequence .caption.right-center {
+	}
+	.sequence .caption.left-center {
 	}
 
 	.panel.enhanced {
@@ -408,9 +418,13 @@ dt, dd {
 		position: fixed;
 	}
 	
-	.panel.enhanced .text-wrapper,
-	.panel.enhanced .image,
-	.panel.enhanced .atmos {
+	.enhanced .text.memorial {
+		top: 0;
+	}
+
+	.enhanced .text-wrapper,
+	.enhanced .image,
+	.enhanced .atmos {
 		position: fixed;
 		width: 100%;
 		left: 0;
@@ -428,6 +442,13 @@ dt, dd {
 	.panel .atmos + .text-wrapper .text.top,
 	.panel .image + .text-wrapper .text.top {
 		top: 25%;
+	}
+
+	.enhanced .text.bottom,
+	.panel .atmos + .text-wrapper .text.bottom,
+	.panel .image + .text-wrapper .text.bottom {
+		bottom: 20%;
+		top: initial;
 	}
 
 	.enhanced.mask .text-wrapper,

@@ -31,9 +31,10 @@
 			if (!destroyed) {
 				setTimeout(function() {
 					scrollPos = (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash;
-					if ($(scrollPos).length) {
+					scrollPos = $(scrollPos);
+					if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 						$('html, body').animate({
-							scrollTop: $(scrollPos).offset().top + $(window).height() * 2
+							scrollTop: scrollPos.offset().top + $(window).height() * 2
 						}, 500);
 					}
 				}, 500);
@@ -179,7 +180,7 @@
 		}
 		
 		function panelHandler() {
-			if (options.debug)
+			// if (options.debug)
 			{ console.log('panel timeline %i %s',  arguments[0], arguments[1]); }
 		}
 		
