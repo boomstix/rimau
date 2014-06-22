@@ -588,7 +588,7 @@
 				if (options.debug)
 				{ console.log('fade in article'); }
 				// fade in the article
-				TweenMax.to('article', 2, {autoAlpha: 1});
+				TweenMax.to('article, ul.nav', 2, {autoAlpha: 1});
 				// scroll into current screen
 				openScene();
 			}, 1000);
@@ -600,7 +600,7 @@
 		$('nav a').on('click', openScene);
 		
 		// Begin! hide the article
-		TweenMax.to('article', 0, {autoAlpha: 0});
+		TweenMax.to('article, ul.nav', 0, {autoAlpha: 0});
 		
 		// create the audio holder
 		audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
