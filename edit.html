@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8"> 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Operation Rimau experiment</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<link href="assets/html5/normalize.css" rel="stylesheet" type="text/css" />
 	<link href="assets/html5/responsive-nav.css" rel="stylesheet" type="text/css" />
 	<link href="assets/html5/style.css" rel="stylesheet" type="text/css" />
@@ -16,6 +17,13 @@
 	<script src="assets/html5/jquery.scrollmagic.debug.js" type="text/javascript"></script>
 	<script src="assets/html5/scroll.js" type="text/javascript"></script>
 	<script src="assets/html5/trial.js" type="text/javascript"></script>
+	<meta name="description" content="Not long after midnight - on 11 September 1944 - a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.">
+	<meta property="og:title" content="Operation Rimau - An account of a top-secret WWII raid drawn from records and archive">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="http://www.sbs.com.au/operationrimau">
+	<meta property="og:image" content="http://after64.sbs.com.au/images/facebook-hero.jpg">
+	<meta property="og:site_name" content="SBS">
+	<meta property="og:description" content="Not long after midnight - on 11 September 1944 - a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.">
 
 <script>
 
@@ -27,38 +35,18 @@ $(function() {
 
 	var nav = responsiveNav(".nav-collapse", { insert: "before", closeOnNavClick: true });
 
-	body = $('body');
-	
 	if (!isMobile()) {
-	
 		$('.trial').trial({controller: new ScrollMagic(), debug: false });
-		
 		$('section').sequence({controller: new ScrollMagic(), debug: false });
-		
 		$('.text, .caption, .special').replaceText();
-		
-		/*
-		
-		TweenMax.to('article', 0, {autoAlpha: 0});
-	
-		var asdf = $.html5Loader({
-		
-			filesToLoad:'assets/html5/preload.json',
-			
-			debugMode: false,
-			
-			onComplete: function () {
-				setTimeout(function() { TweenMax.to('article', 2, {autoAlpha: 1}); }, 500);
-			}
-			
-		});
-		*/
-		
 	}
 	
 })
 
+
 </script>
+
+<script type="text/javascript" src="//nexus.ensighten.com/sbs/prod/Bootstrap.js"></script>
 
 </head>
 <body>
@@ -71,7 +59,7 @@ $(function() {
 				<li><a href="#launch">Launch</a></li>
 				<li><a href="#subterfuge">Subterfuge</a></li>
 				<li><a href="#conviction">Conviction</a></li>
-				<li><a href="#resources">Resources</a></li>
+				<li><a href="#references">References</a></li>
 				<li><a href="#credits">Credits</a></li>
 			</ul>
 		</nav>
@@ -257,7 +245,7 @@ $(function() {
 				<div class="text">
 					<a id="chp-1.6"></a>
 					<p>
-					But the raid is so treacherous that survival depends as much on equipment and planning as the improvisational skills and cunning of the crew (all of whom voluntarily transferred from less dangerous units into the Special Operations Australia, a commando force that worked behind enemy lines in South-East Asia known as <strong>&ldquo;Z. Special&rdquo;</strong>).
+					But the raid is so treacherous that survival depends as much on equipment and planning as the improvisational skills and cunning of the crew (all of whom voluntarily transferred from less dangerous units into the Special Operations Australia, a commando force that worked behind enemy lines in South-East Asia known as <strong>&ldquo;Z. Special Unit&rdquo;</strong>).
 					</p>
 				</div>
 				</div>
@@ -880,24 +868,20 @@ $(function() {
 					<a id="chp-3.12"></a>
 					<h3>5 days later &mdash; 21 November</h3>
 					<h4>&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h4>
-
 					<p>
 					Account drawn from Walter Chapman's report.
 					</p>
 					<p>
-					The <strong>Tantalus</strong> submarine finally arrives at <strong>Merapas</strong> and, after midnight Major Walter Chapman and Corporal Ron Croton paddle through the cloudless night. But the weather turns foul. Heavy surf breaks on the rocky shore of the northern beaches, which forces a long journey around the island. It&rsquo;s 0200 hours before they land and hide their boat in the foreshore scrub.
+					The Tantalus submarine finally arrives at Merapas and, after midnight Major Walter Chapman and Corporal Ron Croton make there way ashore. Tired from long weeks cooped up in the sub, the men rest until first light.
 					</p>
 					<p>
-					The men climb the hill to the &lsquo;Hammock Tree&rsquo; &mdash;  a tree used to signal boats offshore &mdash; and, in the dark, four and half hours after leaving the submarine, they&rsquo;re glad the Japanese aren&rsquo;t waiting for them. Tired from long weeks cooped up in the sub, the men rest until first light.
+					They find a camp in disarray: ration tins strewn on the ground, some filled with uneaten food and fires kicked out. It&rsquo;s clear that the Rimau men Chapman watched sail off on the Mustika had returned to the island because there&rsquo;s a heavy iron cooking pot from the boat among the debris, but there&rsquo;s no-one to be found.
 					</p>
 					<p>
-					A search finds nothing to prove the crew are still on the island So Chapman and Croton head down the hill, and then spot a camp in disarray: ration tins strewn on the ground, some filled with uneaten food and fires recently kicked out. Now it&rsquo;s clear that the Rimau men Chapman watched sail off on the Mustika have returned to the island: there&rsquo;s a heavy iron cooking bowl from the boat among the debris.
+					Something is wrong: hidden in the undergrowth is a small rake used to sweep over footprints in the sand, a tool cherished by its owner, Davidson. Why would he leave it behind? Why leave the camp in a mess, which would be conspicuous signs for the enemy? The men had disappeared, but there is no clear evidence of a skirmish.
 					</p>
 					<p>
-					But something is wrong: hidden in the undergrowth is a small rake used to sweep over footprints in the sand, a tool cherished by its owner, Davidson. Why would he leave it behind? There&rsquo;s also a bunch of bananas Chapman figures must have been cut at least two weeks ago: Why leave them behind and why leave the camp in a mess, which would be conspicuous signs for the enemy? There seemed only one conclusion &mdash; battle and death  &mdash; and yet there is no clear evidence of a skirmish.
-					</p>
-					<p>
-					The next night, the &ldquo;pick-up&rdquo; crew paddle back to Tantalus and Chapman reports the bad news. The men won&rsquo;t make the rendezvous (rescue), and &ldquo;it was agreed that no further purpose would be served by returning next night&rdquo;.
+					The next night, Chapman and Croton paddle back to the Tantalus to report the bad news. The men won&rsquo;t be picked up, and &ldquo;it was agreed that no further purpose would be served by returning next night&rdquo;.
 					</p>
 				</div>
 			</div>
@@ -1071,20 +1055,6 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="panel">
-			
-				<div class="atmos" data-video="Kranji-Cemetary">
-					<img src="assets/stills/placeholder/kranji-cemetary.jpg" class="res" alt="" />
-				</div>
-				
-				<div class="caption ref-78">
-					<p>
-					The men are exhumed on 21 November 1945 and later reburied in Singapore&rsquo;s Kranji Cemetery.
-					</p>
-				</div>
-				
-			</div>
-			
 			<div class="panel dark-2">
 			
 				<div class="text-wrapper">
@@ -1099,17 +1069,10 @@ $(function() {
 					<li><a href="http://soda.naa.gov.au/record/6469177/1" target="_blank"><strong>Corporal C.M. (Colin) Craft</strong>, <br/>WX11688</a></li>
 					<li><a href="http://soda.naa.gov.au/record/4548357/1" target="_blank"><strong>Able Seaman W.G. (Wally) Falls</strong>, <br/>S/6543</a></li>
 					<li><a href="http://soda.naa.gov.au/record/4620324/1" target="_blank"><strong>Corporal R.B. (Ron) Fletcher</strong>, <br/>AIF, NX80005</a></li>
-					<li><a href="http://soda.naa.gov.au/record/6096655/1" target="_blank"><strong>Sergeant D.B. (David) Gooley</strong>, <br/>AIF VX109893</a></li>
-					<li><a href="http://soda.naa.gov.au/record/5628180/1" target="_blank"><strong>Lance-Corporal J.T. (Jack) Hardy</strong>, <br/>AIF, NX140476</a></li>
-					<li><a href="http://soda.naa.gov.au/record/4425433/1" target="_blank"><strong>Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston</strong>, <br/>Royal Australian Naval Reserve, B3312</a></li>
 					</ul>
 				</div>
 				</div>
 				
-			</div>
-
-
-			<div class="panel dark-2">
 			
 				<div class="text-wrapper">
 				<div class="text memorial">
@@ -1117,12 +1080,26 @@ $(function() {
 					<h3>Full Details of All Men who Embark on Rimau</h3>
 					<h4>Australians</h4>
 					<ul class="memorial">
+					<li><a href="http://soda.naa.gov.au/record/6096655/1" target="_blank"><strong>Sergeant D.B. (David) Gooley</strong>, <br/>AIF VX109893</a></li>
+					<li><a href="http://soda.naa.gov.au/record/5628180/1" target="_blank"><strong>Lance-Corporal J.T. (Jack) Hardy</strong>, <br/>AIF, NX140476</a></li>
+					<li><a href="http://soda.naa.gov.au/record/4425433/1" target="_blank"><strong>Able Seaman A.W.G. (Andrew &lsquo;Happy&rsquo;) Huston</strong>, <br/>Royal Australian Naval Reserve, B3312</a></li>
 					<li><a href="http://soda.naa.gov.au/record/5410466/1" target="_blank"><strong>Able Seaman F.W.L. (Fred &lsquo;Boof&rsquo;) Marsh</strong>, <br/>Royal Australian Naval Reserve, A6770</a></li>
 					<li><a href="http://soda.naa.gov.au/record/4497549/1" target="_blank"><strong>Corporal H.J. (Hugo) Pace</strong>, <br/>AIF</a></li>
 					<li><a href="http://soda.naa.gov.au/record/4618017/1" target="_blank"><strong>Captain Robert C. Page</strong>, AIF, <br/>NX19158</a></li>
+					</ul>
+				</div>
+				</div>
+				
+			
+				<div class="text-wrapper">
+				<div class="text memorial">
+			
+					<h3>Full Details of All Men who Embark on Rimau</h3>
+					<h4>Australians</h4>
+					<ul class="memorial">
 					<li><a href="http://soda.naa.gov.au/record/5423003/1" target="_blank"><strong>Lieutenant B.P. (Bruno) Reymond</strong>, <br/>RANR, A6769</a></li>
 					<li><a href="http://soda.naa.gov.au/record/6203373/1" target="_blank"><strong>Lieutenant A.L. (&lsquo;Blondie&rsquo;) Sargent</strong>, <br/>AIF, VX15290</a></li>
-					<li><a href="http://soda.naa.gov.au/record/6466169/1" target="_blank"><strong>Corporal C.M. (Clair Mackie) Stewart</strong>, <br/>AIF, WX15839</a></li>
+					<li><a href="http://soda.naa.gov.au/record/6466169/1" target="_blank"><strong>Corporal C.M. (Clair Mack) Stewart</strong>, <br/>AIF, WX15839</a></li>
 					<li><a href="http://soda.naa.gov.au/record/4490209/1" target="_blank"><strong>Private D.R. (Doug) Warne</strong>, <br/>AIF, QX21698</a></li>
 					<li><a href="http://soda.naa.gov.au/record/6121334/1" target="_blank"><strong>Warrant Officer A. (Alf) Warren</strong>, <br/>AIF, VX52239</a></li>
 					<li><a href="http://soda.naa.gov.au/record/6065234/1" target="_blank"><strong>Warrant Officer, J. (Jeffrey) Willersdorf</strong>, <br/>AIF, VX81821</a></li>
@@ -1156,21 +1133,158 @@ $(function() {
 				</div>
 			</div>
 			
+
+			<div class="panel">
+			
+				<div class="atmos" data-video="Kranji-Cemetary">
+					<img src="assets/stills/placeholder/kranji-cemetary.jpg" class="res" alt="" />
+				</div>
+				
+				<div class="caption ref-78">
+					<p>
+					The men are exhumed on 21 November 1945 and later reburied in Singapore&rsquo;s Kranji Cemetery.
+					</p>
+				</div>
+				
+			</div>
+			
 		</div>
 
 	</section>
 
 
-	<section id="resources">
+	<section id="references">
 
 			<div class="panel">
 				<div class="page">
-					<h3>Resources and credits</h3>
-					<ul class="credits">
-					<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
-					<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
-					<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
+				
+					<h3>References:</h3>
+
+						<ol class="refs">
+							<li><a id="footnote-1"></a>Prosecuting Attorney&rsquo;s Address to the Court, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–19, MP742/1 336/1/755, NAA.</li>
+							<li><a id="footnote-2"></a>Interview with Norman Wallace, Joined Up Films.</li>
+							<li><a id="footnote-3"></a>&lsquo;Plan RIMAU&rsquo;. A3269 E4/B, NAA.</li>
+							<li><a id="footnote-4"></a>Ibid., 1.</li>
+							<li><a id="footnote-5"></a>Refer to personnel files below. See also Lynette Silver, Deadly Secrets: The Singapore Raids, 1942-5 (Binda, NSW: Sally Milner, 2010), 119–121, 143–4, 147, 209, 212–3, 217–8.</li>
+							<li><a id="footnote-6"></a>On Lyon, refer to Silver, Deadly Secrets, 77–84; Brian Connell, Return of the Tiger, (London: Evans Brothers, 1960), ch. 1.</li>
+							<li><a id="footnote-7"></a>Silver, Deadly Secrets, ch.10.</li>
+							<li><a id="footnote-8"></a><a href="http://soda.naa.gov.au/record/235240/13">&lsquo;Rimau Project: Lt-Comdr Davidson&rsquo;s Diary&rsquo;, p. 2, A3269, E4/D.</a></li>
+							<li><a id="footnote-9"></a>Ibid., p. 4.</li>
+							<li><a id="footnote-10"></a>Ibid., p. 3.</li>
+							<li><a id="footnote-11"></a>Ibid., p. 6.</li>
+							<li><a id="footnote-12"></a>Ibid, p. 6.</li>
+							<li><a id="footnote-13"></a>Ibid., p. 7.</li>
+							<li><a id="footnote-14"></a>Ibid., p. 7.</li>
+							<li><a id="footnote-15"></a>Major Ingleton testimony, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–6, 8, MP742/1 336/1/755, NAA.</li>
+							<li><a id="footnote-16"></a>Ibid., p. 31–8; cf. Silver, Deadly Secrets, 238–40.</li>
+							<li><a id="footnote-17"></a>Ibid., pp. 31–9.</li>
+							<li><a id="footnote-18"></a>John J. Ellis, &lsquo;Report on Search for Allied Personnel in Riouw Archepelago (sic)&rsquo; 13 October 1945, MP742/1 336/1/755, NAA, cf. Silver, Deadly Secrets, 244–62.</li>
+							<li><a id="footnote-19"></a>Silver, Deadly Secrets, ch. 14.	</li>
+							<li><a id="footnote-20"></a>Ibid., ch.14.</li>
+							<li><a id="footnote-21"></a>Ibid., ch.14.</li>
+							<li><a id="footnote-22"></a>Ibid., ch.14.</li>
+							<li><a id="footnote-23"></a>Major W.W. Chapman, &lsquo;Report on Attempted Pickup of &ldquo;Rimau&rdquo; Party&rsquo;, 18 December 1944, A3269, E5/A, NAA; cf. Connell, Return of the Tiger, 176–87; cf. Silver, Deadly Secrets, ch. 13.</li>
+							<li><a id="footnote-24"></a>On conditions at Outram Road Gaol, see interviews in Hank Nelson, P.O.W. Prisoners of War: Australians under Nippon (Sydney: Australian Broadcasting Corporation, 1985), ch. 13.</li>
+							<li><a id="footnote-25"></a>As told to SBS Online, 13 June 2014.</li>
+							<li><a id="footnote-26"></a>Personal letter from Robert Page to Roma Page, 28 September, 1944.</li>
+							<li><a id="footnote-27"></a>Testimony of Major Ingleton, Captain Page, Captain Carey, Lieutenant Sargent & Other Accused, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–6, 8, 11, 12, 14, MP742/1 336/1/755, NAA.</li>
+							<li><a id="footnote-28"></a>Interrogation of Interpreter Furuta, 21 October 1945. MP742/1 336/1/755, NAA.</li>
+							<li><a id="footnote-29"></a>Prosecuting Attorney&rsquo;s Address to the Court, &lsquo;Full Account of the Australian Special Overseas&rsquo; Operation</li>
+							Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–20, MP742/1 336/1/755, NAA.</li>
+							<li><a id="footnote-30"></a>Capt. R.S. Ross, RAMC, Memorandum, 21 November 1945, MP742/1 336/1/755, NAA.</li>
+						</ol>
+
+						<h3>Archive and Images</h3>
+
+						<h4>Chapter 1: The Mission</h4>
+						<ul class="refs">
+							<li>AWM F07364</li>
+							<li>AWM P00908.002</li>
+							<li>AWM P01447.001,</li>
+							<li>National Archives of Australia: A3269, Q11/59(B)</li>
+						</ul>
+
+						<h4>Norman Wallace image:</h4>
+
+						<ul class="refs">
+							<li>Christopher Farber</li>
+						</ul>
+
+						<ul class="refs">
+							<li>National Archives of Australia: A3269, Q11/39 (B)</li>
+							<li>National Archives of Australia: A3269, Q11/42(A)</li>
+							<li>Critical Past Archive: 65675039087, 65675039090</li>
+						</ul>
+
+						<h4>From Plan Rimau:</h4>
+						<ul class="refs">
+							<li>National Archives of Australia: A3269, E4/B</li>
+							<li>National Archives of Australia: A3269, E4/B</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+						</ul>
+
+						<h4>The Rimau men:</h4>
+						<ul class="refs">
+							<li>AWM 045416</li>
+							<li>AWM P05790.002</li>
+							<li>AWM 045408</li>
+							<li>AWM P08670.001</li>
+							<li>AWM P00838.002</li>
+							<li>AWM 045404</li>
+						</ul>
+
+						<h4>Operation Jaywick:</h4>
+						<ul class="refs">
+							<li>National Archives of Australia: A3269, Q11/56 (A)</li>
+							<li>National Archives of Australia: A3269, Q11/5 (B)</li>
+							<li>AWM 044463</li>
+							<li>AWM 067336</li>
+							<li>AWM 134349</li>
+							<li>AWM 045422</li>
+						</ul>
+
+						<h4>Mrs Roma Page footage:</h4>
+						<ul class="refs">
+							<li>Christopher Farber</li>
+						</ul>
+
+						<h4>Chapter 2: Launch</h4>
+						<ul class="refs">
+							<li>Location map: Joined Up Films/ Siamese</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+							<li>AWM P00604.011</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+							<li>National Archives of Australia: A3269, E4/D</li>
+							<li>National Archives of Australia: A3269, Q11/59(B)</li>
+							<li>National Archives of Australia: A3269, Q11/58(B)</li>
+							<li>National Archives of Australia: A3269, Q11/59(A)</li>
+						</ul>
+
+						<h4>Chapter 3: Subterfuge</h4>
+
+						<ul class="refs">
+							<li>Location map: Joined Up Films/ Siamese.</li>
+						</ul>
+
+						<h4>Chapter 4: Conviction</h4>
+
+						<ul class="refs">
+							<li>Roma Page still and video footage: Christopher Farber</li>
+							<li>AWM045146 AWM 101099</li>
+						</ul>
+
+
+					<h3>Resources</h3>
+					<ul class="refs">
+						<li><a href="http://soda.naa.gov.au/record/403646/39">The interrogation of Furuta</a></li>
+						<li><a href="http://soda.naa.gov.au/record/403646/16">The exhumation memo</a></li>
+						<li><a href="http://soda.naa.gov.au/record/773975/46">The summary of the trial transcript</a></li>
 					</ul>
+					
+					
+					
 				</div>
 			</div>
 				
@@ -1180,26 +1294,84 @@ $(function() {
 
 		<div class="sequence">
 			<div class="panel">
+			
 				<div class="text-wrapper">
 				<div class="text">
-					<h3>Credits</h3>
+
+					<h3>Credits: &ldquo;Operation Rimau&rdquo;</h3>
+					<h4>Produced, conceived and directed by SBS Online</h4>
+
 					<ul class="credits">
 						<li>As told by M. J. Hyland</li>
 						<li>With Dr James Waghorne</li>
 						<li>Music by Nils Frahm</li>
 						<li>Sound design by Sameer Sengupta</li>
-						<li>Photography by Christopher Farber</li>
+						<li>Photography (Indonesia, Singapore, Australia) by Christopher Farber</li>
+						<li>Location guide (Indonesia and Singapore) Lynette Silver</li>
 						<li>Design and development by Snepo</li>
-						<li>Produced and directed by SBS Online</li>
+						<li>Design: Cristina Lavenuta</li>
+						<li>Development: Dan Morris</li>
 					</ul>
+					
 				</div>
 				</div>
+
+				<div class="text-wrapper">
+				<div class="text">
+
+					<h3>Sleeping Beauty Documentary:</h3>
+
+					<ul class="credits">
+						<li>Producer/director: Kylie Boltin, SBS Online</li>
+						<li>Cinematography: Andrew McLeod, Andrew Grant</li>
+						<li>Editing: Rosie Jones</li>
+						<li>Additional editing: Peter O'Donoghue</li>
+						<li>Logging: Joanne Garcia</li>
+						<li>Sound design: Mark Street</li>
+						<li>Norman Wallace interview: Joined Up Films</li>
+						<li>Critical Past Archive: 65675039087, 65675039088, 65675039090.</li>
+					</ul>
+
+					<h4>&ldquo;Sleeping Beauty&rdquo; Construction & Design Team</h4>
+					<ul class="credits">
+						<li>Chuck Anderson - Lead Construction/Design</li>
+						<li>Ian Begg, Mckenzie Marine - Construction/Design</li>
+						<li>Calum Kennedy - Lead Design</li>
+						<li>Simon Anderson - Design </li>
+					</ul>
+					
+				</div>
+				</div>
+
+				<div class="text-wrapper">
+				<div class="text">
+
+					<h3>Music</h3>
+					<ul class="credits">
+						<li>&ldquo;Went Missing&rdquo;, &ldquo;Said & Done&rdquo; and &ldquo;It Was Really, Really Grey&rdquo;</li>
+						<li>Composed and Performed by Nils Frahm</li>
+						<li>Used by permission of Manners McDade Music Publishing Ltd</li>
+						<li>Administered By Hebbes Music Group</li>
+					</ul>
+
+				</div>
+				</div>
+
 			</div>
 		</div>
 		
 	</section>
 	
 	</article>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-51810354-4', 'sbs.com.au');
+ga('send', 'pageview');
+</script>
 
 </body>
 </html>

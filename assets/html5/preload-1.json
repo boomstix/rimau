@@ -3,7 +3,7 @@
 	
 
 		{
-			"type":"AUDIO", "name": "chapter-1a", "sources": { "mp3":{ "size":9285.632, "source":"http://rimau.local/assets/audio/Chapter-1a.mp3" } }
+			"type":"AUDIO", "name": "chapter-1a", "sources": { "mp3":{ "size":9285.632, "source":"assets/audio/Chapter-1a.mp3" } }
 		}
 		,
 		{

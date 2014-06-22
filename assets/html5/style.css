@@ -163,13 +163,18 @@ img.res {
 	color: #333;
 }
 
-#credits {
+#credits h4 {
+	text-align: center;
+}
+
+#credits .text {
+	top: 0%;
 }
 
 ul.credits {
 	padding: 0;
 	margin: 0 auto;
-	max-width: 18em;
+	max-width: 32em;
 	list-style: none;
 }
 ul.credits li {
