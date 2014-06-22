@@ -9,6 +9,7 @@
 		var body = $('body')
 		,	bodyDims = {}
 		,	win = $(window)
+		,	header = $('body > header')
 		,	windowDims = {}
 		, scrollDirection = 'FORWARD'
 		, scrollState = 'BEFORE'
@@ -61,7 +62,7 @@
 		
 		// grab width and height of viewport
 		function getWindowDims() {
-			windowDims = { w: body.width(), h: win.height() };
+			windowDims = { w: body.width(), h: win.height(), navH: header.height() };
 			return windowDims;
 		}
 		
@@ -85,8 +86,8 @@
 			if (d.w > options.breakPoint) {
 			
 				// console.log('setting dims');
-				newHeight = d.w * 9 / 16;
-				newTop = (d.h - newHeight) / 2;
+				newHeight = d.w * 9 / 16 + d.navH;
+				newTop = (d.h - newHeight) / 2 + d.navH;
 				
 				// fit the videos to the midpoint if over video max-width (920px)
 				allContentVideos.css({
