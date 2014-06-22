@@ -70,7 +70,6 @@ ul.nav li {
 	margin: 1.5em;
 	font-size: 0.7em;
 	font-weight: bold;
-	border: 1px solid red;
 }
 
 ul.nav li.social {
@@ -99,9 +98,12 @@ ul.nav li.social #twitter-widget-0 {
 	}
 	ul.nav li {
 		width: 40% !important;
+		margin: 0.75em 1.5em;
 	}
 	ul.nav li.social {
 		float: left;
+		width: 100% !important;
+		text-align: center;
 	}
 }
 
