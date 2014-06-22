@@ -23,8 +23,9 @@
 	<meta property="og:url" content="http://www.sbs.com.au/operationrimau">
 	<meta property="og:image" content="http://after64.sbs.com.au/images/facebook-hero.jpg">
 	<meta property="og:site_name" content="SBS">
-	<meta property="og:description" content="Not long after midnight - on 11 September 1944 - a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.">
-
+	<meta property="og:description" content="'Operation Rimau' a new SBS Interactive. Explore the story of a secret WWII raid and the 23 young commandoes hand-picked for espionage.">
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	
 <script>
 
 var isMobile = function() {
@@ -50,7 +51,14 @@ $(function() {
 
 </head>
 <body>
-
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=246092728868374&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 	<header>
 		<a href="/"><img src="assets/html5/sbs-logo.png" height="50" alt="SBS homepage" /></a>
 		<nav class="nav-collapse" role="navigation">
@@ -61,6 +69,14 @@ $(function() {
 				<li><a href="#conviction">Conviction</a></li>
 				<li><a href="#references">References</a></li>
 				<li><a href="#credits">Credits</a></li>
+				<li class="social">
+					<div class="social-holder">
+						<div class="fb-like" data-href="http://www.sbs.com.au/operationrimau" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+					</div>
+					<div class="social-holder">
+						<a href="https://twitter.com/share" class="twitter-share-button" data-text="Operation Rimau: a top-secret WWII espionage mission. Explore the SBS interactive" data-hashtags="sbs">Tweet</a>
+</a></div>
+				</li>
 			</ul>
 		</nav>
 	</header>

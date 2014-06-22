@@ -218,6 +218,25 @@ dt, dd {
 	margin: 1em 0;
 }
 
+ul.nav li.social {
+	float: right;
+}
+
+ul.nav li.social .fb_iframe_widget {
+	float: left;
+	margin-right: 5px;
+}
+
+ul.nav li.social #twitter-widget-0 {
+	float: right;
+}
+
+.social-holder {
+	width: 100px;
+	height: 20px;
+	float: left;
+}
+
 /* styles that apply over 640px */
 @media (min-width: 40em) {
 	
