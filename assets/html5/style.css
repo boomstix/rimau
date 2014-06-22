@@ -18,6 +18,7 @@ body {
 	right: 0;
 	z-index: 999;
 }
+
 a {
 	color: #ccc;
 }
@@ -132,31 +133,30 @@ img.res {
 	background-size: cover;
 	position: relative;
 	overflow: hidden;
-/*
-	border: 1px solid red;
-	box-sizing:border-box;
-*/
 }
 
-.panel.dark-1 {
-	background-image: url(../img/bg/background-dark-1.jpg);
-	text-shadow: 1px 1px 2px #000;
-}
-
-.panel.dark-2 {
-	background-image: url(../img/bg/background-dark-2.jpg);
-	text-shadow: 1px 1px 2px #000;
-}
-
+.panel.dark-1,
+.panel.dark-2,
 .panel.dark-3 {
-	background-image: url(../img/bg/background-dark-3.jpg);
 	text-shadow: 1px 1px 2px #000;
 }
 
-.panel.light {
+.backgroundsize .panel.dark-1 {
+	background-image: url(../img/bg/background-dark-1.jpg);
+}
+
+.backgroundsize .panel.dark-2 {
+	background-image: url(../img/bg/background-dark-2.jpg);
+}
+
+.backgroundsize .panel.dark-3 {
+	background-image: url(../img/bg/background-dark-3.jpg);
+}
+
+.backgroundsize .panel.light {
 	background-image: url(../img/bg/background-light.jpg);
+	background-color: #f9f8f4;
 	color: #333;
-	/* text-shadow: 1px 1px 1px #999; */
 }
 
 .dark-text {
@@ -270,7 +270,7 @@ ul.nav li.social #twitter-widget-0 {
 		height: 100%;
 	}
 
-	.trial .text {
+	.trial .enhanced .text {
 		top: 5%;
 	}
 
