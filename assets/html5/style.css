@@ -168,7 +168,7 @@ img.res {
 }
 
 #credits .text {
-	top: 0%;
+	top: 10%;
 }
 
 ul.credits {
@@ -246,90 +246,6 @@ dt, dd {
 		margin: 0 auto;
 	}
 
-	/*
-	.sketch {position: relative;}
-
-	.panel .caption {
-		bottom: 10%;
-	}
-	.panel .caption.left {
-		left: 30%;
-	}
-	.panel .caption.top {
-		top: 10%;
-		bottom: initial;
-	}
-	
-	.panel .text-wrapper {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}
-	.panel .text-wrapper:first-child {
-		padding-top: 6em;
-	}
-	.panel .text-wrapper:last-child {
-		padding-bottom: 6em;
-	}
-
-	.enhanced .text-wrapper,
-	.panel .atmos + .text-wrapper,
-	.panel .image + .text-wrapper {
-		position: absolute;
-		left: 0;
-		top: 0;
-	}
-	
-	.enhanced.mask .text-wrapper,
-	.panel.mask .atmos + .text-wrapper,
-	.panel.mask .image + .text-wrapper {
-		background-image: url(../img/text-bg-mask.png);
-		background-repeat: repeat-x;
-		background-size: cover;
-	}
-
-	.enhanced.mask .text-wrapper {
-		position: fixed !important;
-	}
-	
-	.enhanced .text,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		top: 40%;
-	}
-	
-	.enhanced .text.top,
-	.panel .atmos + .text-wrapper .text.top,
-	.panel .image + .text-wrapper .text.top {
-		top: 25%;
-	}
-
-	.enhanced .text.memorial {
-		top: 0;
-	}
-
-	.enhanced .text.bottom,
-	.panel .atmos + .text-wrapper .text.bottom,
-	.panel .image + .text-wrapper .text.bottom {
-		bottom: 20%;
-		top: initial;
-	}
-
-	.panel .caption,
-	.enhanced .text,
-	.panel .atmos + .text-wrapper .text,
-	.panel .image + .text-wrapper .text {
-		position: absolute;
-		max-width: 480px;
-		margin-left: -240px;
-		left: 50%;
-	}
-
-	.subject {
-		text-indent: -9999em;
-	}
-	*/
-
 	.trial {
 		width: 100%;
 		height: 100%;
@@ -381,14 +297,6 @@ dt, dd {
 		height: 100%;
 		position: relative;
 	}
-/* 
-	.panel .text-wrapper:first-child {
-		padding-top: 6em;
-	}
-	.panel .text-wrapper:last-child {
-		padding-bottom: 6em;
-	}
- */
 
 	/* sits top left of parent panel */
 	.panel .atmos + .text-wrapper,
@@ -478,6 +386,19 @@ dt, dd {
 	dt span, dd span {
 		display: none;
 	}
+
+
+	.enhanced .text-wrapper {
+		display: table;
+		overflow: hidden;
+	}
+
+	.enhanced .text {
+		display: table-cell;
+		vertical-align: middle;
+	}
+
+
 
 }
 
