@@ -150,7 +150,6 @@ section:after {
 
 .panel {
 	color: #ccc;
-	background-size: cover;
 	position: relative;
 	overflow: hidden;
 }
@@ -161,20 +160,24 @@ section:after {
 	text-shadow: 1px 1px 2px #000;
 }
 
-.backgroundsize .panel.dark-1 {
+.backgroundsize .panel .text-wrapper {
+	background-size: cover;
+}
+
+.backgroundsize .panel.dark-1 .text-wrapper {
 	background-image: url(../img/bg/background-dark-1.jpg);
 }
 
-.backgroundsize .panel.dark-2 {
+.backgroundsize .panel.dark-2 .text-wrapper {
 	background-image: url(../img/bg/background-dark-2.jpg);
 }
 
-.backgroundsize .panel.dark-3 {
+.backgroundsize .panel.dark-3 .text-wrapper {
 	background-image: url(../img/bg/background-dark-3.jpg);
 }
 
 .light-small,
-.backgroundsize .panel.light {
+.backgroundsize .panel.light .text-wrapper {
 	background-image: url(../img/bg/background-light.jpg);
 	background-color: #f9f8f4;
 	color: #333;
@@ -202,13 +205,17 @@ div.video, div.doco
 div.doco video,
 div.video video {
 	width: 100%;
-	max-width: 920px;
 }
 
 div.doco ul {
 	padding: 0;
 	margin: 0 auto;
 	list-style: none;
+}
+
+.portrait .portrait-image,
+.portrait .subject {
+	text-align: center;
 }
 
 #credits h4 {
@@ -278,10 +285,6 @@ dt, dd {
 	.caption br {
 		display: none;
 	}
-	.portrait .portrait-image,
-	.portrait .subject {
-		text-align: center;
-	}
 }
 
 /* styles that apply over 480px */
@@ -340,7 +343,10 @@ dt, dd {
 		position: relative;
 	}
 
-	/* sits top left of parent panel */
+	/*
+		any text following atmos or image (whose width is constrained)
+		sits absolutely positioned, top left of parent panel
+	*/
 	.panel .atmos + .text-wrapper,
 	.panel .image + .text-wrapper {
 		position: absolute;
@@ -401,6 +407,7 @@ dt, dd {
 
 	/* these fill horizontally and have height, top set on resize by js */
 	.enhanced .text-wrapper,
+	.enhanced .page,
 	.enhanced .image,
 	.enhanced .atmos {
 		position: fixed;
@@ -420,6 +427,12 @@ dt, dd {
 	.panel .atmos + .text-wrapper .text.top,
 	.panel .image + .text-wrapper .text.top {
 		top: 25%;
+	}
+
+	.enhanced .text.ceil,
+	.panel .atmos + .text-wrapper .text.ceil,
+	.panel .image + .text-wrapper .text.ceil {
+		top: 0%;
 	}
 
 	.enhanced .text.bottom,

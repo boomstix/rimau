@@ -49,7 +49,7 @@
 			
 			if (!destroyed) {
 				setTimeout(function() {
-					scrollPos = (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash;
+					scrollPos = (location.hash == '#') ? '#the-mission' : location.hash;
 					scrollPos = $(scrollPos);
 					if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 						$('html, body').animate({
@@ -77,52 +77,65 @@
 		
 			// console.log('fixDims');
 		
-			// adjust the letterbox-ed position of the letter-boxing elements
-			// adjust the sequence frame to the dims of the window
+			// adjust sequence elements to the dims of the window
+			// adjust position of elements constrained to page width (atmos, image) - cw
+			// adjust position of elements constrained to viewport (text, content video, page) - cw/ch
+			
 			d = getWindowDims();
-			allSequences = $('.sequence');
-			allAtmosPanels = $('.atmos');
-			allTextPanels = $('.text-wrapper');
-			allImagePanels = $('.image');
-			allVideoPanels = $('.video');
-			allContentVideos = $('.video video');
+			allSequences = $('.sequence');				// window w,h
+			allAtmosPanels = $('.atmos');					// letterboxed to width
+			allImagePanels = $('.image');					// letterboxed
+			allVideoPanels = $('.video');					// letterboxed
+			allTextPanels = $('.text-wrapper');	// constrained to window w, window h
+			allContentVideos = $('.video video');	// contrained
+			
+			// these only exist if scrollmagic hasn't been destroyed - no condition to check.
 			
 			$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
-				
+			
+			// reset all to starting values
+			allSequences.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			allAtmosPanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			allImagePanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			allTextPanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			allSequences.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			allContentVideos.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			
 			if (d.w > options.breakPoint) {
 			
-				// console.log('setting dims');
-				newHeight = d.w * 9 / 16 + d.navH;
-				newTop = (d.h - newHeight) / 2 + d.navH;
+				// console.log('setting dims', d.w, d.h, options.breakPoint, destroyed);
 				
-				// fit the videos to the midpoint if over video max-width (920px)
-				allContentVideos.css({
-					marginLeft: (d.w > options.contentWidth) ? (d.w - options.contentWidth) / 2 : 0
-				,	marginTop: (!destroyed) ? (d.h - options.contentHeight) / 2 : 0
-				})
+				constrW = {} // constrain width - letterbox top and bottom
+				constrW.width = d.w;
+				constrW.marginLeft = 0;
+				constrW.height = Math.ceil(d.w / d.ratio16x9);
+				constrW.marginTop = ((d.h - (d.w / d.ratio16x9)) / 2) + (d.navH / 2);
+
+				constrH = {} // constrain width - letterbox left and right
+				constrH.height = d.h - d.navH;
+				constrH.marginTop = d.navH;
+				constrH.width = Math.floor((d.h - d.navH) * d.ratio16x9);
+				constrH.marginLeft = (d.w - ((d.h - d.navH) * d.ratio16x9)) / 2;
+				
+				// console.log('constrW: %o', constrW);
+				// console.log('constrH: %o', constrH);
+
+				// fit the constrained elems to the window regardless of whether we have scrollmagic
+				
+				// letterbox left and right - fix the left and width
+				// letterbox top and bottom - fix the top and height
+				allContentVideos.css(d.horizBoxing ? constrH : constrW);
+				allImagePanels.css(d.horizBoxing ? constrH : constrW);
+				allAtmosPanels.css(d.horizBoxing ? constrH : constrW);
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
-					// atmos panels are letterboxed - fitting the width of the viewport
-					// and forcing the height to maintain 16x9, moving its top pos
-					// above or below the containing panel's top to compensate.
-					allAtmosPanels.css({height: newHeight, top: newTop });
-					allImagePanels.css({height: newHeight, top: newTop });
-					allTextPanels.css({height: newHeight + 1, top: newTop });
+					// console.log('fixing atmos, image', allAtmosPanels[0])
 					allSequences.css({width: d.w, height: d.h});
+					allTextPanels.css(d.horizBoxing ? constrH : constrW);
 				}
 				allSequences.css({left: 0});
 				
-			}
-			else {
-			
-				// console.log('un-setting dims');
-				allAtmosPanels.css({height: 'initial', top: 'initial' });
-				allImagePanels.css({height: 'initial', top: 'initial' });
-				allTextPanels.css({height: 'initial', top: '' });
-				allSequences.css({width: 'initial', height: 'initial'});
-				allContentVideos.css({marginTop: 'initial', marginLeft: 'initial'});
-
 			}
 			
 			// we want to call updateScenes if the body width has passed over the
