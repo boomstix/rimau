@@ -6,22 +6,24 @@
 		
 		// console.log('defining sequence');
 		
-		var body = $('body')
-		,	bodyDims = {}
-		,	win = $(window)
-		,	header = $('body > header')
-		,	windowDims = {}
-		, scrollDirection = 'FORWARD'
-		, scrollState = 'BEFORE'
-		,	defaultOptions = {
+		var defaultOptions = {
 				controller: new ScrollMagic()
 			,	contentWidth: 920
 			,	contentHeight: 518
 			,	breakPoint: 768			// window width above which scrollmagic kicks in
+			,	sizerId: '#sizer'		// abs positioned div
 			,	debug: false
 			,	logLevel: 2
 			, onSceneStart: function() {}
 			}
+		,	body = $('body')
+		,	bodyDims = {}
+		,	win = $(window)
+		,	header = $('body > header')
+		,	windowDims = {}
+		,	sizer = $('#sizer')
+		,	scrollDirection = 'FORWARD'
+		,	scrollState = 'BEFORE'
 		,	options = $.extend({}, defaultOptions, _options)
 		,	section = null
 		,	sequences = null
@@ -32,14 +34,101 @@
 		,	destroyed = true
 		,	audioHolder = null
 		,	loopAudio = true
+		,	currAudioId = null
+		,	currAudioSrc = null
 		,	chapter1Preload = null
 		,	remainderPreload = null
 		,	mediaSources = []
 		,	retryMax = 10 // will retry this many times to reload
 		,	retryCount = 0
-		, currAudioId = null
-		,	currAudioSrc = null
 		;
+		
+		function setupDocoVideo(e) {
+		
+			if (options.debug)
+			{ console.log('setupDocoVideo()', this); }
+			
+			var origVideoEl = $(this).data('orig-video');
+
+			// fade out the text panel holding the menu
+			TweenMax.to($('.doco .text'), 1, { autoAlpha: 0 });
+			
+			// fade in a video element
+			var videoEl = $(origVideoEl).appendTo($('.doco'));
+			$(videoEl).get(0).volume = 0;
+			$(videoEl).get(0).play();
+			TweenMax
+			.to(videoEl, 1
+			,	{
+					autoAlpha: 1
+				,	volume: 1
+			});
+			TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
+			
+		}
+		
+		function stopDocoVideo() {
+			
+			if (options.debug)
+			{ console.log('stopDocoVideo'); }
+			
+			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
+			TweenMax.to('#doco-closer', 1, { autoAlpha: 0 });
+
+			// stop the video, fade out, and remove from dom when complete.
+			videoEl = $('.doco video');
+			TweenMax.to('.doco video', 1
+			,	{
+					volume: 0
+				,	autoAlpha: 0
+				,	onComplete: function(vid) {
+						var videoEl = $(vid);
+						if (videoEl.length > 0) {
+							videoEl.get(0).pause();
+						}
+						$(vid).remove();
+					}
+				,	onCompleteParams: videoEl
+			});
+
+		}
+		
+		function setupDocos() {
+			
+			// replace the existing videos with images
+			// attach click events to the images to setup and play
+			
+			var docoPanel = $('.doco')
+			,	vidEls = $('video', docoPanel)
+			// Create and disappear the closer button.
+			,	closer = $('<div id="doco-closer" title="Close Video">&times;</div>')
+			.on('click', stopDocoVideo)
+			.prependTo(docoPanel);
+			TweenMax.to(closer, 0, {autoAlpha: 0});
+			
+			vidEls.each(function(ix, el) {
+				
+				var vidEl = $(el)
+				,	vidId = vidEl.attr('id')
+				,	sources = $('source', el)
+				;
+				
+				// Disappear the video
+				TweenMax.to(vidEl, 0, {autoAlpha: 0});
+				
+				// Replace it with an image with a click event.
+				thumbSrc = 'assets/stills/placeholder/sb-thumb-' + (ix + 1) + '.png';
+				vidImg = $('<img src="' + thumbSrc + '" />').data('orig-video', vidEl);
+				vidEl.parent().append(vidImg);
+				// clear the poster to stop flash.
+				vidEl.attr('poster', '');
+				vidImg.on('click', setupDocoVideo);
+				vidEl.remove();
+				
+			});
+			
+		}
+		
 		
 		// handle nav link clicks and scroll in the scene
 		function openScene(e) {
@@ -49,7 +138,7 @@
 			
 			if (!destroyed) {
 				setTimeout(function() {
-					scrollPos = (location.hash == '#') ? '#the-mission' : location.hash;
+					var scrollPos = (location.hash == '#') ? '#the-mission' : location.hash;
 					scrollPos = $(scrollPos);
 					if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 						$('html, body').animate({
@@ -62,7 +151,7 @@
 		
 		// grab width and height of viewport
 		function getWindowDims() {
-			sizer = $('#sizer');
+			
 			windowDims.w = sizer.width();
 			windowDims.h = sizer.height();
 			windowDims.navH = header.height();
@@ -70,9 +159,30 @@
 			windowDims.ratio16x9 = 16/9;
 			windowDims.horizBoxing = windowDims.aspectRatio > windowDims.ratio16x9;
 			return windowDims;
+			
 		}
 		
-		// update height, top, left, widths of viewport filling element
+		// calculates letterboxing considering the nav height
+		function calculateConstraints() {
+				
+				d = getWindowDims();
+				
+				constrW = {} // constrain width - letterbox top and bottom
+				constrW.width = d.w;
+				constrW.marginLeft = 0;
+				constrW.height = Math.ceil(d.w / d.ratio16x9);
+				constrW.marginTop = ((d.h - (d.w / d.ratio16x9)) / 2) + (d.navH / 2);
+
+				constrH = {} // constrain width - letterbox left and right
+				constrH.height = d.h - d.navH;
+				constrH.marginTop = d.navH;
+				constrH.width = Math.floor((d.h - d.navH) * d.ratio16x9);
+				constrH.marginLeft = (d.w - ((d.h - d.navH) * d.ratio16x9)) / 2;
+				
+				return { toWidth: constrW, toHeight: constrH };
+		}
+		
+		// update height, top, left, widths of position:fixed viewport filling elements
 		function fixDims() {
 		
 			// console.log('fixDims');
@@ -81,25 +191,26 @@
 			// adjust position of elements constrained to page width (atmos, image) - cw
 			// adjust position of elements constrained to viewport (text, content video, page) - cw/ch
 			
-			d = getWindowDims();
 			allSequences = $('.sequence');				// window w,h
 			allAtmosPanels = $('.atmos');					// letterboxed to width
 			allImagePanels = $('.image');					// letterboxed
 			allVideoPanels = $('.video');					// letterboxed
 			allTextPanels = $('.text-wrapper');	// constrained to window w, window h
-			allContentVideos = $('.video video');	// contrained
+			allContentVideos = $('div.video video');	// contrained
 			
 			// these only exist if scrollmagic hasn't been destroyed - no condition to check.
 			
-			$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
-			
 			// reset all to starting values
-			allSequences.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
-			allAtmosPanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
-			allImagePanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
-			allTextPanels.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
-			allSequences.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
-			allContentVideos.css({ height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' });
+			var resetCss = { height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' };
+			allSequences.css(resetCss);
+			allSequences.css(resetCss);
+			allAtmosPanels.css(resetCss);
+			allImagePanels.css(resetCss);
+			allTextPanels.css(resetCss);
+			allContentVideos.css(resetCss);
+			
+			d = getWindowDims();
+			$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
 			
 			if (d.w > options.breakPoint) {
 			
@@ -117,6 +228,8 @@
 				constrH.width = Math.floor((d.h - d.navH) * d.ratio16x9);
 				constrH.marginLeft = (d.w - ((d.h - d.navH) * d.ratio16x9)) / 2;
 				
+				constraints = calculateConstraints();
+				
 				// console.log('constrW: %o', constrW);
 				// console.log('constrH: %o', constrH);
 
@@ -124,15 +237,15 @@
 				
 				// letterbox left and right - fix the left and width
 				// letterbox top and bottom - fix the top and height
-				allContentVideos.css(d.horizBoxing ? constrH : constrW);
-				allImagePanels.css(d.horizBoxing ? constrH : constrW);
-				allAtmosPanels.css(d.horizBoxing ? constrH : constrW);
+				allContentVideos.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
+				allImagePanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
+				allAtmosPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
 					// console.log('fixing atmos, image', allAtmosPanels[0])
 					allSequences.css({width: d.w, height: d.h});
-					allTextPanels.css(d.horizBoxing ? constrH : constrW);
+					allTextPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				}
 				allSequences.css({left: 0});
 				
@@ -179,6 +292,7 @@
 			
 			allSequences = $('.sequence');
 			
+			// enhanced class is used in css for elements with enhanced functionality
 			$('.panel', allSequences).removeClass('enhanced');
 			
 			$.each(allSequences, function(ix, sequence) {
@@ -192,6 +306,7 @@
 					sequenceScene.removeTween(true)
 					sequenceScene.remove();
 					sequenceScene.destroy(true);
+					sequence.css({position:'relative'})
 				}
 				
 			});
@@ -242,6 +357,12 @@
 				if (audioOut) {
 					stopAudio();
 				}
+				// stop any doco that is playing
+				stopDocoVideo();
+			}
+			if (timelineString == 'FADEOUTREVERSECOMPLETE') {
+				// stop any doco that is playing
+				stopDocoVideo();
 			}
 			
 		}
@@ -262,6 +383,7 @@
 			
 			sequences = $('.sequence', section);
 			
+			// enhanced class is used in css for elements with enhanced functionality
 			$('.panel', sequences).addClass('enhanced');
 			
 			$.each(sequences, function(sequenceNumber, sequence) {
@@ -498,11 +620,11 @@
 		
 		function playAudio(audioId) {
 			
-			audioSrc = mediaSources[audioId];
-			
 			if (location.search.indexOf('audio=off') > -1) {
 				return;
 			}
+			
+			audioSrc = mediaSources[audioId];
 			
 			if (typeof(audioSrc) == 'undefined') {
 				// it hasn't loaded yet - can't play.
@@ -522,9 +644,9 @@
 			{
 				
 				if (options.debug)
-				{ console.log('playAudio() - trying to play id ', audioId); }
+				{ console.log('playAudio() - trying to play audio#$s, current audio#%s', audioId, currAudioId); }
 				
-				// we're want to play a new one - fade out any old
+				// we're want to play a new one - fade out the current audio element
 				existing = $('#' + currAudioId, audioHolder);
 				
 				if (existing.length > 0) {
@@ -537,7 +659,7 @@
 						return;
 					}
 					else {
-						// fade out and remove the playing audio
+						// fade out and remove the playing audio element
 						if (options.debug)
 						{ console.log('playAudio() - new id is different so removing existing', existing.attr('id')); }
 						existing.hide();
@@ -604,7 +726,7 @@
 				filesToLoad:'assets/html5/preload-2.json',
 				debugMode: false,
 				onElementLoaded: addMediaElement
-		
+			
 			});
 			
 			// we got the opening track - cue it by scrolling in the opening scene
@@ -616,6 +738,9 @@
 				// scroll into current screen
 				openScene();
 			}, 1000);
+			
+			// setup the documentaries
+			setupDocos();
 			
 		}
 		

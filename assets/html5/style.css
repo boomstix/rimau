@@ -183,8 +183,8 @@ section:after {
 	color: #333;
 }
 
-.backgroundsize .panel.doco {
-	background-image: url(../img/bg/background-bg.jpg);
+.backgroundsize .panel .doco {
+	background-image: url(../img/bg/background-sb.jpg);
 	background-color: #f9f8f4;
 	color: #333;
 }
@@ -194,24 +194,60 @@ img.res {
 	width: 100%;
 }
 
-div.video, div.doco,
-.atmos video {
-	width: 100%;
-}
-div.video, div.doco
-.touch video {
-	height: 100%;
-}
-div.doco video,
+/* html may has video class from modernizr */
+div.video,
+.doco,
+.atmos video,
 div.video video {
 	width: 100%;
 }
 
-div.doco ul {
+div.video,
+.doco,
+.touch video {
+	height: 100%;
+}
+
+.no-touch .doco video {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#doco-closer {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 1em;
+	background: black;
+	text-align: center;
+	color: white;
+	font-size: 1.5em;
+	line-height: 1;
+	text-transform: uppercase;
+	padding: 0.3em;
+	margin: 0.3em;
+	z-index: 99;
+}
+
+.doco ul {
 	padding: 0;
-	margin: 0 auto;
+	margin: 0;
 	list-style: none;
 }
+
+.doco ul.row-1 {
+	padding-top: 20%;
+}
+
+.doco li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	text-align: center;
+}
+
 
 .portrait .portrait-image,
 .portrait .subject {
@@ -458,25 +494,59 @@ dt, dd {
 		display: none;
 	}
 
-
-	.enhanced .text-wrapper {
-		display: table;
-		overflow: hidden;
+	.doco ul li {
+		float: left;
+		margin: 10px 17px;
+	}
+	
+	.enhanced .doco ul.row-2 li:first-child {
+		margin-left: 139px;
 	}
 
-	.enhanced .text {
-		display: table-cell;
-		vertical-align: middle;
+	.enhanced .doco ul.row-2 li:last-child {
+		margin-right: 139px;
+	}	
+/* 
+	.doco ul li,
+	.doco ul video {
+		width: 212px;
+		height: 155px;
+	}
+ */
+
+/*	
+	.enhanced .doco ul li,
+	.enhanced .doco ul video {
+		width: 212px;
+		height: 155px;
 	}
 
+	.enhanced .doco ul li {
+		float: left;
+		margin: 10px 17px;
+	}
+	
+	.enhanced
 
+	.enhanced .doco ul.row-2 li:first-child {
+		margin-left: 139px;
+	}
 
+	.enhanced .doco ul.row-2 li:last-child {
+		margin-right: 139px;
+	}
+	
+	.enhanced .doco ul {
+		margin: 150px auto 0;
+	}
+*/
 }
 
 .replaced {
 	position: absolute;
 	margin: 0 auto;
 	width: 100%;
+	z-index: 999;
 }
 
 .replaced.top {
@@ -523,6 +593,10 @@ dt, dd {
 
 #repl-norman-quote {
 	max-width: 387px;
+}
+
+#repl-sb-title {
+	max-width: 585px;
 }
 
 #repl-roma-quote1 {

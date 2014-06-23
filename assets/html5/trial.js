@@ -139,7 +139,7 @@
 					subject.parent().parent().append(newImg);
 				}
 				else {
-					subject.parent().append(newImg);
+					subject.parent().prepend(newImg);
 				}
 				subject.remove();
 				//subject.empty();

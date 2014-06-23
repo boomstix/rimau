@@ -43,6 +43,8 @@ $(function() {
 		$('.trial').trial({controller: new ScrollMagic(), debug: false });
 		$('section').sequence({controller: new ScrollMagic(), debug: false });
 	}
+	else {
+	}
 	$('.text, .caption, .special, .sb-title').replaceText();
 	
 })
@@ -207,15 +209,12 @@ $(function() {
 			</div>
 
 			<div class="panel">
-				<div class="image">
-					<img src="assets/img/bg/background-sb.jpg" class="res" alt="" />
-				</div>
-				<div class="text-wrapper">
+				<div class="text-wrapper doco">
 				<div class="text ceil ref-12">
 					<div class="sb-title" data-text-replace="sb-title">
 					<h3>How to make a Sleeping Beauty</h3>
 					</div>
-					<ul>
+					<ul class="row-1">
 						<li>
 							<video id="video-sb-1" controls preload="none" poster="assets/stills/placeholder/sb-1.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-02-a-med.mp4" type="video/mp4" />
@@ -234,6 +233,8 @@ $(function() {
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-04-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 							</video>
 						</li>
+					</ul>
+					<ul class="row-2">
 						<li>
 							<video id="video-sb-4" controls preload="none" poster="assets/stills/placeholder/sb-4.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-05-a-med.mp4" type="video/mp4" />
@@ -247,9 +248,11 @@ $(function() {
 						</video>
 						</li>
 					</ul>
+					<br>
 				</div>
 				</div>
 			</div>
+			
 
 			<div class="panel light audio-in" data-audio="chapter-1b">
 				<div class="text-wrapper ref-13">
@@ -1200,7 +1203,7 @@ $(function() {
 		</div>
 
 	</section>
-
+	
 
 	<section id="references">
 
@@ -1313,6 +1316,7 @@ $(function() {
 				
 	</section>
 	
+	
 	<section id="credits">
 
 		<div class="sequence">
@@ -1386,6 +1390,7 @@ $(function() {
 		
 	</section>
 	
+
 	</article>
 
 <script>
