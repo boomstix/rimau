@@ -62,7 +62,13 @@
 		
 		// grab width and height of viewport
 		function getWindowDims() {
-			windowDims = { w: body.width(), h: win.height(), navH: header.height() };
+			sizer = $('#sizer');
+			windowDims.w = sizer.width();
+			windowDims.h = sizer.height();
+			windowDims.navH = header.height();
+			windowDims.aspectRatio = windowDims.w / windowDims.h;
+			windowDims.ratio16x9 = 16/9;
+			windowDims.horizBoxing = windowDims.aspectRatio > windowDims.ratio16x9;
 			return windowDims;
 		}
 		
@@ -480,6 +486,10 @@
 		function playAudio(audioId) {
 			
 			audioSrc = mediaSources[audioId];
+			
+			if (location.search.indexOf('audio=off') > -1) {
+				return;
+			}
 			
 			if (typeof(audioSrc) == 'undefined') {
 				// it hasn't loaded yet - can't play.

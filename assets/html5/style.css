@@ -12,6 +12,16 @@ body {
 	font-weight: 300;
 	font-size: 1em;
 }
+#sizer {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: #66c;
+	visibility: hidden;
+}
+
 #audio-holder {
 	position: fixed;
 	bottom: 0px;
@@ -129,24 +139,6 @@ section:after {
 	z-index: 1000 !important;
 }
 
-img.res {
-	display: block;
-	width: 100%;
-}
-
-.video,
-.atmos video {
-	width: 100%;
-}
-.video,
-.touch video {
-	height: 100%;
-}
-.video video {
-	width: 100%;
-	max-width: 920px;
-}
-
 .panel p,
 .panel h2,
 .panel h3,
@@ -181,14 +173,42 @@ img.res {
 	background-image: url(../img/bg/background-dark-3.jpg);
 }
 
+.light-small,
 .backgroundsize .panel.light {
 	background-image: url(../img/bg/background-light.jpg);
 	background-color: #f9f8f4;
 	color: #333;
 }
 
-.dark-text {
+.backgroundsize .panel.doco {
+	background-image: url(../img/bg/background-bg.jpg);
+	background-color: #f9f8f4;
 	color: #333;
+}
+
+img.res {
+	display: block;
+	width: 100%;
+}
+
+div.video, div.doco,
+.atmos video {
+	width: 100%;
+}
+div.video, div.doco
+.touch video {
+	height: 100%;
+}
+div.doco video,
+div.video video {
+	width: 100%;
+	max-width: 920px;
+}
+
+div.doco ul {
+	padding: 0;
+	margin: 0 auto;
+	list-style: none;
 }
 
 #credits h4 {
@@ -308,6 +328,11 @@ dt, dd {
 
 /* styles that apply over 768px */
 @media (min-width: 769px) {
+
+	.light-small {
+		background-image: none;
+		background-color: #000
+	}
 
 	.panel .text-wrapper {
 		width: 100%;
