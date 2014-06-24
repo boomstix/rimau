@@ -41,6 +41,7 @@
 		,	mediaSources = []
 		,	retryMax = 10 // will retry this many times to reload
 		,	retryCount = 0
+		, startTime = new Date()
 		;
 		
 		function setupDocoVideo(e) {
@@ -131,16 +132,17 @@
 			
 		}
 		
-		function openSection(sectionId) {
+		function openSection(sectionId, speed) {
 
 			if (options.debug)
 			{ console.log('openScene') }
 			
 			var scrollPos = $(sectionId);
+			speed = speed || 500;
 			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 				$('html, body').animate({
 					scrollTop: scrollPos.offset().top + win.height()
-				}, 500);
+				}, speed);
 			}
 			
 		}
@@ -328,11 +330,14 @@
 			
 			if (timelineString == 'FADEINSTART') {
 				// we are entering the panel in the forward direction
-				if (contentVideo.length) {
-					playContentVideo(contentVideo.attr('id'));
-				}
 				if (audioIn) {
 					playAudio(audioIn, audioLoop);
+				}
+			}
+			if (timelineString == 'FADEINCOMPLETE') {
+				// we have entered the panel in the forward direction
+				if (contentVideo.length) {
+					playContentVideo(contentVideo.attr('id'));
 				}
 			}
 			if (timelineString == 'FADEOUTSTART') {
@@ -723,8 +728,8 @@
 			switch (obj.type) {
 				case 'AUDIO':
 						
-					// if (options.debug)
-					{ console.log('loaded audio', obj.name); }
+					if (options.debug)
+					{ console.log('loaded audio %s @ %o', obj.name, new Date() - startTime); }
 					mediaSources[obj.name] = obj.source;
 
 					break;
@@ -733,29 +738,30 @@
 				
 					// find the video in the 
 					if (options.debug)
-					{ console.log('loaded video', obj.name); }
+					{ console.log('loaded video %s @ %o', obj.name, new Date() - startTime); }
 					mediaSources[obj.name] = obj.source;
 				
 					break;
 			}
 			
 		}
-				// Preload the first audio and video track and insert as they are ready.
-		// When the loader is complete (whether it work or not), add them to the page, and 
-		// start the scroll to the first scene which will try and play them if they are there
+		
+		// When the loader is complete (whether it work or not), fade out the intro and 
+		// fade in the article and start the scroll to the first scene
 		
 		function pageStartComplete() {
 		
 			if (options.debug)
 			{ console.log('loaded initial files - starting remaining'); }
 			
-			remainderPreload = $.html5Loader({
+			// load the next set of assets
+			setTimeout(function(){ $.html5Loader({
 	
 				filesToLoad:'assets/html5/preload-2.json',
 				debugMode: false,
 				onElementLoaded: addMediaElement
 			
-			});
+			});}, 3000);
 			
 			// we got the opening track - cue it by scrolling in the opening scene
 			setTimeout(function() {
@@ -768,13 +774,13 @@
 				{
 					autoAlpha: 1
 				,	onComplete: function(){
-						$('#loading').css({display: 'none'});
+						$('#loading').addClass('hide');
 						// fade out the instruction
 						TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
-							$('#instruction').css({display: 'none'});
+							$('#instruction').addClass('hide');
 							TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
 								$('article').removeClass('hide');
-								openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash);
+								openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 							}});
 						}});
 					}
