@@ -39,9 +39,9 @@
 		,	chapter1Preload = null
 		,	remainderPreload = null
 		,	mediaSources = []
-		, retryCount = []
+		,	retryCount = []
 		,	retryMax = 10 // will retry this many times to reload
-		, startTime = new Date()
+		,	startTime = new Date()
 		;
 		
 		function openSection(sectionId, speed) {
@@ -50,7 +50,7 @@
 			{ console.log('openScene') }
 			
 			var scrollPos = $(sectionId);
-			speed = speed || 1000;
+			speed = speed || 500;
 			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 				$('html, body').animate({
 					scrollTop: scrollPos.offset().top + win.height()
@@ -733,9 +733,12 @@
 			
 			atmosVideoEl.get(0).pause();
 			atmosVideoEl.get(0).load();
-			$('source', atmosVideoEl).each(function(ix,el){
-				$(el).attr('src','');
-			});
+			$('source', atmosVideoEl).remove();
+// 			if (navigator.userAgent.indexOf('Chrome') > -1) {
+// 				$('source', atmosVideoEl).each(function(ix,el){
+// 					$(el).attr('src','');
+// 				});
+// 			}
 		
 		}
 		
@@ -771,7 +774,7 @@
 				{ console.log('playAtmosVideo() - trying to play video #%s with src %o ', videoId, atmosVideoEl); }
 
 				if (atmosVideoEl.length > 0) {
-					$('source', atmosVideoEl).attr('src', mediaSources[videoId]);
+					atmosVideoEl.append('<source src="' + mediaSources[videoId] + '" />');
 					atmosVideoEl.get(0).load();
 					atmosVideoEl.get(0).play();
 					// if (options.debug)
@@ -797,7 +800,7 @@
 			
 			if (atmosPanel.length) {
 				// create vid elem with our specs
-				vidEl = $('<video id="vid-' + obj.name + '" preload="auto" poster="' + atmosPosterImg.attr('src') + '"><source src="" /></video>');
+				vidEl = $('<video id="vid-' + obj.name + '" preload="auto" loop poster="' + atmosPosterImg.attr('src') + '"></video>');
 				// add src to video elem's data store 
 				vidEl.data('video')
 				// remove the atmos panel placeholder image
