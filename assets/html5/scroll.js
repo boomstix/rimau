@@ -45,7 +45,7 @@
 		
 		function setupDocoVideo(e) {
 		
-			if (options.debug)
+			// if (options.debug)
 			{ console.log('setupDocoVideo()', this); }
 			
 			var origVideoEl = $(this).data('orig-video');
@@ -55,21 +55,22 @@
 			
 			// fade in a video element
 			var videoEl = $(origVideoEl).appendTo($('.doco'));
-			$(videoEl).get(0).volume = 0;
-			$(videoEl).get(0).play();
-			TweenMax
-			.to(videoEl, 1
-			,	{
-					autoAlpha: 1
-				,	volume: 1
-			});
-			TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
-			
+			if (videoEl.length > 0) {
+				$(videoEl).get(0).volume = 0;
+				$(videoEl).get(0).play();
+				TweenMax
+				.to(videoEl, 1
+				,	{
+						autoAlpha: 1
+					,	volume: 1
+				});
+				TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
+			}
 		}
 		
 		function stopDocoVideo() {
 			
-			if (options.debug)
+			// if (options.debug)
 			{ console.log('stopDocoVideo'); }
 			
 			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
@@ -77,10 +78,11 @@
 
 			// stop the video, fade out, and remove from dom when complete.
 			videoEl = $('.doco video');
-			TweenMax.to('.doco video', 1
+			TweenMax.to(videoEl, 1
 			,	{
 					volume: 0
 				,	autoAlpha: 0
+				,	overwrite: 'all'
 				,	onComplete: function(vid) {
 						var videoEl = $(vid);
 						if (videoEl.length > 0) {
@@ -129,23 +131,25 @@
 			
 		}
 		
-		
-		// handle nav link clicks and scroll in the scene
-		function openScene(e) {
-			
+		function openSection(sectionId) {
+
 			if (options.debug)
 			{ console.log('openScene') }
 			
-			if (!destroyed) {
-				setTimeout(function() {
-					var scrollPos = (location.hash == '#') ? '#the-mission' : location.hash;
-					scrollPos = $(scrollPos);
-					if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
-						$('html, body').animate({
-							scrollTop: scrollPos.offset().top + $(window).height() * 1.8
-						}, 500);
-					}
+			var scrollPos = $(sectionId);
+			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
+				$('html, body').animate({
+					scrollTop: scrollPos.offset().top + win.height()
 				}, 500);
+			}
+			
+		}
+		
+		// handle nav link clicks and scroll in the scene
+		function handleNav(e) {
+			
+			if (!destroyed) {
+				setTimeout(openSection, 500, $(e.currentTarget).attr('href'));
 			}
 		}
 		
@@ -263,32 +267,12 @@
 			lastWindowWidth = d.w;
 			
 		}
-		/*
-		function createScenes() {
 		
-			console.log('enabling scenes');
-			
-			allSequences = $('.sequence');
-			
-			$.each(allSequences, function(ix, sequence) {
-			
-				sequence = $(sequence);
-				
-				sequenceTimeline = sequence.data('timeline');
-				sequenceScene = sequence.data('scene');
-				
-				if (typeof(sequenceScene) !== 'undefined') {
-					console.log('live');
-					sequenceScene.addTo(options.controller);
-				}
-				
-			});
-
-		}
-		*/
+		// undo scrollmagic 
 		function destroyScenes() {
 		
-			console.log('destroying scenes');
+			if (options.debug)
+			{ console.log('destroyScenes()'); }
 			
 			allSequences = $('.sequence');
 			
@@ -311,7 +295,7 @@
 				
 			});
 			
-			// reset the tween opacities - destroy is not removing the tweens 
+			// reset the tween opacities - destroy is not removing the tweens properly
 			$('.panel, .text-wrapper, .caption').css({'opacity': 'initial', 'visibility': 'initial'});
 			
 			destroyed = true;
@@ -335,24 +319,26 @@
 		
 		function panelTweenHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
-			// if (arguments[0] == 0)
 			{ console.log('panel tween %i %s', sceneNumber, timelineString); }
 			
-			atmos = $('.atmos video', panel);
+			contentVideo = $('.video video', panel);
 			audioIn = panel.hasClass('audio-in') ? panel.data('audio') : false;
 			audioOut = panel.hasClass('audio-out');
+			audioLoop = panel.hasClass('audio-in') ? panel.data('audio-loop') : false;
 			
 			if (timelineString == 'FADEINSTART') {
-				if (atmos.length) {
-					playVideo(video.attr('id'));
+				// we are entering the panel in the forward direction
+				if (contentVideo.length) {
+					playContentVideo(contentVideo.attr('id'));
 				}
 				if (audioIn) {
-					playAudio(audioIn);
+					playAudio(audioIn, audioLoop);
 				}
 			}
 			if (timelineString == 'FADEOUTSTART') {
-				if (atmos.length) {
-					stopVideo(video.attr('id'));
+				// we are leaving the panel in the forward direction
+				if (contentVideo.length) {
+					stopContentVideo(contentVideo.attr('id'));
 				}
 				if (audioOut) {
 					stopAudio();
@@ -361,6 +347,19 @@
 				stopDocoVideo();
 			}
 			if (timelineString == 'FADEOUTREVERSECOMPLETE') {
+				// we have entered the panel in the reverse direction
+				if (contentVideo.length) {
+					stopContentVideo(contentVideo.attr('id'));
+				}
+				// stop any doco that is playing
+				stopDocoVideo();
+			}
+			
+			if (timelineString == 'FADEINREVERSECOMPLETE') {
+				// we have left the panel in the reverse direction
+				if (audioIn) {
+					stopAudio();
+				}
 				// stop any doco that is playing
 				stopDocoVideo();
 			}
@@ -404,7 +403,7 @@
 				frameHeight = (windowDims.h / 2); // the height of a 'scene' in pixels (half a window height)
 
 				frameCount = (sceneCount * framesPerScene) - (sceneCount - 1) * frameOverlap;
-				totalDuration = frameCount *  frameHeight;
+				totalDuration = frameCount * frameHeight * 2 / 3;
 
 				// Create a timeline for the fade tweens to happen on
 				last_label = '0';
@@ -564,18 +563,44 @@
 		
 		*/
 		
-		function playVideo(id) {
-			// if have not yet encountered vid, preload the video and 
-			// then call addSource when the element is loaded
-			// else add source tags to video tags
+		function playContentVideo(id) {
+		
+			var videoEl = $('#' + id);
 			if (options.debug)
-			{ console.log('playVideo'); }
+			{ console.log('playVideo()', videoEl); }
+
+			if (videoEl.length > 0) {
+				var vid = $(videoEl).get(0);
+				if (vid.readyState == 3) {
+					vid.volume = 0;
+					vid.currentTime = 0;
+					vid.load();
+					vid.play();
+					TweenMax.to(videoEl, 1,	{ volume: 1 });
+				}
+			}
+			
 		}
 		
-		function stopVideo() {
-			// remove source tags from video tag
+		function stopContentVideo(id) {
+			// pause video and remove src attr from source tags
+			var videoEl = $('#' + id);
 			if (options.debug)
-			{ console.log('stopVideo'); }
+			{ console.log('stopVideo()', videoEl); }
+			
+			if (videoEl.length > 0) {
+				TweenMax.to(videoEl, 1
+				,	{
+						volume: 0
+					,	onComplete: function(vid) {
+							var videoEl = $(vid);
+							videoEl.get(0).volume = 1;
+							videoEl.get(0).pause();
+						}
+					,	onCompleteParams: videoEl
+				});
+			}
+			
 		}
 		
 		function removeAudio(_audio) {
@@ -587,10 +612,9 @@
 				{ console.log('removeAudio()', victim); }
 				victim.get(0).pause();
 				sources = $("source", victim);
-				for (var i = 0; i < sources.length; i++) {
-						var source = sources[i];
-						source.setAttribute("src", "");
-				}
+				sources.each(function(sx, src) {
+					src.setAttribute('src', '');
+				});
 				victim.remove();
 				victim = null;
 				_audio = null;
@@ -618,7 +642,7 @@
 			
 		}
 		
-		function playAudio(audioId) {
+		function playAudio(audioId, audioLoop) {
 			
 			if (location.search.indexOf('audio=off') > -1) {
 				return;
@@ -628,12 +652,12 @@
 			
 			if (typeof(audioSrc) == 'undefined') {
 				// it hasn't loaded yet - can't play.
-				if (options.debug)
-				{ console.log('playAudio() cannot play %s - retrying', audioId); }
+				// if (options.debug)
+				{ console.log('playAudio() cannot play %s - retrying', audioId, audioLoop); }
 				// retry a max of ten times
 				retryCount += 1;
 				if (retryCount < retryMax) {
-					setTimeout(playAudio, 1000, audioId);
+					setTimeout(playAudio, 1000, audioId, audioLoop);
 				}
 				else {
 					retryCount = 0;
@@ -677,7 +701,7 @@
 				currAudioSrc = audioSrc;
 				
 				// now append a new audio element
-				audio = $('<audio id="' + audioId + '" preload="auto" controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
+				audio = $('<audio id="' + audioId + '" preload="auto"' + (audioLoop ? '' : ' loop="loop"') + ' controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
 				if (audio.length > 0) {
 					audio.get(0).load();
 					audio.get(0).volume = 1;
@@ -695,7 +719,7 @@
 			switch (obj.type) {
 				case 'AUDIO':
 						
-					if (options.debug)
+					// if (options.debug)
 					{ console.log('loaded audio', obj.name); }
 					mediaSources[obj.name] = obj.source;
 
@@ -733,10 +757,25 @@
 			setTimeout(function() {
 				if (options.debug)
 				{ console.log('fade in article'); }
-				// fade in the article
-				TweenMax.to('article, ul.nav', 2, {autoAlpha: 1});
-				// scroll into current screen
-				openScene();
+				// fade out loading message
+				TweenMax.to('#loading', 1, { autoAlpha: 0});
+				// fade in the instruction message
+				TweenMax.to('#instruction', 1,
+				{
+					autoAlpha: 1
+				,	onComplete: function(){
+						$('#loading').css({display: 'none'});
+						// fade out the instruction
+						TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
+							$('#instruction').css({display: 'none'});
+							TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
+								$('article').removeClass('hide');
+								openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash);
+							}});
+						}});
+					}
+				});
+				
 			}, 1000);
 			
 			// setup the documentaries
@@ -746,10 +785,11 @@
 		
 
 		// Handle scrolling into scene on nav clicks
-		$('nav a').on('click', openScene);
+		$('nav a, .return a').on('click', handleNav);
 		
 		// Begin! hide the article
 		TweenMax.to('article, ul.nav', 0, {autoAlpha: 0});
+		$('article').addClass('hide');
 		
 		// create the audio holder
 		audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
@@ -764,7 +804,9 @@
 			
 		});
 		
-		
+		$('.opening-panel').addClass('enhanced');
+		TweenMax.to('#loading', 0, { autoAlpha: 1});
+		TweenMax.to('#instruction', 0, { autoAlpha: 0});
 		
 		return ret;
 

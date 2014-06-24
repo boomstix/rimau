@@ -26,6 +26,7 @@ body {
 	position: fixed;
 	bottom: 0px;
 	right: 0;
+	height: 30px;
 	z-index: 999;
 }
 
@@ -229,6 +230,7 @@ div.video,
 	padding: 0.3em;
 	margin: 0.3em;
 	z-index: 99;
+	cursor: pointer;
 }
 
 .doco ul {
@@ -308,6 +310,158 @@ dl {
 dt, dd {
 	margin: 1em 0;
 }
+
+.opening-panel {
+	display: none;
+}
+
+.opening-panel.enhanced {
+	display: block;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 99;
+}
+.opening-panel > div {
+	margin: 0 auto;
+	clear: left;
+	position: relative;
+}
+#loading-img {
+	width: 194px;
+	top: 35%;
+}
+#instruction-img {
+	width: 216px;
+	top: 28%;
+}
+.hide {
+	display: none;
+}
+
+/* return link needs to be display:block */
+.return a {
+	display: block;
+}
+
+.replaced {
+	position: absolute;
+	margin: 0 auto;
+	width: 100%;
+	z-index: 999;
+}
+
+.replaced.top {
+	top: 0%;
+}
+
+/* captions */
+.panel > .replaced.top {
+	top: 15%;
+}
+
+.replaced.right {
+	right: 0%;
+}
+
+.replaced.bottom {
+	bottom: 10%;
+}
+
+.replaced.left {
+	left: 10%;
+}
+
+.replaced.floor {
+	bottom: 0%;
+}
+
+.center {
+	margin: 0 auto;
+}
+
+#repl-title-section-1 {
+	max-width: 575px;
+	left: 50%;
+	margin-left: -287px;
+	margin-top: -13px;
+}
+
+#repl-title-section-1-credit {
+	max-width: 165px;
+	left: 50%;
+	margin-left: -82px;
+}
+
+#repl-norman-quote {
+	max-width: 387px;
+}
+
+#repl-sb-title {
+	max-width: 585px;
+}
+
+#repl-roma-quote1 {
+	max-width: 278px;
+}
+
+#repl-map-aus-merapas-text {
+	max-width: 414px;
+}
+
+#repl-map-aus-merapas-text-launch {
+	max-width: 414px;
+}
+
+#repl-position-merapas {
+	max-width: 372px;
+}
+
+#repl-diary-timelapse {
+	/* max-width: 920px; */
+}
+
+#repl-diary-inhabited {
+	/* max-width: 920; */
+}
+
+#repl-diary-merapas {
+	/* max-width: 920px; */
+}
+
+#repl-diary-nojunk {
+	/* max-width: 920px; */
+}
+
+#repl-diary-jungle {
+	/* max-width: 920px; */
+}
+
+#repl-mustika-loading-text {
+	max-width: 567px;
+	left: 50%;
+	margin-left: -283px;
+}
+
+#repl-title-section-3 {
+	max-width: 458px;
+}
+
+#repl-title-section-4 {
+	max-width: 458px;
+}
+
+#repl-roma-quote2 {
+	max-width: 305px;
+}
+
+#repl-replay {
+	position: relative;
+	max-width: 194px;
+}
+
 
 /* styles that apply over 640px */
 @media (min-width: 40em) {
@@ -443,6 +597,8 @@ dt, dd {
 
 	/* these fill horizontally and have height, top set on resize by js */
 	.enhanced .text-wrapper,
+	.enhanced .atmos + .text-wrapper,
+	.enhanced .image + .text-wrapper,
 	.enhanced .page,
 	.enhanced .image,
 	.enhanced .atmos {
@@ -474,7 +630,7 @@ dt, dd {
 	.enhanced .text.bottom,
 	.panel .atmos + .text-wrapper .text.bottom,
 	.panel .image + .text-wrapper .text.bottom {
-		bottom: 20%;
+		bottom: 10%;
 		top: initial;
 	}
 
@@ -506,149 +662,5 @@ dt, dd {
 	.enhanced .doco ul.row-2 li:last-child {
 		margin-right: 139px;
 	}	
-/* 
-	.doco ul li,
-	.doco ul video {
-		width: 212px;
-		height: 155px;
-	}
- */
 
-/*	
-	.enhanced .doco ul li,
-	.enhanced .doco ul video {
-		width: 212px;
-		height: 155px;
-	}
-
-	.enhanced .doco ul li {
-		float: left;
-		margin: 10px 17px;
-	}
-	
-	.enhanced
-
-	.enhanced .doco ul.row-2 li:first-child {
-		margin-left: 139px;
-	}
-
-	.enhanced .doco ul.row-2 li:last-child {
-		margin-right: 139px;
-	}
-	
-	.enhanced .doco ul {
-		margin: 150px auto 0;
-	}
-*/
-}
-
-.replaced {
-	position: absolute;
-	margin: 0 auto;
-	width: 100%;
-	z-index: 999;
-}
-
-.replaced.top {
-	top: 0%;
-}
-
-/* captions */
-.panel > .replaced.top {
-	top: 15%;
-}
-
-.replaced.right {
-	right: 0%;
-}
-
-.replaced.bottom {
-	bottom: 10%;
-}
-
-.replaced.left {
-	left: 10%;
-}
-
-.replaced.floor {
-	bottom: 0%;
-}
-
-.center {
-	margin: 0 auto;
-}
-
-#repl-title-section-1 {
-	max-width: 575px;
-	left: 50%;
-	margin-left: -287px;
-	margin-top: -13px;
-}
-
-#repl-title-section-1-credit {
-	max-width: 165px;
-	left: 50%;
-	margin-left: -82px;
-}
-
-#repl-norman-quote {
-	max-width: 387px;
-}
-
-#repl-sb-title {
-	max-width: 585px;
-}
-
-#repl-roma-quote1 {
-	max-width: 278px;
-}
-
-#repl-map-aus-merapas-text {
-	max-width: 414px;
-}
-
-#repl-map-aus-merapas-text-launch {
-	max-width: 414px;
-}
-
-#repl-position-merapas {
-	max-width: 372px;
-}
-
-#repl-diary-timelapse {
-	/* max-width: 920px; */
-}
-
-#repl-diary-inhabited {
-	/* max-width: 920; */
-}
-
-#repl-diary-merapas {
-	/* max-width: 920px; */
-}
-
-#repl-diary-nojunk {
-	/* max-width: 920px; */
-}
-
-#repl-diary-jungle {
-	/* max-width: 920px; */
-}
-
-#repl-mustika-loading-text {
-	max-width: 567px;
-	left: 50%;
-	margin-left: -283px;
-}
-
-#repl-title-section-3 {
-	max-width: 458px;
-}
-
-#repl-title-section-4 {
-	max-width: 458px;
-}
-
-#repl-roma-quote2 {
-	max-width: 305px;
 }

@@ -43,7 +43,7 @@
 	
 			frameCount = (sceneCount * framesPerScene) + 1;
 	
-			totalDuration = frameCount *  frameHeight;
+			totalDuration = frameCount * frameHeight * 2 / 3;
 			
 			if (options.debug) { console.log('got %i qns, duration: %i offset: %i, timeline: %o', qns.length, totalDuration, frameHeight, timeline); }
 			
@@ -72,8 +72,6 @@
 				fadeAnStartLabel = 'trial-scene-' + (sceneStartFrame + 1);
 				
 				timeline
-// 				.add(TweenMax.set(currQn, {autoAlpha: 0}), 'trial-scene-0')
-// 				.add(TweenMax.set(currAn, {autoAlpha: 0}), 'trial-scene-0')
 				.add(TweenMax.from(currQn, 1, {
 						autoAlpha: 0
 					, onStartParams: [sceneNumber],	onStart: function(){ if (options.debug) { console.log('question ' +  arguments[0] + ' fade in start'); } }
@@ -87,12 +85,13 @@
 					;
 			}
 			
-// 			timeline.add(TweenMax.to(trial, 1, {
-// 					autoAlpha: 0
-// 				, onStart: function(){ if (options.debug) { console.log('panel fade out start'); } }
-// 				, onComplete: function(){ if (options.debug) { console.log('panel fade out complete'); } }
-// 				}), "+=2"
-// 				);
+			timeline.add(TweenMax.to(trial, 1, {
+					autoAlpha: 0
+				,	delay: 10
+				,	onStart: function(){ if (options.debug) { console.log('panel fade out start'); } }
+				,	onComplete: function(){ if (options.debug) { console.log('panel fade out complete'); } }
+				})
+				);
 
 			// Create a scroll scene
 			scene = new ScrollScene({ duration: totalDuration, offset: frameHeight })
@@ -135,7 +134,7 @@
 				newPath = 'assets/img/' + filename + '.png';
 				newImg = $('<img id="repl-' + filename + '" src="' + newPath + '" class="replaced" />');
 				['top','right','bottom','left','center','floor'].map(function(el,ix){ if (subject.hasClass(el)) { newImg.addClass(el); } });
-				if (subject.hasClass('special')) {
+				if (subject.hasClass('special-title')) {
 					subject.parent().parent().append(newImg);
 				}
 				else {

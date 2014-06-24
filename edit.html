@@ -45,7 +45,7 @@ $(function() {
 	}
 	else {
 	}
-	$('.text, .caption, .special, .sb-title').replaceText();
+	$('.text, .caption, .special-title, .sb-title, .special-link').replaceText();
 	
 })
 
@@ -57,6 +57,13 @@ $(function() {
 </head>
 <body>
 <div id="sizer"></div>
+<div id="loading" class="opening-panel">
+	<div id="loading-img"><img src="assets/img/loading.png" alt="Loading" /></div>
+</div>
+<div id="instruction" class="opening-panel">
+	<div id="instruction-img"><img src="assets/img/instruction.png" alt="Scroll Down or use arrow keys" /></div>
+	
+</div>
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -96,7 +103,7 @@ $(function() {
 	
 		<div class="sequence" data-preload="section1.json">
 
-			<div class="panel audio-in" data-audio="chapter-1a">
+			<div class="panel mask audio-in" data-audio="chapter-1a" data-audio-loop="true">
 
 				<div class="atmos" data-video="00017-0-hero" id="atmos-00017-0-hero">
 					<img src="assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
@@ -208,7 +215,7 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="panel">
+			<div class="panel audio-out">
 				<div class="text-wrapper doco">
 				<div class="text ceil ref-12">
 					<div class="sb-title" data-text-replace="sb-title">
@@ -254,7 +261,7 @@ $(function() {
 			</div>
 			
 
-			<div class="panel light audio-in" data-audio="chapter-1b">
+			<div class="panel light audio-in" data-audio="chapter-1b" data-audio-loop="true">
 				<div class="text-wrapper ref-13">
 				<div class="text">
 					<a id="chp-1.5"></a>
@@ -440,9 +447,15 @@ $(function() {
 			</div>
 			
 			<div class="panel">
+				<div class="image ref-33">
+					<img src="assets/stills/content/jaywick-celebrations.jpg" class="res" alt="" />
+				</div>
+			</div>
+			
+			<div class="panel">
 			
 				<div class="image">
-					<img src="assets/stills/content/jaywick-celebrations.jpg" class="res" alt="" />
+					<img src="assets/stills/content/jaywick-celebrations-2.jpg" class="res" alt="" />
 				</div>
 				
 				<div class="caption ref-34">
@@ -501,7 +514,7 @@ $(function() {
 
 		<div class="sequence">
 		
-			<div class="panel audio-in" data-audio="chapter-2">
+			<div class="panel audio-in" data-audio="chapter-2" data-audio-loop="true">
 			
 				<div class="image">
 					<img src="assets/stills/content/map-aus-merapas.jpg" class="res" alt="" />
@@ -530,7 +543,7 @@ $(function() {
 				
 				<div class="text-wrapper ref-40">
 				<div class="text">
-					<div class="special top right" data-text-replace="position-merapas">
+					<div class="special-title top right" data-text-replace="position-merapas">
 						<h4>Merapas: Position &mdash; approximately 00&deg;56&rsquo;NORTH 104&deg;56&rsquo;40&rdquo; EAST.</h4>
 					</div>
 					<p>
@@ -1070,7 +1083,7 @@ $(function() {
 				</div>
 			</div>
 	
-			<div class="panel audio-in" data-audio="chapter-5">
+			<div class="panel audio-in" data-audio="chapter-5" data-audio-loop="true">
 				<div class="text-wrapper ref-75">
 				<div class="text">
 					<p>
@@ -1385,6 +1398,18 @@ $(function() {
 				</div>
 				</div>
 
+				<div class="text-wrapper">
+				<div class="text return">
+				
+					<p class="text-center">
+						<a href="#the-mission">
+							<span class="special-link" data-text-replace="replay">^ Return to start</span>
+						</a>
+					</p>
+				
+				</div>
+				</div>
+					
 			</div>
 		</div>
 		
