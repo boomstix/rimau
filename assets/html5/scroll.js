@@ -70,7 +70,7 @@
 		
 		function stopDocoVideo() {
 			
-			// if (options.debug)
+			if (options.debug)
 			{ console.log('stopDocoVideo'); }
 			
 			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
@@ -566,17 +566,18 @@
 		function playContentVideo(id) {
 		
 			var videoEl = $('#' + id);
-			if (options.debug)
+			//if (options.debug)
 			{ console.log('playVideo()', videoEl); }
 
 			if (videoEl.length > 0) {
-				var vid = $(videoEl).get(0);
-				if (vid.readyState == 3) {
-					vid.volume = 0;
-					vid.currentTime = 0;
-					vid.load();
-					vid.play();
+				try {
+					videoEl.get(0).volume = 0;
+					videoEl.get(0).load();
+					videoEl.get(0).play();
 					TweenMax.to(videoEl, 1,	{ volume: 1 });
+				}
+				catch (ex) {
+					// leave it
 				}
 			}
 			
@@ -594,8 +595,11 @@
 						volume: 0
 					,	onComplete: function(vid) {
 							var videoEl = $(vid);
-							videoEl.get(0).volume = 1;
-							videoEl.get(0).pause();
+							try {
+								videoEl.get(0).volume = 1;
+								videoEl.get(0).pause();
+							}
+							catch (ex) {}
 						}
 					,	onCompleteParams: videoEl
 				});
