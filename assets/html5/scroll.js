@@ -572,8 +572,8 @@
 		function playContentVideo(id) {
 		
 			var videoEl = $('#' + id);
-			//if (options.debug)
-			{ console.log('playVideo()', videoEl); }
+			if (options.debug)
+			{ console.log('playContentVideo()', videoEl); }
 
 			if (videoEl.length > 0) {
 				try {
@@ -592,7 +592,7 @@
 			// pause video and remove src attr from source tags
 			var videoEl = $('#' + id);
 			if (options.debug)
-			{ console.log('stopVideo()', videoEl); }
+			{ console.log('stopContentVideo()', videoEl); }
 			
 			if (videoEl.length > 0) {
 				TweenMax.to(videoEl, 1
@@ -676,7 +676,7 @@
 			}
 			else {
 				
-				// if (options.debug)
+				if (options.debug)
 				{ console.log('playAudio() - trying to play audio#%s, current audio#%s', audioId, currAudioId); }
 				
 				// we're want to play a new one - fade out the current audio element
@@ -770,14 +770,15 @@
 			else
 			{
 				
-				// if (options.debug)
+				if (options.debug)
 				{ console.log('playAtmosVideo() - trying to play video #%s with src %o ', videoId, atmosVideoEl); }
 
 				if (atmosVideoEl.length > 0) {
 					atmosVideoEl.append('<source src="' + mediaSources[videoId] + '" />');
 					atmosVideoEl.get(0).load();
 					atmosVideoEl.get(0).play();
-					// if (options.debug)
+					TweenMax.from(atmosVideoEl, 1, { autoAlpha: 0 });
+					if (options.debug)
 					{ console.log('playAtmosVideo() - %s should be playing', videoId); }
 				}
 
