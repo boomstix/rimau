@@ -18,11 +18,11 @@
 			"name": "00017-0-hero",
 			"sources": {
 				"webm": {
-					"source": "http://video.sbs.com.au/u/video/operation-rimau/video/00017_0_hero-med.webm",
+					"source": "http://videocdn.sbs.com.au/u/video/operation-rimau/video/00017-0-hero-med.webm",
 					"size": 9700.619
 				},
 				"h264": {
-					"source": "http://video.sbs.com.au/u/video/operation-rimau/video/00017_0_hero-med.mp4",
+					"source": "http://videocdn.sbs.com.au/u/video/operation-rimau/video/00017-0-hero-med.mp4",
 					"size": 9839.622
 				}
 			}

@@ -59,6 +59,7 @@ $(function() {
 <div id="sizer"></div>
 <div id="loading" class="opening-panel">
 	<div id="loading-img"><img src="assets/img/loading.png" alt="Loading" /></div>
+	<div id="load-counter">0%</div>
 </div>
 <div id="instruction" class="opening-panel">
 	<div id="instruction-img"><img src="assets/img/instruction.png" alt="Scroll Down or use arrow keys" /></div>
@@ -145,9 +146,9 @@ $(function() {
 
 			<div class="panel">
 				<div class="video ref-04">
-					<video id="video-training" controls preload="none" poster="assets/stills/placeholder/training-video.jpg">
-						<source src="http://video.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.mp4" type="video/mp4" />
-						<source src="http://video.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
+					<video id="video-training" preload="none" poster="assets/stills/placeholder/training-video.jpg">
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.mp4" type="video/mp4" />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sub-16x9-trimmed-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
@@ -208,7 +209,7 @@ $(function() {
 
 			<div class="panel">
 				<div class="video ref-11">
-					<video id="video-norman-wallace" controls preload="none" poster="assets/stills/placeholder/norman-wallace.jpg">
+					<video id="video-norman-wallace" preload="none" poster="assets/stills/placeholder/norman-wallace.jpg">
 						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-01-a-med.mp4" type="video/mp4" />
 						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-01-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -223,19 +224,19 @@ $(function() {
 					</div>
 					<ul class="row-1">
 						<li>
-							<video id="video-sb-1" controls preload="none" poster="assets/stills/placeholder/sb-1.jpg">
+							<video id="video-sb-1" preload="none" poster="assets/stills/placeholder/sb-1.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-02-a-med.mp4" type="video/mp4" />
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-02-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 							</video>
 						</li>
 						<li>
-							<video id="video-sb-2" controls preload="none" poster="assets/stills/placeholder/sb-2.jpg">
+							<video id="video-sb-2" preload="none" poster="assets/stills/placeholder/sb-2.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-03-a-med.mp4" type="video/mp4" />
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-03-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 							</video>
 						</li>
 						<li>
-							<video id="video-sb-3" controls preload="none" poster="assets/stills/placeholder/sb-3.jpg">
+							<video id="video-sb-3" preload="none" poster="assets/stills/placeholder/sb-3.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-04-a-med.mp4" type="video/mp4" />
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-04-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 							</video>
@@ -243,13 +244,13 @@ $(function() {
 					</ul>
 					<ul class="row-2">
 						<li>
-							<video id="video-sb-4" controls preload="none" poster="assets/stills/placeholder/sb-4.jpg">
+							<video id="video-sb-4" preload="none" poster="assets/stills/placeholder/sb-4.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-05-a-med.mp4" type="video/mp4" />
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-05-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 							</video>
 						</li>
 						<li>
-							<video id="video-sb-5" controls preload="none" poster="assets/stills/placeholder/sb-5.jpg">
+							<video id="video-sb-5" preload="none" poster="assets/stills/placeholder/sb-5.jpg">
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-06-a-med.mp4" type="video/mp4" />
 								<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/sb-part-06-a-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 						</video>
@@ -498,9 +499,9 @@ $(function() {
 			
 			<div class="panel">
 				<div class="video ref-37">
-					<video id="video-roma-1" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
+					<video id="video-roma-1" preload="none" poster="assets/stills/placeholder/roma-page.jpg">
 						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-01-recut-med.mp4" type="video/mp4" />
-						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-01-recut-med.WebM" type='video/webm; codecs="vp8, vorbis"' />
+						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-01-recut-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
 				</div>
 			</div>
@@ -888,7 +889,7 @@ $(function() {
 
 			<div class="panel mask">
 			
-				<div class="atmos" data-video="MVI-0050" id="atmos-MVI-0050">
+				<div class="atmos" data-video="mvi-0050" id="atmos-mvi-0050-2">
 					<img src="assets/stills/placeholder/open-water-1.jpg" class="res" alt="">
 				</div>
 				
@@ -908,7 +909,7 @@ $(function() {
 
 			<div class="panel light-small">
 			
-				<div class="atmos" data-video="GOOD%20GOPR0047">
+				<div class="atmos" data-video="good-gopro0047" id="atmos-good-gopro0047">
 					<img src="assets/stills/placeholder/native-boat.jpg" class="res" alt="">
 				</div>
 				
@@ -1076,7 +1077,7 @@ $(function() {
 	
 			<div class="panel">
 				<div class="video ref-73">
-					<video id="video-roma-2" controls preload="none" poster="assets/stills/placeholder/roma-page.jpg">
+					<video id="video-roma-2" preload="none" poster="assets/stills/placeholder/roma-page.jpg">
 						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-02-med.mp4" type="video/mp4" />
 						<source src="http://videocdn.sbs.com.au/u/video/operation-rimau/video/roma-02-med.webm" type='video/webm; codecs="vp8, vorbis"' />
 					</video>
@@ -1201,7 +1202,7 @@ $(function() {
 
 			<div class="panel">
 			
-				<div class="atmos" data-video="Kranji-Cemetary">
+				<div class="atmos" data-video="kranji-cemetary" id="atmos-kranji-cemetary">
 					<img src="assets/stills/placeholder/kranji-cemetary.jpg" class="res" alt="" />
 				</div>
 				

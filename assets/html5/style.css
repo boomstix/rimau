@@ -250,6 +250,7 @@ div.video,
 	text-align: center;
 }
 
+.doco li img { cursor: pointer; }
 
 .portrait .portrait-image,
 .portrait .subject {
@@ -337,6 +338,15 @@ dt, dd {
 	width: 216px;
 	top: 28%;
 }
+
+#load-counter {
+	position: absolute;
+	top: 65%;
+	width: 50px;
+	text-align: center;
+	margin-left: 47%;
+}
+
 .hide {
 	display: none;
 }

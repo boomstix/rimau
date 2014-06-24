@@ -39,98 +39,10 @@
 		,	chapter1Preload = null
 		,	remainderPreload = null
 		,	mediaSources = []
+		, retryCount = []
 		,	retryMax = 10 // will retry this many times to reload
-		,	retryCount = 0
 		, startTime = new Date()
 		;
-		
-		function setupDocoVideo(e) {
-		
-			// if (options.debug)
-			{ console.log('setupDocoVideo()', this); }
-			
-			var origVideoEl = $(this).data('orig-video');
-
-			// fade out the text panel holding the menu
-			TweenMax.to($('.doco .text'), 1, { autoAlpha: 0 });
-			
-			// fade in a video element
-			var videoEl = $(origVideoEl).appendTo($('.doco'));
-			if (videoEl.length > 0) {
-				$(videoEl).get(0).volume = 0;
-				$(videoEl).get(0).play();
-				TweenMax
-				.to(videoEl, 1
-				,	{
-						autoAlpha: 1
-					,	volume: 1
-				});
-				TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
-			}
-		}
-		
-		function stopDocoVideo() {
-			
-			if (options.debug)
-			{ console.log('stopDocoVideo'); }
-			
-			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
-			TweenMax.to('#doco-closer', 1, { autoAlpha: 0 });
-
-			// stop the video, fade out, and remove from dom when complete.
-			videoEl = $('.doco video');
-			TweenMax.to(videoEl, 1
-			,	{
-					volume: 0
-				,	autoAlpha: 0
-				,	overwrite: 'all'
-				,	onComplete: function(vid) {
-						var videoEl = $(vid);
-						if (videoEl.length > 0) {
-							videoEl.get(0).pause();
-						}
-						$(vid).remove();
-					}
-				,	onCompleteParams: videoEl
-			});
-
-		}
-		
-		function setupDocos() {
-			
-			// replace the existing videos with images
-			// attach click events to the images to setup and play
-			
-			var docoPanel = $('.doco')
-			,	vidEls = $('video', docoPanel)
-			// Create and disappear the closer button.
-			,	closer = $('<div id="doco-closer" title="Close Video">&times;</div>')
-			.on('click', stopDocoVideo)
-			.prependTo(docoPanel);
-			TweenMax.to(closer, 0, {autoAlpha: 0});
-			
-			vidEls.each(function(ix, el) {
-				
-				var vidEl = $(el)
-				,	vidId = vidEl.attr('id')
-				,	sources = $('source', el)
-				;
-				
-				// Disappear the video
-				TweenMax.to(vidEl, 0, {autoAlpha: 0});
-				
-				// Replace it with an image with a click event.
-				thumbSrc = 'assets/stills/placeholder/sb-thumb-' + (ix + 1) + '.png';
-				vidImg = $('<img src="' + thumbSrc + '" />').data('orig-video', vidEl);
-				vidEl.parent().append(vidImg);
-				// clear the poster to stop flash.
-				vidEl.attr('poster', '');
-				vidImg.on('click', setupDocoVideo);
-				vidEl.remove();
-				
-			});
-			
-		}
 		
 		function openSection(sectionId, speed) {
 
@@ -138,7 +50,7 @@
 			{ console.log('openScene') }
 			
 			var scrollPos = $(sectionId);
-			speed = speed || 500;
+			speed = speed || 1000;
 			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
 				$('html, body').animate({
 					scrollTop: scrollPos.offset().top + win.height()
@@ -324,24 +236,32 @@
 			{ console.log('panel tween %i %s', sceneNumber, timelineString); }
 			
 			contentVideo = $('.video video', panel);
+			atmosVideo = $('.atmos video', panel);
 			audioIn = panel.hasClass('audio-in') ? panel.data('audio') : false;
 			audioOut = panel.hasClass('audio-out');
 			audioLoop = panel.hasClass('audio-in') ? panel.data('audio-loop') : false;
 			
+			
+			// we are entering the panel in the forward direction
 			if (timelineString == 'FADEINSTART') {
-				// we are entering the panel in the forward direction
 				if (audioIn) {
 					playAudio(audioIn, audioLoop);
 				}
+				if (atmosVideo.length) {
+					playAtmosVideo(atmosVideo.attr('id'));
+				}
 			}
+			
+			// we have entered the panel in the forward direction
 			if (timelineString == 'FADEINCOMPLETE') {
-				// we have entered the panel in the forward direction
 				if (contentVideo.length) {
 					playContentVideo(contentVideo.attr('id'));
 				}
 			}
+			
+			
+			// we are leaving the panel in the forward direction
 			if (timelineString == 'FADEOUTSTART') {
-				// we are leaving the panel in the forward direction
 				if (contentVideo.length) {
 					stopContentVideo(contentVideo.attr('id'));
 				}
@@ -351,8 +271,16 @@
 				// stop any doco that is playing
 				stopDocoVideo();
 			}
+			
+			// we have left the panel in the forward direction
+			if (timelineString == 'FADEOUTCOMPLETE') {
+				if (atmosVideo.length) {
+					stopAtmosVideo(atmosVideo.attr('id'));
+				}
+			}
+			
+			// we have entered the panel in the reverse direction
 			if (timelineString == 'FADEOUTREVERSECOMPLETE') {
-				// we have entered the panel in the reverse direction
 				if (contentVideo.length) {
 					stopContentVideo(contentVideo.attr('id'));
 				}
@@ -360,8 +288,14 @@
 				stopDocoVideo();
 			}
 			
+			// we have left the panel in the reverse direction
 			if (timelineString == 'FADEINREVERSECOMPLETE') {
-				// we have left the panel in the reverse direction
+				if (atmosVideo.length) {
+					stopAtmosVideo(atmosVideo.attr('id'));
+				}
+				if (contentVideo.length) {
+					stopContentVideo(contentVideo.attr('id'));
+				}
 				if (audioIn) {
 					stopAudio();
 				}
@@ -393,7 +327,6 @@
 			$.each(sequences, function(sequenceNumber, sequence) {
 			
 				sequence = $(sequence); 
-				// console.log(section, sequence, sequenceIx);
 				
 				panels = $('.panel', sequence);
 				
@@ -438,10 +371,8 @@
 			
 					currMedia = $('.image, .atmos, .video', panel);
 					currContent = $('.text-wrapper, .sketch, .page, .caption', panel);
-					// currCaption = $('.caption', panel);
 			
 					contentCount = currContent.length > 0 ? currContent.length : 1;
-					if (options.debug) { console.log('contentCount: ' , contentCount); }
 			
 					// this scene's animation starts at framesPerScene * (sceneCount - 1) - (sceneCount - 1) * frameOverlap
 					sceneStartFrame = (framesPerScene * sceneNumber) - (sceneNumber * frameOverlap);
@@ -463,8 +394,8 @@
 						,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', panel],	onComplete: panelTweenHandler
 						,	onReverseCompleteParams: [sceneNumber, 'FADEINREVERSECOMPLETE', panel],	onReverseComplete: panelTweenHandler
 						})
-					,	fadeInStartLabel
-					).call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
+					,	fadeInStartLabel)
+					.call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
 					
 					if (options.debug) { console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
 					timeline
@@ -475,8 +406,8 @@
 						,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', panel],	onComplete: panelTweenHandler
 						,	onReverseCompleteParams: [sceneNumber, 'FADEOUTREVERSECOMPLETE', panel],	onReverseComplete: panelTweenHandler
 						})
-					, fadeOutStartLabel
-					).call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
+					, fadeOutStartLabel)
+					.call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
 					
 					for (var contentNumber = 0; contentNumber < contentCount; contentNumber++) {
 					
@@ -489,28 +420,10 @@
 						sceneNumber++;
 						
 						if (options.debug) { console.log('fading in content at label %o, sceneNumber %o', scrollInStartLabel, sceneNumber); }
-						timeline
-						.add(TweenMax
-							.from(content, 1, {
-								autoAlpha: 0
-							// ,	top: '100%'
-							,	onStartParams: [sceneNumber, 'FADEINSTART', currContent],	onStart: contentTweenHandler
-							,	onCompleteParams: [sceneNumber, 'FADEINCOMPLETE', currContent],	onComplete: contentTweenHandler
-							})
-						,	scrollInStartLabel
-						).call(contentHandler, [sceneNumber, 'FADEIN', content]);
+						timeline.add(TweenMax.from(content, 1, { autoAlpha: 0 }),	scrollInStartLabel);
 
 						if (options.debug) { console.log('fading out content at %o, sceneNumber %o', scrollOutStartLabel, sceneNumber); }
-						timeline
-						.add(TweenMax
-							.to(content, 1, {
-								autoAlpha: 0
-							// ,	top: '-100%'
-							,	onStartParams: [sceneNumber, 'FADEOUTSTART', currContent],	onStart: contentTweenHandler
-							,	onCompleteParams: [sceneNumber, 'FADEOUTCOMPLETE', currContent],	onComplete: contentTweenHandler
-							})
-						,	scrollOutStartLabel
-						).call(contentHandler, [sceneNumber, 'FADEOUT', content]);
+						timeline.add(TweenMax.to(content, 1, { autoAlpha: 0 }),	scrollOutStartLabel);
 			
 					}
 
@@ -568,6 +481,94 @@
 		
 		*/
 		
+		function playDocoVideo(e) {
+		
+			// if (options.debug)
+			{ console.log('playDocoVideo()', this); }
+			
+			var origVideoEl = $(this).data('orig-video');
+
+			// fade out the text panel holding the menu
+			TweenMax.to($('.doco .text'), 1, { autoAlpha: 0 });
+			
+			// fade in a video element
+			var videoEl = $(origVideoEl).appendTo($('.doco'));
+			if (videoEl.length > 0) {
+				$(videoEl).get(0).volume = 0;
+				$(videoEl).get(0).play();
+				TweenMax
+				.to(videoEl, 1
+				,	{
+						autoAlpha: 1
+					,	volume: 1
+				});
+				TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
+			}
+		}
+		
+		function stopDocoVideo() {
+			
+			if (options.debug)
+			{ console.log('stopDocoVideo'); }
+			
+			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
+			TweenMax.to('#doco-closer', 1, { autoAlpha: 0 });
+
+			// stop the video, fade out, and remove from dom when complete.
+			videoEl = $('.doco video');
+			TweenMax.to(videoEl, 1
+			,	{
+					volume: 0
+				,	autoAlpha: 0
+				,	overwrite: 'all'
+				,	onComplete: function(vid) {
+						var videoEl = $(vid);
+						if (videoEl.length > 0) {
+							videoEl.get(0).pause();
+						}
+						$(vid).remove();
+					}
+				,	onCompleteParams: videoEl
+			});
+
+		}
+		
+		function setupDocos() {
+			
+			// replace the existing videos with images
+			// attach click events to the images to setup and play
+			
+			var docoPanel = $('.doco')
+			,	vidEls = $('video', docoPanel)
+			// Create and disappear the closer button.
+			,	closer = $('<div id="doco-closer" title="Close Video">&times;</div>')
+			.on('click', stopDocoVideo)
+			.prependTo(docoPanel);
+			TweenMax.to(closer, 0, {autoAlpha: 0});
+			
+			vidEls.each(function(ix, el) {
+				
+				var vidEl = $(el)
+				,	vidId = vidEl.attr('id')
+				,	sources = $('source', el)
+				;
+				
+				// Disappear the video
+				TweenMax.to(vidEl, 0, {autoAlpha: 0});
+				
+				// Replace it with an image with a click event.
+				thumbSrc = 'assets/stills/placeholder/sb-thumb-' + (ix + 1) + '.png';
+				vidImg = $('<img src="' + thumbSrc + '" />').data('orig-video', vidEl);
+				vidEl.parent().append(vidImg);
+				// clear the poster to stop flash.
+				vidEl.attr('poster', '');
+				vidImg.on('click', playDocoVideo);
+				vidEl.remove();
+				
+			});
+			
+		}
+		
 		function playContentVideo(id) {
 		
 			var videoEl = $('#' + id);
@@ -577,7 +578,6 @@
 			if (videoEl.length > 0) {
 				try {
 					videoEl.get(0).volume = 0;
-					videoEl.get(0).load();
 					videoEl.get(0).play();
 					TweenMax.to(videoEl, 1,	{ volume: 1 });
 				}
@@ -603,6 +603,7 @@
 							try {
 								videoEl.get(0).volume = 1;
 								videoEl.get(0).pause();
+								videoEl.get(0).load();
 							}
 							catch (ex) {}
 						}
@@ -653,31 +654,30 @@
 		
 		function playAudio(audioId, audioLoop) {
 			
-			if (location.search.indexOf('audio=off') > -1) {
+			if (location.search.match(/audio=(off|no)/)) {
 				return;
 			}
 			
+			if (typeof retryCount[audioId] == 'undefined') {
+				retryCount[audioId] = 0;
+			}
 			audioSrc = mediaSources[audioId];
 			
 			if (typeof(audioSrc) == 'undefined') {
 				// it hasn't loaded yet - can't play.
 				// if (options.debug)
-				{ console.log('playAudio() cannot play %s - retrying', audioId, audioLoop); }
+				{ console.log('playAudio() cannot play %s - retrying #%i', audioId, retryCount[audioId] + 1); }
 				// retry a max of ten times
-				retryCount += 1;
-				if (retryCount < retryMax) {
+				retryCount[audioId] += 1;
+				if (retryCount[audioId] < retryMax) {
 					setTimeout(playAudio, 1000, audioId, audioLoop);
-				}
-				else {
-					retryCount = 0;
 				}
 				
 			}
-			else
-			{
+			else {
 				
-				if (options.debug)
-				{ console.log('playAudio() - trying to play audio#$s, current audio#%s', audioId, currAudioId); }
+				// if (options.debug)
+				{ console.log('playAudio() - trying to play audio#%s, current audio#%s', audioId, currAudioId); }
 				
 				// we're want to play a new one - fade out the current audio element
 				existing = $('#' + currAudioId, audioHolder);
@@ -723,26 +723,133 @@
 			
 		}
 		
+		function stopAtmosVideo(videoId) {
+		
+			if (options.debug)
+			{ console.log('stopAtmosVideo()', videoId); }
+			
+			var atmosVideoEl = $('video#' + videoId)
+			;
+			
+			atmosVideoEl.get(0).pause();
+			atmosVideoEl.get(0).load();
+			$('source', atmosVideoEl).each(function(ix,el){
+				$(el).attr('src','');
+			});
+		
+		}
+		
+		function playAtmosVideo(videoId) {
+			
+			if (location.search.match(/atmos=(off|no)/)) {
+				return;
+			}
+			
+			// mediaSources[videoId] is set by onElementLoaded
+			var videoSrc = mediaSources[videoId]
+			,	atmosVideoEl = $('#' + videoId)
+			;
+			
+			if (typeof retryCount[videoId] == 'undefined') {
+				retryCount[videoId] = 0;
+			}
+			
+			if (typeof(videoSrc) == 'undefined') {
+				// it hasn't loaded yet - can't play.
+				if (options.debug)
+				{ console.log('playAtmosVideo() cannot play %s - retrying #%i', videoId, retryCount[videoId]); }
+				// retry a max of ten times
+				retryCount[videoId] += 1;
+				if (retryCount[videoId] < retryMax) {
+					setTimeout(playAtmosVideo, 1000, videoId);
+				}
+			}
+			else
+			{
+				
+				// if (options.debug)
+				{ console.log('playAtmosVideo() - trying to play video #%s with src %o ', videoId, atmosVideoEl); }
+
+				if (atmosVideoEl.length > 0) {
+					$('source', atmosVideoEl).attr('src', mediaSources[videoId]);
+					atmosVideoEl.get(0).load();
+					atmosVideoEl.get(0).play();
+					// if (options.debug)
+					{ console.log('playAtmosVideo() - %s should be playing', videoId); }
+				}
+
+			}
+		}
+		
+		function setupAtmosVideo(obj, el) {
+		
+			// find the atmos panel from the obj.name == dom#id
+			var atmosPanel = $('#' + obj.name)
+			,	atmosPosterImg = $('img', atmosPanel)
+			,	mediaType = $(el).attr('type')
+			,	vidEl = null
+			;
+			
+			if (options.debug)
+			{ console.log('setupAtmosVideo(): loaded %s %s @ %o', obj.type, obj.name, new Date() - startTime); }
+			
+			mediaSources['vid-' + obj.name] = obj.source;
+			
+			if (atmosPanel.length) {
+				// create vid elem with our specs
+				vidEl = $('<video id="vid-' + obj.name + '" preload="auto" poster="' + atmosPosterImg.attr('src') + '"><source src="" /></video>');
+				// add src to video elem's data store 
+				vidEl.data('video')
+				// remove the atmos panel placeholder image
+				atmosPosterImg.remove();
+				// add video elem with type but no src
+				atmosPanel.append(vidEl);
+			}
+			
+		}
+		
+		function preloadAtmosVideos() {
+			
+			// setup a preloader for each atmos video
+			
+			$('.atmos').each(function(ix, atmosEl) {
+			
+				var atmosEl = $(atmosEl)
+				,	vidId = atmosEl.attr('id')
+				,	vidSrc = atmosEl.data('video');
+				
+				if (options.debug)
+				{ console.log('preloadAtmosVideos()', vidId, vidSrc); }
+				
+				$.html5Loader({
+					filesToLoad: {
+						'files': [ {  'type': 'VIDEO', 'name': vidId,
+								'sources': {
+									'webm': {
+										'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.webm',
+										'size': 2000
+									},
+									'h264': {
+										'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.mp4',
+										'size': 2000
+									}
+								}
+							}
+						]
+					}
+					, onElementLoaded: setupAtmosVideo
+				});
+			
+			});
+			
+		}
+		
 		function addMediaElement( obj, el ) {
 		
-			switch (obj.type) {
-				case 'AUDIO':
-						
-					if (options.debug)
-					{ console.log('loaded audio %s @ %o', obj.name, new Date() - startTime); }
-					mediaSources[obj.name] = obj.source;
-
-					break;
-					
-				case 'VIDEO':
-				
-					// find the video in the 
-					if (options.debug)
-					{ console.log('loaded video %s @ %o', obj.name, new Date() - startTime); }
-					mediaSources[obj.name] = obj.source;
-				
-					break;
-			}
+			if (options.debug)
+			{ console.log('loaded %s %s @ %o', obj.type, obj.name, new Date() - startTime); }
+			
+			mediaSources[obj.name] = obj.source;
 			
 		}
 		
@@ -754,45 +861,59 @@
 			if (options.debug)
 			{ console.log('loaded initial files - starting remaining'); }
 			
-			// load the next set of assets
-			setTimeout(function(){ $.html5Loader({
+			// load the audio assets - nothing need be done with them
+			setTimeout(function(){
+				$.html5Loader({
 	
-				filesToLoad:'assets/html5/preload-2.json',
-				debugMode: false,
-				onElementLoaded: addMediaElement
+					filesToLoad:'assets/html5/preload-2.json'
+				,	debugMode: false
+				,	onElementLoaded: addMediaElement
+				,	onComplete: preloadAtmosVideos
 			
-			});}, 3000);
+				});
+			}, 3000);
+			
+			// return;
 			
 			// we got the opening track - cue it by scrolling in the opening scene
-			setTimeout(function() {
+			
 				if (options.debug)
 				{ console.log('fade in article'); }
 				// fade out loading message
-				TweenMax.to('#loading', 1, { autoAlpha: 0});
+				TweenMax.to('#loading', 1, { autoAlpha: 0, delay: 1 });
 				// fade in the instruction message
 				TweenMax.to('#instruction', 1,
 				{
 					autoAlpha: 1
+				,	delay: 1
 				,	onComplete: function(){
 						$('#loading').addClass('hide');
 						// fade out the instruction
 						TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
 							$('#instruction').addClass('hide');
+							
 							TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
 								$('article').removeClass('hide');
-								openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
+								location.hash = location.hash;
+								setTimeout(openSection, 3000, (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 							}});
+							
 						}});
 					}
 				});
 				
-			}, 1000);
-			
 			// setup the documentaries
 			setupDocos();
 			
 		}
 		
+		function updateCounter(perc) {
+			var counter = $('#load-counter')
+			counter.text(perc + '%');
+			if (perc == 100) {
+				TweenMax.to(counter, 1, {autoAlpha: 0});
+			}
+		}
 
 		// Handle scrolling into scene on nav clicks
 		$('nav a, .return a').on('click', handleNav);
@@ -806,12 +927,11 @@
 
 		// Preload chapter 1 media
 		chapter1Preload = $.html5Loader({
-		
-			filesToLoad:'assets/html5/preload-1.json',
-			debugMode: false,
-			onComplete: pageStartComplete,
-			onElementLoaded: addMediaElement
-			
+				filesToLoad:'assets/html5/preload-1.json'
+			,	debugMode: false
+			,	onComplete: pageStartComplete
+			,	onElementLoaded: addMediaElement
+			,	onUpdate: updateCounter
 		});
 		
 		$('.opening-panel').addClass('enhanced');
@@ -819,7 +939,7 @@
 		TweenMax.to('#instruction', 0, { autoAlpha: 0});
 		
 		return ret;
-
+			
 		
 	}
 
