@@ -354,22 +354,22 @@ ul.credits li {
 	top: 0px;
 	left: 0px;
 	z-index: 99;
-	background-image: url(../img/title-section-1.png);
-	background-repeat: no-repeat;
-	background-position: 45% 10%;
 }
 .opening-panel > div {
+	width: 575px;
 	margin: 0 auto;
 	clear: left;
 	position: relative;
 }
+.opening-panel .site-logo img {
+	width: 575px;
+}
+
 #loading-img {
 	width: 194px;
-	top: 52%;
 }
 #instruction-img {
 	width: 216px;
-	top: 45%;
 }
 
 #load-counter {
