@@ -140,6 +140,27 @@ section:after {
 	display: block;
 }
 
+blockquote {
+	font-style: italic; 
+}
+
+dl {
+	margin: 1em 0;
+	padding: 0 1em;
+}
+dt, dd {
+	margin: 1em 0;
+}
+
+a.footnote:link,
+a.footnote:link {
+	text-decoration: none;
+}
+a.footnote:hover,
+a.footnote:active {
+	text-decoration: underline;
+}
+
 .ScrollSceneIndicators {
 	z-index: 1000 !important;
 }
@@ -186,6 +207,20 @@ section:after {
 	background-image: url(../img/bg/background-light.jpg);
 	background-color: #f9f8f4;
 	color: #333;
+}
+
+.backgroundsize .panel.light-2 .text-wrapper {
+	background-image: url(../img/bg/background-light-2.jpg);
+	background-color: #f9f8f4;
+	color: #333;
+}
+
+.light-2 a, .light a {
+	color: #333;
+}
+
+.white {
+	color: #fff;
 }
 
 .backgroundsize .panel .doco {
@@ -266,7 +301,10 @@ div.video,
 }
 
 #credits .text {
-	top: 10%;
+	top: 15%;
+}
+#credits .text.middle {
+	top: 30%;
 }
 
 ul.credits {
@@ -302,18 +340,6 @@ ul.credits li {
 	text-align: center;
 	text-transform: uppercase;
 	margin-top: 2em;
-}
-
-blockquote {
-	font-style: italic; 
-}
-
-dl {
-	margin: 1em 0;
-	padding: 0 1em;
-}
-dt, dd {
-	margin: 1em 0;
 }
 
 .opening-panel {
@@ -363,51 +389,21 @@ dt, dd {
 	display: block;
 }
 
-.replaced {
-	position: absolute;
-	margin: 0 auto;
-	width: 100%;
-	z-index: 999;
-}
-
-.replaced.top {
-	top: 0%;
-}
-
-.replaced.middle {
-	top: 50%;
-}
-
-/* captions */
-.panel > .replaced.top {
-	top: 15%;
-}
-
-.replaced.right {
-	right: 0%;
-}
-
-.replaced.bottom {
-	bottom: 10%;
-}
-
-.replaced.left {
-	left: 10%;
-}
-
-.replaced.floor {
-	bottom: 0%;
+.panel .page,
+.panel .text {
+	padding: 0.5em 0;
 }
 
 .center {
 	margin: 0 auto;
 }
 
+.replaced {
+	width: 100%;
+}
+
 #repl-title-section-1-credit {
 	max-width: 575px;
-	left: 50%;
-	margin-left: -287px;
-	margin-top: -13px;
 }
 
 #repl-norman-quote {
@@ -435,23 +431,27 @@ dt, dd {
 }
 
 #repl-diary-timelapse {
-	/* max-width: 920px; */
+	max-width: 712px;
 }
 
 #repl-diary-inhabited {
-	/* max-width: 920; */
+	max-width: 642px;
 }
 
 #repl-diary-merapas {
-	/* max-width: 920px; */
+	max-width: 770px;
 }
 
 #repl-diary-nojunk {
-	/* max-width: 920px; */
+	max-width: 734px;
 }
 
 #repl-diary-jungle {
-	/* max-width: 920px; */
+	max-width: 517px;
+}
+
+#repl-rain-dance {
+	max-width: 546px;
 }
 
 #repl-mustika-loading-text {
@@ -466,6 +466,10 @@ dt, dd {
 
 #repl-title-section-4 {
 	max-width: 458px;
+}
+
+#repl-letter {
+	max-width: 696px;
 }
 
 #repl-roma-quote2 {
@@ -501,7 +505,7 @@ dt, dd {
 		line-height: 1.5em;
 		margin: 0 auto;
 	}
-
+	
 	.trial {
 		width: 100%;
 		height: 100%;
@@ -523,6 +527,11 @@ dt, dd {
 		float: left;
 		margin-left: 4%;
 	}
+	.trial .intro,
+	.trial dl {
+		max-width: 920px;
+		margin: 0 auto;
+	}
 	
 }
 
@@ -532,6 +541,11 @@ dt, dd {
 	.panel .image + .text-wrapper .text {
 		top: 10%;
 	}
+	
+	#repl-title-section-1-credit {
+		margin-top: -120px;
+	}
+	
 }
 
 /* styles that apply over 768px */
@@ -657,6 +671,28 @@ dt, dd {
 		background-size: cover;
 	}
 
+/* 
+	.enhanced.mask .text-wrapper.mask-timeline {
+		background-image: url(../img/timeline-mask.png);
+	}
+
+	.enhanced.mask .text-wrapper.mask-inhabited {
+		background-image: url(../img/inhabited-mask.png);
+	}
+
+	.enhanced.mask .text-wrapper.mask-merapas {
+		background-image: url(../img/merapas-mask.png);
+	}
+
+	.enhanced.mask .text-wrapper.mask-nojunk {
+		background-image: url(../img/nojunk-mask.png);
+	}
+
+	.enhanced.mask .text-wrapper.mask-jungle {
+		background-image: url(../img/jungle-mask.png);
+	}
+ */
+
 	.enhanced.mask .text-wrapper {
 		position: fixed !important;
 	}
@@ -678,4 +714,97 @@ dt, dd {
 		margin-right: 139px;
 	}	
 
+	.replaced {
+		position: absolute;
+		margin: 0 auto;
+		width: 100%;
+		z-index: 999;
+	}
+
+	.replaced.top {
+		top: 5%;
+	}
+
+	.replaced.middle {
+		top: 50%;
+	}
+
+	/* captions */
+	.panel > .replaced.top {
+		top: 15%;
+	}
+
+	.replaced.right {
+		right: 5%;
+	}
+
+	.replaced.bottom {
+		bottom: 15%;
+	}
+
+	.text-wrapper .replaced.bottom {
+		bottom: 5%;
+	}
+
+	.replaced.left {
+		left: 15%;
+	}
+
+	.text-wrapper .replaced.left {
+		left: 5%;
+	}
+
+	.replaced.floor {
+		bottom: 0%;
+	}
+
+	#repl-title-section-1-credit {
+		max-width: 575px;
+		left: 50%;
+		margin-left: -287px;
+		margin-top: -13px;
+	}
+	
+	#repl-diary-timelapse {
+		left: 50%;
+		margin-left: -354px;
+		bottom: 5%;
+	}
+
+	#repl-diary-inhabited {
+		left: 50%;
+		margin-left: -321px;
+		bottom: 5%;
+	}
+
+	#repl-diary-merapas {
+		left: 50%;
+		margin-left: -385px;
+		bottom: 5%;
+	}
+
+	#repl-diary-nojunk {
+		left: 50%;
+		margin-left: -377px;
+		bottom: 5%;
+	}
+
+	#repl-diary-jungle {
+		left: 50%;
+		margin-left: -263px;
+		bottom: 5%;
+	}
+	
+	#repl-rain-dance {
+		left: 50%;
+		margin-left: -273px;
+		top: 45%;
+	}
+	
+	#repl-letter {
+		max-width: 696px;
+		left: 50%;
+		margin-left: -348px;
+	}
+	
 }

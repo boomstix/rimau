@@ -16,6 +16,7 @@
 			,	logLevel: 2
 			, onSceneStart: function() {}
 			}
+		,	options = $.extend({}, defaultOptions, _options)
 		,	body = $('body')
 		,	bodyDims = {}
 		,	win = $(window)
@@ -24,7 +25,6 @@
 		,	sizer = $('#sizer')
 		,	scrollDirection = 'FORWARD'
 		,	scrollState = 'BEFORE'
-		,	options = $.extend({}, defaultOptions, _options)
 		,	section = null
 		,	sequences = null
 		,	sequence = null
@@ -52,7 +52,7 @@
 			var scrollPos = $(sectionId);
 			speed = speed || 500;
 			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
-				$('html, body').animate({
+				$('html, body').delay(500).animate({
 					scrollTop: scrollPos.offset().top + win.height()
 				}, speed);
 			}
@@ -163,6 +163,8 @@
 				if (!destroyed) {
 					// console.log('fixing atmos, image', allAtmosPanels[0])
 					allSequences.css({width: d.w, height: d.h});
+					constraints.toHeight.height += 1;
+					constraints.toWidth.height += 1;
 					allTextPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				}
 				allSequences.css({left: 0});
@@ -200,8 +202,9 @@
 				sequenceScene = sequence.data('scene');
 				
 				if (typeof(sequenceScene) !== 'undefined') {
-					console.log('die');
-					sequenceScene.removeTween(true)
+					if (options.debug)
+					{ console.log('die'); }
+					sequenceScene.removeTween(true);
 					sequenceScene.remove();
 					sequenceScene.destroy(true);
 					sequence.css({position:'relative'})
@@ -211,6 +214,9 @@
 			
 			// reset the tween opacities - destroy is not removing the tweens properly
 			$('.panel, .text-wrapper, .caption').css({'opacity': 'initial', 'visibility': 'initial'});
+			
+			// re-add video controls
+			$('div.video video').attr('controls','controls');
 			
 			destroyed = true;
 			
@@ -463,26 +469,6 @@
 			
 		}
 		
-		// Setup the resize handlers to fix geometry of panels in the sequence
-		
-		// grab the window dimensions
-		d = getWindowDims();
-		// store for comparing on resize
-		lastWindowWidth = d.w;
-		// handle the resize event
-		$(window).on('resize', fixDims);
-		
-		// jquery plugin init this' elements
-		ret = this;
-		// only setup the sequence and timeline if over breakpoint width
-		if (d.w > options.breakPoint) {
-			ret = this.each(setupSequence);
-		}
-		
-		// fix the dimensions of the fixed elements and their children
-		$(window).trigger('resize');
-		
-		
 		/*
 		
 		audio mp3, atmos videos, content videos:
@@ -663,7 +649,7 @@
 		
 		function playAudio(audioId, audioLoop) {
 			
-			if (location.search.match(/audio=(off|no)/)) {
+			if (location.search.match(/audio=(off|no|nils)/)) {
 				return;
 			}
 			
@@ -685,7 +671,7 @@
 			}
 			else {
 				
-				// if (options.debug)
+				if (options.debug)
 				{ console.log('playAudio() - trying to play audio#%s, current audio#%s, loop: %o', audioId, currAudioId, audioLoop, typeof audioLoop); }
 				
 				// we're want to play a new one - fade out the current audio element
@@ -721,8 +707,6 @@
 				// now append a new audio element
 				audio = $('<audio id="' + audioId + '" preload="auto"' + (audioLoop ? ' loop="loop"' : '') + ' controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
 				
-				console.log(audio);
-				
 				if (audio.length > 0) {
 					audio.get(0).load();
 					audio.get(0).volume = 1;
@@ -755,10 +739,6 @@
 		}
 		
 		function playAtmosVideo(videoId) {
-			
-			if (location.search.match(/atmos=(off|no)/)) {
-				return;
-			}
 			
 			// mediaSources[videoId] is set by onElementLoaded
 			var videoSrc = mediaSources[videoId]
@@ -799,6 +779,10 @@
 		
 		function setupAtmosVideo(obj, el) {
 		
+			if (location.search.match(/atmos=(off|no|nils)/)) {
+				return;
+			}
+			
 			// find the atmos panel from the obj.name == dom#id
 			var atmosPanel = $('#' + obj.name)
 			,	atmosPosterImg = $('img', atmosPanel)
@@ -917,8 +901,8 @@
 						
 						TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
 							$('article').removeClass('hide');
-							location.hash = location.hash;
-							setTimeout(openSection, 3000, (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
+							// location.hash = location.hash;
+							openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 						}});
 						
 					}});
@@ -938,28 +922,60 @@
 			}
 		}
 
-		// Handle scrolling into scene on nav clicks
-		$('nav a, .return a').on('click', handleNav);
-		
-		// Begin! hide the article
-		TweenMax.to('article, ul.nav', 0, {autoAlpha: 0});
-		$('article').addClass('hide');
-		
-		// create the audio holder
-		audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
 
-		// Preload chapter 1 media
-		chapter1Preload = $.html5Loader({
-				filesToLoad:'assets/html5/preload-1.json'
-			,	debugMode: false
-			,	onComplete: pageStartComplete
-			,	onElementLoaded: addMediaElement
-			,	onUpdate: updateCounter
-		});
+
+
+
+		// Setup the resize handlers to fix geometry of panels in the sequence
 		
-		$('.opening-panel').addClass('enhanced');
-		TweenMax.to('#loading', 0, { autoAlpha: 1});
-		TweenMax.to('#instruction', 0, { autoAlpha: 0});
+		// grab the window dimensions
+		d = getWindowDims();
+		// store for comparing on resize
+		lastWindowWidth = d.w;
+		
+		// jquery plugin init this' elements
+		ret = this;
+		// only setup the sequence and timeline if over breakpoint width
+		if (d.w > options.breakPoint) {
+
+			// handle the resize event
+			$(window).on('resize', fixDims);
+
+			// setup the sequences inside each section
+			ret = this.each(setupSequence);
+			
+			// fix the dimensions of the fixed elements and their children
+			$(window).trigger('resize');
+
+			// Handle scrolling into scene on nav clicks
+			$('nav a, .return a').on('click', handleNav);
+			
+			// Hide the controls for videos
+			$('.video video').removeProp('controls');
+
+			// Begin! hide the article
+			TweenMax.to('article, ul.nav', 0, {autoAlpha: 0});
+			// take the article out of the flow so user cannot scroll
+			$('article').addClass('hide');
+			// setup visibility of loader and prompt
+			TweenMax.to('#loading', 0, { autoAlpha: 1});
+			TweenMax.to('#instruction', 0, { autoAlpha: 0});
+			// make the loader and prompt layout enhanced (fixed 100%)
+			$('.opening-panel').addClass('enhanced');
+
+			// create the audio holder
+			audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
+
+			// Preload chapter 1 media
+			chapter1Preload = $.html5Loader({
+					filesToLoad:'assets/html5/preload-1.json'
+				,	debugMode: false
+				,	onComplete: pageStartComplete
+				,	onElementLoaded: addMediaElement
+				,	onUpdate: updateCounter
+			});
+		
+		}
 		
 		return ret;
 			

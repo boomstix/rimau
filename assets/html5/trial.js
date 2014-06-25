@@ -7,10 +7,16 @@
 		,	windowDims = {}
 		,	defaultOptions = {
 				controller: new ScrollMagic()
+			,	breakPoint: 768
 			,	debug: false
 			,	logLevel: 2
 			}
 		,	options = $.extend({}, defaultOptions, _options)
+		, trialEl = null
+		,	timeline = null
+		,	scene = null
+		,	ret = null
+		,	lastWindowWidth = 0
 		;
 
 		function getWindowDims() {
@@ -18,13 +24,40 @@
 			return windowDims;
 		}
 		
+		function destroyScene() {
+		
+			scene.removeTween(true);
+			scene.remove();
+			scene.destroy(true);
+			
+			// reset the tween opacities - destroy is not removing the tweens properly
+			trialEl.css({'opacity': 'initial', 'visibility': 'initial'});
+			$('.panel, dd, dt', trialEl).css({'opacity': 'initial', 'visibility': 'initial'});
+			$('.panel', trialEl).removeClass('enhanced');
+			
+		}
+		
+		function checkDims() {
+		
+			getWindowDims();
+		
+			if (lastWindowWidth > options.breakPoint && windowDims.w < options.breakPoint) {
+				destroyScene();
+			}
+			
+			// store for next resize
+			lastWindowWidth = windowDims.w;
+			
+		}
+		
 		function setupTrial(trialIx, trial) {
 		
-			trial = $(trial);
+			trialEl = $(trial);
 			
-			getWindowDims();
-			qns = $('dt', trial);
-			ans = $('dd', trial);
+			$('.panel', trial).addClass('enhanced');
+			
+			qns = $('dt', trialEl);
+			ans = $('dd', trialEl);
 			
 			timeline = new TimelineMax({
 					onUpdate: options.debug ? function() {
@@ -47,7 +80,7 @@
 			
 			if (options.debug) { console.log('got %i qns, duration: %i offset: %i, timeline: %o', qns.length, totalDuration, frameHeight, timeline); }
 			
-			timeline.add(TweenMax.from(trial, 1, {
+			timeline.add(TweenMax.from(trialEl, 1, {
 					autoAlpha: 0
 				, onStart: function(){ if (options.debug) { console.log('panel fade in start'); } }
 				, onComplete: function(){ if (options.debug) { console.log('panel fade in complete'); } }
@@ -85,7 +118,7 @@
 					;
 			}
 			
-			timeline.add(TweenMax.to(trial, 1, {
+			timeline.add(TweenMax.to(trialEl, 1, {
 					autoAlpha: 0
 				,	delay: 10
 				,	onStart: function(){ if (options.debug) { console.log('panel fade out start'); } }
@@ -95,9 +128,9 @@
 
 			// Create a scroll scene
 			scene = new ScrollScene({ duration: totalDuration, offset: frameHeight })
-			.triggerElement(trial)
+			.triggerElement(trialEl)
 			.triggerHook('onCenter')
-			.setPin(trial)
+			.setPin(trialEl)
 			.setTween(timeline)
 			.addTo(options.controller)
 			;
@@ -107,7 +140,16 @@
 			
 		}
 		
-		ret = this.each(setupTrial);
+		getWindowDims();
+		
+		lastWindowWidth = windowDims.w;
+		
+		if (windowDims.w > options.breakPoint) {
+		
+			win.on('resize', checkDims);
+			
+			ret = this.each(setupTrial);
+		}
 		
 		return ret;
 
