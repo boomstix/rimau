@@ -854,6 +854,17 @@
 			
 			});
 			
+			// replace out the content video poster with the src based on the video filename
+			// source has
+			$('.video video').each(function(x, vidEl) {
+			
+				vidEl = $(vidEl);
+				if (vidEl.data('first-frame') != 'undefined') {
+					vidEl.prop('poster', vidEl.data('first-frame'));
+				}
+				
+			});
+			
 		}
 		
 		function addMediaElement( obj, el ) {
