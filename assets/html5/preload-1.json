@@ -4,13 +4,13 @@
 
 		{
 			"type":"AUDIO", "name": "chapter-1a", "sources": {
-				"mp3": { "size":2892.496, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/chapter-1a.mp3" }
-			,	"ogg": { "size":2545.832, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/chapter-1a.ogg" }
+				"mp3": { "size":2757.077, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/01-v3.mp3" }
+			,	"ogg": { "size":2477.152, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/01-v3.ogg" }
 			}
 		}
 		,
 		{
-			"type":"IMAGE", "name": "chapter-1a", "size":96.902, "source":"assets/img/title-section-1.png"
+			"type":"IMAGE", "name": "title-section-1-credit", "size":170.984, "source":"assets/img/title-section-1-credit.png"
 		}
 		,
 		{

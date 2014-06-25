@@ -328,6 +328,9 @@ dt, dd {
 	top: 0px;
 	left: 0px;
 	z-index: 99;
+	background-image: url(../img/title-section-1.png);
+	background-repeat: no-repeat;
+	background-position: 45% 10%;
 }
 .opening-panel > div {
 	margin: 0 auto;
@@ -336,19 +339,19 @@ dt, dd {
 }
 #loading-img {
 	width: 194px;
-	top: 35%;
+	top: 52%;
 }
 #instruction-img {
 	width: 216px;
-	top: 28%;
+	top: 45%;
 }
 
 #load-counter {
 	position: absolute;
-	top: 65%;
+	top: 75%;
 	width: 50px;
 	text-align: center;
-	margin-left: 47%;
+	margin-left: 47.5%;
 }
 
 .hide {
@@ -369,6 +372,10 @@ dt, dd {
 
 .replaced.top {
 	top: 0%;
+}
+
+.replaced.middle {
+	top: 50%;
 }
 
 /* captions */
@@ -396,17 +403,11 @@ dt, dd {
 	margin: 0 auto;
 }
 
-#repl-title-section-1 {
+#repl-title-section-1-credit {
 	max-width: 575px;
 	left: 50%;
 	margin-left: -287px;
 	margin-top: -13px;
-}
-
-#repl-title-section-1-credit {
-	max-width: 165px;
-	left: 50%;
-	margin-left: -82px;
 }
 
 #repl-norman-quote {

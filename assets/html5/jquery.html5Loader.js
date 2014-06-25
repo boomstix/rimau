@@ -217,7 +217,7 @@
 
       log('Percentage: ' + currPercentage + '%');
 
-      onUpdate(currPercentage);
+      onUpdate(currPercentage, _bytesTotal, _bytesLoaded);
 
       if (!_files.length) {
         onComplete();

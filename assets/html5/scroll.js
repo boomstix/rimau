@@ -216,6 +216,11 @@
 			
 		}
 		
+		function sectionHandler(sectionId, timelineString) {
+			if (options.debug)
+			{ console.log('section timeline %s %s %s', sectionId, timelineString, scrollDirection); }
+		}
+		
 		function contentHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
 			{ console.log('content timeline %i %s', sceneNumber, timelineString); }
@@ -352,6 +357,8 @@
 						last_label = new_label;
 					}
 				} : function(){} });
+				
+				timeline.call(sectionHandler, [section.attr('id'), 'START']);
 
 				if (options.debug) { console.log('----------------------'); }
 				if (options.debug) { console.log('addressing sequenceNumber: %o', sequenceNumber); }
@@ -395,7 +402,7 @@
 						,	onReverseCompleteParams: [sceneNumber, 'FADEINREVERSECOMPLETE', panel],	onReverseComplete: panelTweenHandler
 						})
 					,	fadeInStartLabel)
-					.call(panelHandler, [sceneNumber, 'FADEOUT', panel]);
+					.call(panelHandler, [sceneNumber, 'FADEIN', panel]);
 					
 					if (options.debug) { console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
 					timeline
@@ -426,9 +433,11 @@
 						timeline.add(TweenMax.to(content, 1, { autoAlpha: 0 }),	scrollOutStartLabel);
 			
 					}
-
+					
 				}
 				
+				timeline.call(sectionHandler, [section.attr('id'), 'END']);
+
 				// Store the timeline in the sequence's data store
 				sequence.data('timeline', timeline);
 				
@@ -676,8 +685,8 @@
 			}
 			else {
 				
-				if (options.debug)
-				{ console.log('playAudio() - trying to play audio#%s, current audio#%s', audioId, currAudioId); }
+				// if (options.debug)
+				{ console.log('playAudio() - trying to play audio#%s, current audio#%s, loop: %o', audioId, currAudioId, audioLoop, typeof audioLoop); }
 				
 				// we're want to play a new one - fade out the current audio element
 				existing = $('#' + currAudioId, audioHolder);
@@ -710,7 +719,10 @@
 				currAudioSrc = audioSrc;
 				
 				// now append a new audio element
-				audio = $('<audio id="' + audioId + '" preload="auto"' + (audioLoop ? '' : ' loop="loop"') + ' controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
+				audio = $('<audio id="' + audioId + '" preload="auto"' + (audioLoop ? ' loop="loop"' : '') + ' controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
+				
+				console.log(audio);
+				
 				if (audio.length > 0) {
 					audio.get(0).load();
 					audio.get(0).volume = 1;
@@ -801,9 +813,7 @@
 			
 			if (atmosPanel.length) {
 				// create vid elem with our specs
-				vidEl = $('<video id="vid-' + obj.name + '" preload="auto" loop poster="' + atmosPosterImg.attr('src') + '"></video>');
-				// add src to video elem's data store 
-				vidEl.data('video')
+				vidEl = $('<video id="vid-' + obj.name + '" preload="auto" loop poster="assets/stills/placeholder/' + atmosPanel.data('video') + '.jpg"></video>');
 				// remove the atmos panel placeholder image
 				atmosPosterImg.remove();
 				// add video elem with type but no src
@@ -830,12 +840,10 @@
 						'files': [ {  'type': 'VIDEO', 'name': vidId,
 								'sources': {
 									'webm': {
-										'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.webm',
-										'size': 2000
+										'size': 2000, 'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.webm'
 									},
 									'h264': {
-										'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.mp4',
-										'size': 2000
+										'size': 2000, 'source': 'http://videocdn.sbs.com.au/u/video/operation-rimau/video/' +  vidSrc+ '-med.mp4'
 									}
 								}
 							}
@@ -881,39 +889,39 @@
 			
 			// we got the opening track - cue it by scrolling in the opening scene
 			
-				if (options.debug)
-				{ console.log('fade in article'); }
-				// fade out loading message
-				TweenMax.to('#loading', 1, { autoAlpha: 0, delay: 1 });
-				// fade in the instruction message
-				TweenMax.to('#instruction', 1,
-				{
-					autoAlpha: 1
-				,	delay: 1
-				,	onComplete: function(){
-						$('#loading').addClass('hide');
-						// fade out the instruction
-						TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
-							$('#instruction').addClass('hide');
-							
-							TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
-								$('article').removeClass('hide');
-								location.hash = location.hash;
-								setTimeout(openSection, 3000, (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
-							}});
-							
+			if (options.debug)
+			{ console.log('fade in article'); }
+			// fade out loading message
+			TweenMax.to('#loading', 1, { autoAlpha: 0, delay: 1 });
+			// fade in the instruction message
+			TweenMax.to('#instruction', 1,
+			{
+				autoAlpha: 1
+			,	delay: 1
+			,	onComplete: function(){
+					$('#loading').addClass('hide');
+					// fade out the instruction
+					TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
+						$('#instruction').addClass('hide');
+						
+						TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
+							$('article').removeClass('hide');
+							location.hash = location.hash;
+							setTimeout(openSection, 3000, (location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 						}});
-					}
-				});
+						
+					}});
+				}
+			});
 				
 			// setup the documentaries
 			setupDocos();
 			
 		}
 		
-		function updateCounter(perc) {
+		function updateCounter(perc, total, loaded) {
 			var counter = $('#load-counter')
-			counter.text(perc + '%');
+			counter.html(perc + '%' + (options.debug ? "<br>(" + loaded + "/" + total + ")" : ''));
 			if (perc == 100) {
 				TweenMax.to(counter, 1, {autoAlpha: 0});
 			}

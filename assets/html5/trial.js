@@ -133,7 +133,7 @@
 				subject.addClass('text-replaced');
 				newPath = 'assets/img/' + filename + '.png';
 				newImg = $('<img id="repl-' + filename + '" src="' + newPath + '" class="replaced" />');
-				['top','right','bottom','left','center','floor'].map(function(el,ix){ if (subject.hasClass(el)) { newImg.addClass(el); } });
+				['top','right','bottom','left','center','middle','ceil','floor'].map(function(el,ix){ if (subject.hasClass(el)) { newImg.addClass(el); } });
 				if (subject.hasClass('special-title')) {
 					subject.parent().parent().append(newImg);
 				}
