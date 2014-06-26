@@ -57,35 +57,38 @@ $(function() {
 
 </head>
 <body>
-<div id="sizer"></div>
-<div id="loading" class="opening-panel">
-	<div class="site-logo"><img src="assets/img/title-section-1.png" alt="Operation Rimau" /></div>
-	<div id="loading-img"><img src="assets/img/loading.png" alt="Loading" /></div>
-	<div id="load-counter">0%</div>
-</div>
-<div id="instruction" class="opening-panel">
-	<div class="site-logo"><img src="assets/img/title-section-1.png" alt="Operation Rimau" /></div>
-	<div id="instruction-img"><img src="assets/img/instruction.png" alt="Scroll Down or use arrow keys" /></div>
-</div>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=248773215239286&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+	<div id="sbs-logo">
+		<a href="/"><img src="assets/html5/sbs-logo.png" height="50" alt="SBS homepage" /></a>
+	</div>
+	<div id="sizer"></div>
+	<div id="loading" class="opening-panel">
+		<div class="site-logo"><img src="assets/img/title-section-1.png" alt="Operation Rimau" /></div>
+		<div id="loading-img"><img src="assets/img/loading.png" alt="Loading" /></div>
+		<div id="load-counter">0%</div>
+	</div>
+	<div id="instruction" class="opening-panel">
+		<div class="site-logo"><img src="assets/img/title-section-1.png" alt="Operation Rimau" /></div>
+		<div id="instruction-img"><img src="assets/img/instruction.png" alt="Scroll Down or use arrow keys" /></div>
+	</div>
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=248773215239286&version=v2.0";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
 
 	<header>
-		<a href="/"><img src="assets/html5/sbs-logo.png" height="50" alt="SBS homepage" /></a>
+		<a href="#"><img src="assets/img/rimau-logo.png" with="190" height="50" alt="SBS homepage" /></a>
 		<nav class="nav-collapse" role="navigation">
 			<ul class="nav">
 				<li><a href="#the-mission">The Mission</a></li>
 				<li><a href="#launch">Launch</a></li>
 				<li><a href="#subterfuge">Subterfuge</a></li>
 				<li><a href="#conviction">Conviction</a></li>
-				<li><a href="#references">References</a></li>
 				<li><a href="#credits">Credits</a></li>
+				<li><a href="#references">References</a></li>
 				<li class="social">
 					<div class="social-holder"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.sbs.com.au%2Foperationrimau&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=248773215239286" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
 					</div>
@@ -104,7 +107,7 @@ $(function() {
 
 	<section id="the-mission">
 	
-		<div class="sequence" data-preload="section1.json">
+		<div class="sequence">
 
 			<div class="panel mask audio-in" data-audio="chapter-1a" data-audio-loop="true">
 
@@ -126,7 +129,7 @@ $(function() {
 				<div class="text-wrapper ref-02">
 				<div class="text">
 					<p class="text-center">
-					Not long after midnight  &mdash; <strong>on 11 September 1944</strong> &mdash; a submarine (the <em><strong>HMS Porpoise</strong></em>) leaves Fremantle with 23 men. Each man has <a href="#footnote-1" class="footnote" title="Footnote 1">a cyanide pill</a> in his pocket and each man knows only this: <em><strong>Operation Rimau</strong></em> is a top&ndash;secret espionage mission.
+					Not long after midnight  &mdash; <strong>on 11 September 1944</strong> &mdash; a submarine (the <strong>HMS Porpoise</strong>) leaves Fremantle with 23 men. Each man has <a href="#footnote-1" class="footnote" title="Footnote 1">a cyanide pill</a> in his pocket and each man knows only this: <strong>Operation Rimau</strong> is a top&ndash;secret espionage mission.
 					</p>
 				</div>
 				</div>
@@ -640,19 +643,19 @@ $(function() {
 				
 			</div>
 
-			<div class="panel dark-3">
+			<div class="panel">
 			
 				<div class="image">
 					<img src="assets/stills/content/rain-dance-back.jpg" class="res" alt="" />
 				</div>
 				
 				<div class="text-wrapper ref-46">
-				<div class="text" data-text-replace="rain-dance">
+				<div class="text">
 					<a id="chp-2.6"></a>
 					<p class="text-center">
-					The men are restless and nervous so they perform a ceremony  &mdash;  a rain-dance they hope might conjure a boat for capture and  &mdash;  &ldquo;&hellip;each officer with a finger on its head and chanting,
+					The men are restless and nervous so they perform a ceremony  &mdash;  a rain-dance they hope might conjure a boat for capture and  &mdash;
 					</p>
-					<blockquote class="text-center">&lsquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk&rsquo;.&rdquo;
+					<blockquote class="text-center special-title" data-text-replace="rain-dance">&ldquo;&hellip;each officer with a finger on its head and chanting, &lsquo;Find me a junk, Get me a junk, Wichety wichety, Bring me a junk&rsquo;.&rdquo;
 					</blockquote>
 				</div>
 				</div>
@@ -661,7 +664,14 @@ $(function() {
 
 			<div class="panel">
 				<div class="image ref-47">
-					<img src="assets/stills/content/diary-joss.jpg" class="res" alt="" />
+					<img src="assets/stills/content/diary-back.jpg" class="res" alt="" />
+				</div>
+				<div class="text-wrapper">
+				<div class="text">
+					<blockquote class="special-title top" data-text-replace="diary-joss-text">
+					&ldquo;Yesterday, CHAPMAN completed a &ldquo;Joss&rdquo;, intricately carved out of a stick of carbon. It took him two days. The upper half was like a cannibal&Rsquo;s idol, or Ju-ju; the lower half was carved in a heavy spiral to give it a rotary motion when swimming. A monocle (DAVIDSON&rsquo;S totem) and the Battle of Britain scarf (LYON&rsquo;S charm) were put to its eye and round its neck and it was gyrated through 360&deg;.&rdquo;
+					</blockquote>
+				</div>
 				</div>
 			</div>
 
@@ -752,7 +762,7 @@ $(function() {
 				</div>
 				
 				<div class="text-wrapper ref-54">
-				<div class="text bottom left" data-text-replace="title-section-3">
+				<div class="text bottom left" data-text-replace="title-section-3-pursued">
 					<h2>Subterfuge - Going &lsquo;Undercover&rsquo;</h2>
 					<h3>1<sup>st</sup> October 1944</h3>
 				</div>
@@ -786,9 +796,9 @@ $(function() {
 				<div class="text-wrapper ref-56">
 				<div class="text bottom">
 					<a id="chp-3.2"></a>
-					<h4>10<sup>th</sup>October, 1944</h4>
+					<h4>10<sup>th</sup>October</h4>
 					<p>
-					Ten long slow days later &mdash; when the men are within reach of the final act: a major raid on the Japanese in Singapore Harbour &mdash; disaster strikes: They sail too close to the island of <em>Kasu</em>, on which there&rsquo;s a township. The men didn&rsquo;t know about the township, but now, they&rsquo;ve been seen, and it&rsquo;s too late.
+					Ten long slow days later &mdash; when the men are within reach of the final act: a major raid on the Japanese in Singapore Harbour &mdash; disaster strikes: They sail too close to the island of <strong>Kasu</strong>, on which there&rsquo;s a township. The men didn&rsquo;t know about the township, but now, they&rsquo;ve been seen, and it&rsquo;s too late.
 					</p>
 				</div>
 				</div>
@@ -822,7 +832,7 @@ $(function() {
 				<div class="text-wrapper ref-59">
 				<div class="text">
 					<a id="chp-3.5"></a>
-					<h4>15<sup>th</sup> October, 1944</h4>
+					<h4>15<sup>th</sup> October</h4>
 					<p>
 					The men split into four groups and head for <strong>Merapas</strong> in dinghies. This is their best hope for survival, the only real chance to meet up with the rescue &ldquo;pick-up&rdquo; team on the submarine, <strong>Tantalus</strong>.
 					</p>
@@ -840,7 +850,7 @@ $(function() {
 				<div class="text-wrapper ref-60">
 				<div class="text bottom">
 					<a id="chp-3.6"></a>
-					<h4>16<sup>th</sup> October, 1944</h4>
+					<h4>16<sup>th</sup> October</h4>
 					<p>
 					One of the smaller groups, led by Lyon, takes a risk: they ask locals on <strong>Pangkil</strong> island about Japanese shipping. The locals report this encounter to the Japanese, and Lyon and his men are tracked down by a Japanese vessel.
 					</p>
@@ -875,7 +885,7 @@ $(function() {
 				<div class="text-wrapper ref-62">
 				<div class="text bottom">
 					<p class="text-center">
-					Both men are found dead by the Japanese on the island of <em>Tapai</em>.
+					Both men are found dead by the Japanese on the island of <strong>Tapai</strong>.
 					</p>
 				</div>
 				</div>
@@ -909,7 +919,7 @@ $(function() {
 				<div class="text">
 					<a id="chp-3.9"></a>
 					<p>
-					With the men hounded from the <strong>Merapas</strong> base by the Japanese, they face a two thousand kilometre journey back to <strong>Australia</strong> through occupied waters.
+					With the men hounded from the Merapas base by the Japanese, they face a two thousand kilometre journey back to <strong>Australia</strong> through occupied waters.
 					</p>
 					<p>
 					The extensive planning for the mission didn&rsquo;t cover strategies for a protracted escape. The men are alone in the <strong>South China Sea</strong> to the north of the <strong>Equator</strong>, and must find a way home through hostile and busy shipping lanes. The men have acted in haste, thinking that in two smaller groups they&rsquo;d have a better chance of escape.
@@ -947,7 +957,10 @@ $(function() {
 				</div>
 			</div>
 
-			<div class="panel dark-1">
+			<div class="panel">
+				<div class="image">
+					<img src="assets/stills/content/diary-back.jpg" class="res" alt="" />
+				</div>
 				<div class="text-wrapper ref-67">
 				<div class="text ceil">
 					<a id="chp-3.12"></a>
@@ -956,6 +969,7 @@ $(function() {
 					<p>
 					Account drawn from Walter Chapman's report.
 					</p>
+					
 					<p>
 					The Tantalus submarine finally arrives at Merapas. It&rsquo;s after midnight and Major Walter Chapman and Corporal Ron Croton make their way ashore. Tired from long weeks cooped up in the sub, the men rest until first light.
 					</p>
@@ -966,8 +980,9 @@ $(function() {
 					Something is wrong: hidden in the undergrowth is a small rake used to sweep over footprints in the sand, a tool cherished by its owner, Davidson. Why would he leave it behind? Why leave the camp in a mess, which would be a conspicuous sign for the enemy? The men have disappeared, but there is no clear evidence of a skirmish.
 					</p>
 					<p>
-					The next night, Chapman and Croton paddle back to the Tantalus to report the bad news. The men won't be picked up : &ldquo;It was agreed that no further purpose would be served by returning next night&rdquo;.
+					The next night, Chapman and Croton paddle back to the Tantalus to report the bad news. The men won't be picked up : &rdquo;It was agreed that no further purpose would be served by returning next night&rdquo;.
 					</p>
+					
 				</div>
 				</div>
 			</div>
@@ -988,7 +1003,7 @@ $(function() {
 				</div>
 				
 				<div class="text-wrapper ref-68">
-				<div class="text bottom left" data-text-replace="title-section-4">
+				<div class="text bottom left" data-text-replace="title-section-4-singapore">
 					<h2>Conviction</h2>
 					<h3>December 1944</h3>
 				</div>
@@ -1139,7 +1154,7 @@ $(function() {
 				<div class="text-wrapper">
 				<div class="text memorial">
 			
-					<h3>Full Details of The Men who Embark on Rimau</h3>
+					<h3>The Men</h3>
 					<h4>Australian Units</h4>
 					<ul class="memorial">
 						<li><a href="http://soda.naa.gov.au/record/6065194/1" target="blank"><strong>Sergeant C.B. (Colin) Cameron</strong>, <br />AIF, VX81605</a></li>
@@ -1156,7 +1171,7 @@ $(function() {
 				<div class="text-wrapper">
 				<div class="text memorial">
 			
-					<h3>Full Details of The Men who Embark on Rimau</h3>
+					<h3>The Men</h3>
 					<h4>Australian Units</h4>
 					<ul class="memorial">
 						<li><a href="http://soda.naa.gov.au/record/6096655/1" target="blank"><strong>Sergeant D.P. (David) Gooley</strong>, <br />AIF, VX109893</a></li>
@@ -1173,7 +1188,7 @@ $(function() {
 				<div class="text-wrapper">
 				<div class="text memorial">
 			
-					<h3>Full Details of The Men who Embark on Rimau</h3>
+					<h3>The Men</h3>
 					<h4>Australian Units</h4>
 					<ul class="memorial">
 						<li><a href="http://soda.naa.gov.au/record/5423003/1" target="blank"><strong>Lieutenant B.P. (Bruno) Reymond</strong>, <br />RANR, A6769</a></li>
@@ -1193,7 +1208,7 @@ $(function() {
 				<div class="text-wrapper">
 				<div class="text memorial">
 			
-					<h3>Full Details of All Men who Embark on Rimau</h3>
+					<h3>The Men</h3>
 					<h4>British Units</h4>
 					<ul class="memorial">
 						<li><strong>Lieutenant Colonel I. (Ivan) Lyon DSO MBE</strong>, <br />Gordon Highlanders, 66175</li>
@@ -1232,147 +1247,6 @@ $(function() {
 			
 		</div>
 
-	</section>
-	
-
-	<section id="references">
-
-			<div class="panel">
-				<div class="page">
-				
-					<h3>References</h3>
-
-					<ol class="refs">
-						<li><a id="footnote-1"></a>Prosecuting Attorney&rsquo;s Address to the Court, <strong>&lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;</strong>, pp. 31–19, MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
-						</li>
-						<li><a id="footnote-2"></a>Interview with Norman Wallace, Joined Up Films.</li>
-						<li><a id="footnote-3"></a><strong>&lsquo;Plan RIMAU&rsquo;</strong>. A3269 E4/B, NAA.
-							<a href="http://soda.naa.gov.au/record/235241/1" target="_blank">http://soda.naa.gov.au/record/235241/1</a>
-						</li>
-						<li><a id="footnote-4"></a>Ibid., 1.
-							<a href="http://soda.naa.gov.au/record/235241/1" target="_blank">http://soda.naa.gov.au/record/235241/1</a>
-						</li>
-						<li><a id="footnote-5"></a>Refer to personnel files. See also Lynette Silver, Deadly Secrets: The Singapore Raids, 1942-5 (Binda, NSW: Sally Milner, 2010), 119–121, 143–4, 147, 209, 212–3, 217–8.</li>
-						<li><a id="footnote-6"></a>On Lyon, refer to Silver, Deadly Secrets, 77–84; Brian Connell, Return of the Tiger, (London: Evans Brothers, 1960), ch. 1.</li>
-						<li><a id="footnote-7"></a>Silver, Deadly Secrets, ch.10.</li>
-						<li><a id="footnote-8"></a><strong>&lsquo;Rimau Project: Lt-Comdr Davidson&rsquo;s Diary&rsquo;</strong>, p. 2, A3269, E4/D. http://soda.naa.gov.au/record/235240/15</li>
-						<li><a id="footnote-9"></a>Ibid., p. 4.
-							<a href="http://soda.naa.gov.au/record/235240/18" target="_blank">http://soda.naa.gov.au/record/235240/18</a>
-						</li>
-						<li><a id="footnote-10"></a>Ibid., p. 3.
-							<a href="http://soda.naa.gov.au/record/235240/16" target="_blank">http://soda.naa.gov.au/record/235240/16</a>
-						</li>
-						<li><a id="footnote-11"></a>Ibid., p. 6.
-							<a href="http://soda.naa.gov.au/record/235240/23" target="_blank">http://soda.naa.gov.au/record/235240/23</a>
-						</li>
-						<li><a id="footnote-12"></a>Ibid, p. 6.
-							<a href="http://soda.naa.gov.au/record/235240/23" target="_blank">http://soda.naa.gov.au/record/235240/23</a>
-						</li>
-						<li><a id="footnote-13"></a>Ibid., p. 7.
-							<a href="http://soda.naa.gov.au/record/235240/24" target="_blank">http://soda.naa.gov.au/record/235240/24</a>
-						</li>
-						<li><a id="footnote-14"></a>Ibid., p. 7.
-						<a href="http://soda.naa.gov.au/record/235240/24" target="_blank">http://soda.naa.gov.au/record/235240/24</a>
-							</li>
-						<li><a id="footnote-15"></a>Major Ingleton testimony, <strong>&lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;</strong>, pp. 31–6, 8, MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
-						</li>
-						<li><a id="footnote-16"></a>Ibid., p. 31–8.;
-							<a href="http://soda.naa.gov.au/record/403646/46" target="_blank">http://soda.naa.gov.au/record/403646/46</a>
-						cf. Silver, Deadly Secrets, 238–40.</li>
-						<li><a id="footnote-17"></a>Ibid., p. 31-9.;
-							<a href="http://soda.naa.gov.au/record/403646/47" target="_blank">http://soda.naa.gov.au/record/403646/47</a>
-						</li>
-						<li><a id="footnote-18"></a>John J. Ellis, <strong>&lsquo;Report on Search for Allied Personnel in Riouw Archepelago (sic)&rsquo;</strong> 13 October 1945, MP742/1 336/1/755, NAA, cf. Silver, Deadly Secrets, 244–62.
-							<a href="http://soda.naa.gov.au/record/403646/70" target="_blank">http://soda.naa.gov.au/record/403646/70</a>
-						</li>
-						<li><a id="footnote-19"></a>Silver, Deadly Secrets, ch. 14.	</li>
-						<li><a id="footnote-20"></a>Ibid., ch.14.</li>
-						<li><a id="footnote-21"></a>Ibid., ch.14.</li>
-						<li><a id="footnote-22"></a>Ibid., ch.14.</li>
-						<li><a id="footnote-23"></a>Major W.W. Chapman, <strong>&lsquo;Report on Attempted Pickup of &ldquo;Rimau&rdquo; Party&rsquo;</strong>, 18 December 1944, A3269, E5/A, NAA; cf. Connell, Return of the Tiger, 176–87; cf. Silver, Deadly Secrets, ch. 13.
-							<a href="http://soda.naa.gov.au/record/235242/14" target="_blank">http://soda.naa.gov.au/record/235242/14</a>
-						</li>
-						<li><a id="footnote-24"></a>On conditions at Outram Road Gaol, see interviews in Hank Nelson, P.O.W. Prisoners of War: Australians under Nippon (Sydney: Australian Broadcasting Corporation, 1985), ch. 13.</li>
-						<li><a id="footnote-25"></a>As told to SBS Online, 13 June 2014.</li>
-						<li><a id="footnote-26"></a>Personal letter from Robert Page to Roma Page, 28 September, 1944.</li>
-						<li><a id="footnote-27"></a>Testimony of Major Ingleton, Captain Page, Captain Carey, Lieutenant Sargent & Other Accused, <strong>&lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;</strong>, pp. 31–6, 8, 11, 12, 14, MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
-						</li>
-						<li><a id="footnote-28"></a>Interrogation of Interpreter Furuta, 21 October 1945. MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/93" target="_blank">http://soda.naa.gov.au/record/403646/93</a>
-						</li>
-						<li><a id="footnote-29"></a>Prosecuting Attorney&rsquo;s Address to the Court, <strong>&lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;</strong>, pp. 31–20, MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
-						</li>
-						<li><a id="footnote-30"></a>Capt. R.S. Ross, RAMC, Memorandum, 21 November 1945, MP742/1 336/1/755, NAA.
-							<a href="http://soda.naa.gov.au/record/403646/16" target="_blank">http://soda.naa.gov.au/record/403646/16</a>
-						</li>
-					</ol>
-
-					<h3>Archive and Images</h3>
-
-					<h4>Chapter 1: The Mission</h4>
-					<ul class="refs">
-						<li>AWM F07364</li>
-						<li>AWM P00908.002</li>
-						<li>AWM P01447.001</li>
-						<li>National Archives of Australia: A3269, Q11/59(B)</li>
-						<li>National Archives of Australia: A3269, Q11/39 (B)</li>
-						<li>National Archives of Australia: A3269, Q11/42(A)</li>
-						<li>Critical Past Archive: 65675039087, 65675039090</li>
-					</ul>
-
-					<h4>From Plan Rimau:</h4>
-					<ul class="refs">
-						<li>National Archives of Australia: A3269, E4/B</li>
-						<li>National Archives of Australia: A3269, E4/B</li>
-						<li>National Archives of Australia: A3269, E4/D</li>
-						<li>National Archives of Australia: A3269, E4/D</li>
-					</ul>
-
-					<h4>The Rimau men:</h4>
-					<ul class="refs">
-						<li>AWM045416</li>
-						<li>AWMP05790.002</li>
-						<li>AWM045408</li>
-						<li>AWM P08670.001</li>
-						<li>AWMP00838.002</li>
-						<li>AWM045404</li>
-					</ul>
-
-					<h4>Operation Jaywick:</h4>
-					<ul class="refs">
-						<li>National Archives of Australia: A3269, Q11/56 (A)</li>
-						<li>National Archives of Australia: A3269, Q11/5 (B)</li>
-						<li>AWM 044463</li>
-						<li>AWM067336</li>
-						<li>AWM 134349</li>
-						<li>AWM 045422</li>
-					</ul>
-
-					<h4>Chapter 2: Launch</h4>
-					<ul class="refs">
-						<li>National Archives of Australia: A3269, E4/D</li>
-						<li>AWM P00604.011</li>
-						<li>National Archives of Australia: A3269, E4/D</li>
-						<li>National Archives of Australia: A3269, E4/D</li>
-						<li>National Archives of Australia: A3269, E4/D</li>
-						<li>National Archives of Australia: A3269, Q11/59(B)</li>
-						<li>National Archives of Australia: A3269, Q11/58(B)</li>
-						<li>National Archives of Australia: A3269, Q11/59(A)</li>
-					</ul>
-
-					<h4>Chapter 4: Conviction</h4>
-					<ul class="refs">
-						<li>AWM045146</li>
-						<li>AWM 101099</li>
-					</ul>
-
-				</div>
-			</div>
-				
 	</section>
 	
 	
@@ -1463,7 +1337,147 @@ $(function() {
 		
 	</section>
 	
+	
+	<section id="references">
 
+			<div class="panel">
+				<div class="page">
+				
+					<h3>References</h3>
+
+					<ol class="refs">
+						<li><a id="footnote-1"></a>Prosecuting Attorney&rsquo;s Address to the Court, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–19, MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
+						</li>
+						<li><a id="footnote-2"></a>Interview with Norman Wallace, Joined Up Films.</li>
+						<li><a id="footnote-3"></a>&lsquo;Plan RIMAU&rsquo;. A3269 E4/B, NAA.
+							<a href="http://soda.naa.gov.au/record/235241/1" target="_blank">http://soda.naa.gov.au/record/235241/1</a>
+						</li>
+						<li><a id="footnote-4"></a>Ibid., 1.
+							<a href="http://soda.naa.gov.au/record/235241/1" target="_blank">http://soda.naa.gov.au/record/235241/1</a>
+						</li>
+						<li><a id="footnote-5"></a>Refer to personnel files. See also Lynette Silver, Deadly Secrets: The Singapore Raids, 1942-5 (Binda, NSW: Sally Milner, 2010), 119–121, 143–4, 147, 209, 212–3, 217–8.</li>
+						<li><a id="footnote-6"></a>On Lyon, refer to Silver, Deadly Secrets, 77–84; Brian Connell, Return of the Tiger, (London: Evans Brothers, 1960), ch. 1.</li>
+						<li><a id="footnote-7"></a>Silver, Deadly Secrets, ch.10.</li>
+						<li><a id="footnote-8"></a>&lsquo;Rimau Project: Lt-Comdr Davidson&rsquo;s Diary&rsquo;, p. 2, A3269, E4/D. http://soda.naa.gov.au/record/235240/15</li>
+						<li><a id="footnote-9"></a>Ibid., p. 4.
+							<a href="http://soda.naa.gov.au/record/235240/18" target="_blank">http://soda.naa.gov.au/record/235240/18</a>
+						</li>
+						<li><a id="footnote-10"></a>Ibid., p. 3.
+							<a href="http://soda.naa.gov.au/record/235240/16" target="_blank">http://soda.naa.gov.au/record/235240/16</a>
+						</li>
+						<li><a id="footnote-11"></a>Ibid., p. 6.
+							<a href="http://soda.naa.gov.au/record/235240/23" target="_blank">http://soda.naa.gov.au/record/235240/23</a>
+						</li>
+						<li><a id="footnote-12"></a>Ibid, p. 6.
+							<a href="http://soda.naa.gov.au/record/235240/23" target="_blank">http://soda.naa.gov.au/record/235240/23</a>
+						</li>
+						<li><a id="footnote-13"></a>Ibid., p. 7.
+							<a href="http://soda.naa.gov.au/record/235240/24" target="_blank">http://soda.naa.gov.au/record/235240/24</a>
+						</li>
+						<li><a id="footnote-14"></a>Ibid., p. 7.
+						<a href="http://soda.naa.gov.au/record/235240/24" target="_blank">http://soda.naa.gov.au/record/235240/24</a>
+							</li>
+						<li><a id="footnote-15"></a>Major Ingleton testimony, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–6, 8, MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
+						</li>
+						<li><a id="footnote-16"></a>Ibid., p. 31–8.;
+							<a href="http://soda.naa.gov.au/record/403646/46" target="_blank">http://soda.naa.gov.au/record/403646/46</a>
+						cf. Silver, Deadly Secrets, 238–40.</li>
+						<li><a id="footnote-17"></a>Ibid., p. 31-9.;
+							<a href="http://soda.naa.gov.au/record/403646/47" target="_blank">http://soda.naa.gov.au/record/403646/47</a>
+						</li>
+						<li><a id="footnote-18"></a>John J. Ellis, &lsquo;Report on Search for Allied Personnel in Riouw Archepelago (sic)&rsquo; 13 October 1945, MP742/1 336/1/755, NAA, cf. Silver, Deadly Secrets, 244–62.
+							<a href="http://soda.naa.gov.au/record/403646/70" target="_blank">http://soda.naa.gov.au/record/403646/70</a>
+						</li>
+						<li><a id="footnote-19"></a>Silver, Deadly Secrets, ch. 14.	</li>
+						<li><a id="footnote-20"></a>Ibid., ch.14.</li>
+						<li><a id="footnote-21"></a>Ibid., ch.14.</li>
+						<li><a id="footnote-22"></a>Ibid., ch.14.</li>
+						<li><a id="footnote-23"></a>Major W.W. Chapman, &lsquo;Report on Attempted Pickup of &ldquo;Rimau&rdquo; Party&rsquo;, 18 December 1944, A3269, E5/A, NAA; cf. Connell, Return of the Tiger, 176–87; cf. Silver, Deadly Secrets, ch. 13.
+							<a href="http://soda.naa.gov.au/record/235242/14" target="_blank">http://soda.naa.gov.au/record/235242/14</a>
+						</li>
+						<li><a id="footnote-24"></a>On conditions at Outram Road Gaol, see interviews in Hank Nelson, P.O.W. Prisoners of War: Australians under Nippon (Sydney: Australian Broadcasting Corporation, 1985), ch. 13.</li>
+						<li><a id="footnote-25"></a>As told to SBS Online, 13 June 2014.</li>
+						<li><a id="footnote-26"></a>Personal letter from Robert Page to Roma Page, 28 September, 1944.</li>
+						<li><a id="footnote-27"></a>Testimony of Major Ingleton, Captain Page, Captain Carey, Lieutenant Sargent & Other Accused, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–6, 8, 11, 12, 14, MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
+						</li>
+						<li><a id="footnote-28"></a>Interrogation of Interpreter Furuta, 21 October 1945. MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/93" target="_blank">http://soda.naa.gov.au/record/403646/93</a>
+						</li>
+						<li><a id="footnote-29"></a>Prosecuting Attorney&rsquo;s Address to the Court, &lsquo;Full Account of the Australian Special Overseas Operation Party: Judicial Department, 7th Area Army&rsquo;, pp. 31–20, MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/39" target="_blank">http://soda.naa.gov.au/record/403646/39</a>
+						</li>
+						<li><a id="footnote-30"></a>Capt. R.S. Ross, RAMC, Memorandum, 21 November 1945, MP742/1 336/1/755, NAA.
+							<a href="http://soda.naa.gov.au/record/403646/16" target="_blank">http://soda.naa.gov.au/record/403646/16</a>
+						</li>
+					</ol>
+
+					<h3>Archive and Images</h3>
+
+					<h4>Chapter 1: The Mission</h4>
+					<ul class="refs">
+						<li>AWM F07364</li>
+						<li>AWM P00908.002</li>
+						<li>AWM P01447.001</li>
+						<li>National Archives of Australia: A3269, Q11/59(B)</li>
+						<li>National Archives of Australia: A3269, Q11/39 (B)</li>
+						<li>National Archives of Australia: A3269, Q11/42(A)</li>
+						<li>Critical Past Archive: 65675039087, 65675039090</li>
+					</ul>
+
+					<h4>From Plan Rimau:</h4>
+					<ul class="refs">
+						<li>National Archives of Australia: A3269, E4/B</li>
+						<li>National Archives of Australia: A3269, E4/B</li>
+						<li>National Archives of Australia: A3269, E4/D</li>
+						<li>National Archives of Australia: A3269, E4/D</li>
+					</ul>
+
+					<h4>The Rimau men:</h4>
+					<ul class="refs">
+						<li>AWM045416</li>
+						<li>AWMP05790.002</li>
+						<li>AWM045408</li>
+						<li>AWM P08670.001</li>
+						<li>AWMP00838.002</li>
+						<li>AWM045404</li>
+					</ul>
+
+					<h4>Operation Jaywick:</h4>
+					<ul class="refs">
+						<li>National Archives of Australia: A3269, Q11/56 (A)</li>
+						<li>National Archives of Australia: A3269, Q11/5 (B)</li>
+						<li>AWM 044463</li>
+						<li>AWM067336</li>
+						<li>AWM 134349</li>
+						<li>AWM 045422</li>
+					</ul>
+
+					<h4>Chapter 2: Launch</h4>
+					<ul class="refs">
+						<li>National Archives of Australia: A3269, E4/D</li>
+						<li>AWM P00604.011</li>
+						<li>National Archives of Australia: A3269, E4/D</li>
+						<li>National Archives of Australia: A3269, E4/D</li>
+						<li>National Archives of Australia: A3269, E4/D</li>
+						<li>National Archives of Australia: A3269, Q11/59(B)</li>
+						<li>National Archives of Australia: A3269, Q11/58(B)</li>
+						<li>National Archives of Australia: A3269, Q11/59(A)</li>
+					</ul>
+
+					<h4>Chapter 4: Conviction</h4>
+					<ul class="refs">
+						<li>AWM045146</li>
+						<li>AWM 101099</li>
+					</ul>
+
+				</div>
+			</div>
+				
+	</section>
+	
 	</article>
 
 <script>

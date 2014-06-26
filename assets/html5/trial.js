@@ -182,7 +182,7 @@
 				else {
 					subject.parent().prepend(newImg);
 				}
-				subject.remove();
+				subject.hide();
 				//subject.empty();
 			}
 			

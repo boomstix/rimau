@@ -46,16 +46,17 @@ body > header {
 	width: 100%;
 	z-index: 9999;
 	top: 0;
-	padding: 0 1em;
 }
 body > header a {
-	color: #ccc;
+	color: #4d4d4d;
 	text-decoration: none;
 	text-transform: uppercase;
 }
+body > header a.active {
+	color: #fff;
+}
 body > header img {
 	float: left;
-	margin-right: 2em;
 }
 
 article > header {
@@ -64,6 +65,13 @@ article > header {
 
 .js nav.nav-collapse {
 	overflow: inherit;
+}
+
+#sbs-logo {
+	position: fixed;
+	width: 50px;
+	bottom: 0;
+	z-index: 999;
 }
 
 .nav-toggle {
@@ -82,7 +90,7 @@ ul.nav {
 ul.nav li {
 	width: auto !important;
 	float: left;
-	margin: 1.5em;
+	margin: 1.5em 1em;
 	font-size: 0.7em;
 	font-weight: bold;
 }
@@ -119,6 +127,7 @@ ul.nav li.social #twitter-widget-0 {
 		float: left;
 		width: 100% !important;
 		text-align: center;
+		margin: 0.75em 1.5em;
 	}
 }
 
@@ -454,6 +463,10 @@ ul.credits li {
 	max-width: 546px;
 }
 
+#repl-diary-joss-text {
+	max-width: 708px;
+}
+
 #repl-mustika-loading-text {
 	max-width: 567px;
 	left: 50%;
@@ -464,8 +477,16 @@ ul.credits li {
 	max-width: 458px;
 }
 
+#repl-title-section-3-pursued {
+	max-width: 436px;
+}
+
 #repl-title-section-4 {
 	max-width: 458px;
+}
+
+#repl-title-section-4-singapore {
+	max-width: 429px;
 }
 
 #repl-letter {
@@ -798,7 +819,13 @@ ul.credits li {
 	#repl-rain-dance {
 		left: 50%;
 		margin-left: -273px;
-		top: 45%;
+		top: 55%;
+	}
+	
+	#repl-diary-joss-text {
+		left: 50%;
+		margin-left: -354px;
+		top: 37%;
 	}
 	
 	#repl-letter {

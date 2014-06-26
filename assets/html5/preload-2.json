@@ -3,29 +3,29 @@
 	
 		{
 			"type":"AUDIO", "name": "chapter-1b", "sources": {
-				"mp3": { "size":3873.028, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/02-v2.mp3" }
-			,	"ogg": { "size":4117.234, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/02-v2.ogg" }
+				"mp3": { "size":3873.028, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/02-v2.mp3" }
+			,	"ogg": { "size":4117.234, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/02-v2.ogg" }
 			}
 		}
 		,
 		{
 			"type":"AUDIO", "name": "chapter-2", "sources": {
-				"mp3": { "size":8452.189, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/03-v2.mp3" }
-			,	"ogg": { "size":7587.829, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/03-v2.ogg" }
+				"mp3": { "size":8452.189, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/03-v2.mp3" }
+			,	"ogg": { "size":7587.829, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/03-v2.ogg" }
 			}
 		}
 		,
 		{
 			"type":"AUDIO", "name": "chapter-3-4", "sources": {
-				"mp3": { "size":3898.942, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/04-v2.mp3" }
-			,	"ogg": { "size":3686.183, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/04-v2.ogg" }
+				"mp3": { "size":3898.942, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/04-v2.mp3" }
+			,	"ogg": { "size":3686.183, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/04-v2.ogg" }
 			}
 		}
 		,
 		{
 			"type":"AUDIO", "name": "chapter-5", "sources": {
-				"mp3": { "size":5134.847, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/05-v2.mp3" }
-			,	"ogg": { "size":4731.332, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/05-v2.ogg" }
+				"mp3": { "size":5134.847, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/05-v2.mp3" }
+			,	"ogg": { "size":4731.332, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/05-v2.ogg" }
 			}
 		}
 

@@ -4,8 +4,8 @@
 
 		{
 			"type":"AUDIO", "name": "chapter-1a", "sources": {
-				"mp3": { "size":2757.077, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/01-v3.mp3" }
-			,	"ogg": { "size":2477.152, "source":"http://video.sbs.com.au/u/video/operation-rimau/audio/01-v3.ogg" }
+				"mp3": { "size":2757.077, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/01-v3.mp3" }
+			,	"ogg": { "size":2477.152, "source":"http://videocdn.sbs.com.au/u/video/operation-rimau/audio/01-v3.ogg" }
 			}
 		}
 		,

@@ -44,10 +44,21 @@
 		,	startTime = new Date()
 		;
 		
+		function highlightNav(sectionId) {
+			
+			if (options.debug)
+			{ console.log('highlightNav()', sectionId); }
+			
+			$('nav a').removeClass('active');
+			$('nav a[href="#' + sectionId + '"]').addClass('active');
+			
+		}
+
+		
 		function openSection(sectionId, speed) {
 
 			if (options.debug)
-			{ console.log('openScene') }
+			{ console.log('openSection()', sectionId, speed) }
 			
 			var scrollPos = $(sectionId);
 			speed = speed || 500;
@@ -222,11 +233,6 @@
 			
 		}
 		
-		function sectionHandler(sectionId, timelineString) {
-			if (options.debug)
-			{ console.log('section timeline %s %s %s', sectionId, timelineString, scrollDirection); }
-		}
-		
 		function contentHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
 			{ console.log('content timeline %i %s', sceneNumber, timelineString); }
@@ -235,6 +241,13 @@
 		function panelHandler(sceneNumber, timelineString, panel) {
 			if (options.debug)
 			{ console.log('panel timeline %i %s %s %s',  sceneNumber, timelineString, scrollDirection, scrollState); }
+			
+			var section = panel.parents('section')
+			,	sectionId = section.attr('id')
+			;
+			
+			highlightNav(sectionId);
+			
 		}
 		
 		function contentTweenHandler(sceneNumber, timelineString, panel) {
@@ -364,7 +377,7 @@
 					}
 				} : function(){} });
 				
-				timeline.call(sectionHandler, [section.attr('id'), 'START']);
+				// timeline.call(sectionHandler, [sequence, 'START']);
 
 				if (options.debug) { console.log('----------------------'); }
 				if (options.debug) { console.log('addressing sequenceNumber: %o', sequenceNumber); }
@@ -442,7 +455,7 @@
 					
 				}
 				
-				timeline.call(sectionHandler, [section.attr('id'), 'END']);
+				// timeline.call(sectionHandler, [sequence, 'END']);
 
 				// Store the timeline in the sequence's data store
 				sequence.data('timeline', timeline);
@@ -899,9 +912,9 @@
 					TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
 						$('#instruction').addClass('hide');
 						
+						$('article').removeClass('hide');
 						TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
-							$('article').removeClass('hide');
-							// location.hash = location.hash;
+							location.hash = location.hash;
 							openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 						}});
 						
@@ -916,7 +929,7 @@
 		
 		function updateCounter(perc, total, loaded) {
 			var counter = $('#load-counter')
-			counter.html(perc + '%' + (options.debug ? "<br>(" + loaded + "/" + total + ")" : ''));
+			counter.html(perc + '%' + (options.debug ? "<br>(" + loaded.toFixed(0) + "/" + total.toFixed(0) + ")" : ''));
 			if (perc == 100) {
 				TweenMax.to(counter, 1, {autoAlpha: 0});
 			}
