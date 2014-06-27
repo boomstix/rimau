@@ -42,6 +42,7 @@
 		,	retryCount = []
 		,	retryMax = 10 // will retry this many times to reload
 		,	startTime = new Date()
+		,	started = false
 		,	ctaTween = null
 		;
 		
@@ -598,7 +599,9 @@
 		}
 		
 		function stopContentVideo(id) {
+		
 			// pause video and remove src attr from source tags
+			// reset video to start
 			var videoEl = $('#' + id);
 			if (options.debug)
 			{ console.log('stopContentVideo()', videoEl); }
@@ -622,6 +625,37 @@
 			
 		}
 		
+		function audioClick() {
+			var audio = audio = $('#' + currAudioId);
+			if (options.debug)
+			{ console.log('audioClick()', audio); }
+			if (audio.get(0).paused) {
+				audio.get(0).volume = 0;
+				audio.get(0).play();
+				TweenMax.to(audio, 1, { volume: 1 });
+			}
+			else {
+				TweenMax.to(audio, 1, { volume: 0, onComplete: function(_audio) {
+					audio.get(0).volume = 1;
+					audio.get(0).pause();
+				}, onCompleteParams: audio });
+			}
+		}
+		
+		function audioStopped() {
+			if (options.debug)
+			{ console.log('audioStopped()'); }
+			audioHolder.removeClass('pause');
+			audioHolder.addClass('play');
+		}
+		
+		function audioPlayed() {
+			if (options.debug)
+			{ console.log('audioPlayed()'); }
+			audioHolder.removeClass('play');
+			audioHolder.addClass('pause');
+		}
+		
 		function removeAudio(_audio) {
 		
 			var victim = $('#' + _audio.attr('id'));
@@ -637,6 +671,12 @@
 				victim.remove();
 				victim = null;
 				_audio = null;
+				TweenMax.fromTo(audioHolder, 1, { autoAlpha: 1 }, {autoAlpha: 0
+				,	onComplete: function() {
+						audioHolder.removeClass('play');
+						audioHolder.removeClass('pause');
+					}
+				});
 			}
 			
 		}
@@ -674,7 +714,7 @@
 			
 			if (typeof(audioSrc) == 'undefined') {
 				// it hasn't loaded yet - can't play.
-				// if (options.debug)
+				if (options.debug)
 				{ console.log('playAudio() cannot play %s - retrying #%i', audioId, retryCount[audioId] + 1); }
 				// retry a max of ten times
 				retryCount[audioId] += 1;
@@ -721,11 +761,16 @@
 				// now append a new audio element
 				audio = $('<audio id="' + audioId + '" preload="auto"' + (audioLoop ? ' loop="loop"' : '') + ' controls="controls" poster="chapter"><source src="' + audioSrc + '" /></audio>').appendTo(audioHolder);
 				
+				audio.on('ended', audioStopped);
+				audio.on('pause', audioStopped);
+				audio.on('play', audioPlayed);
+				
 				if (audio.length > 0) {
 					audio.get(0).load();
 					audio.get(0).volume = 1;
 					audio.get(0).play();
 					TweenMax.to(audio, 1, { volume: 1 });
+					TweenMax.fromTo(audioHolder, 1, { autoAlpha: 0 }, { autoAlpha: 1 });
 					if (options.debug)
 					{ console.log('playAudio() - %s should be playing', audioId); }
 				}
@@ -880,7 +925,8 @@
 		
 		function prepareInteraction() {
 		
-			console.log('begin interaction', ctaTween.time());
+			if (options.debug)
+			{ console.log('prepareInteraction()', ctaTween.time()); }
 			
 			// kill the delayed tween if its not finished
 			if (ctaTween.time() < 1) {
@@ -989,7 +1035,7 @@
 			$('.opening-panel').addClass('enhanced');
 
 			// create the audio holder
-			audioHolder = $('<div id="audio-holder"></div>').appendTo(body);
+			audioHolder = $('<div id="audio-holder"></div>').on('click', audioClick).appendTo(body);
 
 			// Preload chapter 1 media
 			chapter1Preload = $.html5Loader({
