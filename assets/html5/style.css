@@ -90,7 +90,7 @@ ul.nav {
 ul.nav li {
 	width: auto !important;
 	float: left;
-	margin: 1.5em 1em;
+	margin: 1.5em;
 	font-size: 0.7em;
 	font-weight: bold;
 }
@@ -681,7 +681,7 @@ ul.credits li {
 	.panel .atmos + .text-wrapper .text.bottom,
 	.panel .image + .text-wrapper .text.bottom {
 		bottom: 10%;
-		top: initial;
+		top: auto;
 	}
 
 	.enhanced.mask .text-wrapper,

@@ -42,6 +42,7 @@
 		,	retryCount = []
 		,	retryMax = 10 // will retry this many times to reload
 		,	startTime = new Date()
+		,	ctaTween = null
 		;
 		
 		function highlightNav(sectionId) {
@@ -743,11 +744,6 @@
 			atmosVideoEl.get(0).pause();
 			atmosVideoEl.get(0).load();
 			$('source', atmosVideoEl).remove();
-// 			if (navigator.userAgent.indexOf('Chrome') > -1) {
-// 				$('source', atmosVideoEl).each(function(ix,el){
-// 					$(el).attr('src','');
-// 				});
-// 			}
 		
 		}
 		
@@ -873,6 +869,33 @@
 			
 		}
 		
+		function beginInteraction() {
+			$('#instruction').addClass('hide');
+			$('article').removeClass('hide');
+			TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
+				location.hash = location.hash;
+				openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
+			}});
+		}
+		
+		function prepareInteraction() {
+		
+			console.log('begin interaction', ctaTween.time());
+			
+			// kill the delayed tween if its not finished
+			if (ctaTween.time() < 1) {
+				ctaTween.kill();
+				ctaTween = null;
+				TweenMax.to('#instruction', 0.1, { autoAlpha: 0, onComplete: beginInteraction });
+			}
+			else {
+				beginInteraction();
+			}
+		
+			win.off('mousewheel DOMMouseScroll', prepareInteraction);
+		
+		}
+		
 		// When the loader is complete (whether it work or not), fade out the intro and 
 		// fade in the article and start the scroll to the first scene
 		
@@ -909,16 +932,9 @@
 			,	onComplete: function(){
 					$('#loading').addClass('hide');
 					// fade out the instruction
-					TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 1, onComplete: function(){
-						$('#instruction').addClass('hide');
-						
-						$('article').removeClass('hide');
-						TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
-							location.hash = location.hash;
-							openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
-						}});
-						
-					}});
+					win.on('mousewheel DOMMouseScroll', prepareInteraction);
+					ctaTween = TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 5, onComplete: prepareInteraction });
+
 				}
 			});
 				
@@ -930,15 +946,11 @@
 		function updateCounter(perc, total, loaded) {
 			var counter = $('#load-counter')
 			counter.html(perc + '%' + (options.debug ? "<br>(" + loaded.toFixed(0) + "/" + total.toFixed(0) + ")" : ''));
-			if (perc == 100) {
+			if (perc >= 100 || perc < 0) {
 				TweenMax.to(counter, 1, {autoAlpha: 0});
 			}
 		}
-
-
-
-
-
+		
 		// Setup the resize handlers to fix geometry of panels in the sequence
 		
 		// grab the window dimensions
@@ -952,13 +964,13 @@
 		if (d.w > options.breakPoint) {
 
 			// handle the resize event
-			$(window).on('resize', fixDims);
+			win.on('resize', fixDims);
 
 			// setup the sequences inside each section
 			ret = this.each(setupSequence);
 			
 			// fix the dimensions of the fixed elements and their children
-			$(window).trigger('resize');
+			win.trigger('resize');
 
 			// Handle scrolling into scene on nav clicks
 			$('nav a, .return a').on('click', handleNav);
