@@ -612,7 +612,7 @@ img.replaced {
 }
 
 /* styles that apply over 768px */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 
 	img.replaced {
 		display: initial;
@@ -680,7 +680,8 @@ img.replaced {
 	}
 	.panel .caption.right {
 		margin-left: 20%;
-		top: 40%;
+		top: 50%;
+		margin-top: -170px;
 		width: 25%;
 	}
 	
