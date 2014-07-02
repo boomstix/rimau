@@ -151,6 +151,7 @@ ul.nav li.social #twitter-widget-0 {
 
 
 .enhanced .text-center,
+.touch .ios-text-center,
 h1, h2, h3 {
 	text-align: center;
 }
@@ -437,6 +438,10 @@ ul.credits li {
 .replaced {
 	width: 100%;
 }
+/* hide replaced images, show them when w > 768 */
+img.replaced {
+	display: none;
+}
 
 #repl-title-section-1-credit {
 	max-width: 575px;
@@ -609,6 +614,14 @@ ul.credits li {
 /* styles that apply over 768px */
 @media (min-width: 769px) {
 
+	img.replaced {
+		display: initial;
+	}
+	
+	.text-replaced {
+		display: none;
+	}
+
 	.no-touch .panel p,
 	.no-touch panel h2,
 	.no-touch panel h3,
@@ -637,6 +650,11 @@ ul.credits li {
 		position: absolute;
 		left: 0;
 		top: 0;
+	}
+	
+	.text-wrapper .text {
+		max-width: 720px;
+		width: 100%;
 	}
 	
 	.panel .caption,
@@ -781,6 +799,11 @@ ul.credits li {
 		width: 100%;
 		z-index: 999;
 	}
+	
+	.touch .ref-45 .replaced,
+	.touch .ref-70 .replaced {
+		position: relative;
+	}
 
 	.replaced.top {
 		top: 5%;
@@ -853,6 +876,10 @@ ul.credits li {
 		left: 50%;
 		margin-left: -377px;
 		bottom: 5%;
+	}
+	
+	.touch #repl-diary-nojunk {
+		bottom: 15%;
 	}
 
 	#repl-diary-jungle {

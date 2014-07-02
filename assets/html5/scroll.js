@@ -984,6 +984,9 @@
 				}
 			});
 				
+			// add preload for videos
+			$('.video video').attr('preload', 'auto');
+
 			// setup the documentaries
 			setupDocos();
 			
@@ -1021,9 +1024,6 @@
 			// Handle scrolling into scene on nav clicks
 			$('nav a, .return a').on('click', handleNav);
 			
-			// Hide the controls for videos
-			$('.video video').removeProp('controls');
-
 			// Begin! hide the article
 			TweenMax.to('article, ul.nav', 0, {autoAlpha: 0});
 			// take the article out of the flow so user cannot scroll
