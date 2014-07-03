@@ -307,6 +307,16 @@ div.video,
 	cursor: pointer;
 }
 
+#doco-prompt {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 180px;
+	margin-left: -90px;
+	color: #fff;
+	cursor: pointer;
+}
+
 .doco ul {
 	padding: 0;
 	margin: 0;
@@ -667,7 +677,7 @@ img.replaced {
 		max-width: 740px;
 		width: 100%;
 	}
-	
+
 	.panel .caption {
 		bottom: 10%;
 	}
@@ -786,11 +796,11 @@ img.replaced {
 		margin: 10px 17px;
 	}
 	
-	.enhanced .doco ul.row-2 li:first-child {
+	.enhanced .doco li.second-last {
 		margin-left: 139px;
 	}
 
-	.enhanced .doco ul.row-2 li:last-child {
+	.enhanced .doco li.last {
 		margin-right: 139px;
 	}	
 

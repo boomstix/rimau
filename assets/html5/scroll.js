@@ -44,6 +44,8 @@
 		,	startTime = new Date()
 		,	started = false
 		,	ctaTween = null
+		,	docoCloser = null
+		,	docoPrompt = null
 		;
 		
 		function highlightNav(sectionId) {
@@ -491,12 +493,56 @@
 		
 		*/
 		
-		function playDocoVideo(e) {
+		function playNextDocoVideo(e) {
 		
-			// if (options.debug)
+			$(docoPrompt.data('next-img')).trigger('click');
+		
+		}
+		
+		function promptNextDoco(e) {
+		
+			if (options.debug)
+			{ console.log('promptNextDoco()', this, e.data.img); }
+			
+			// get the thumb image next to the passed thumb image.
+			// if there is one, add prompt, and when that is clicked, trigger the click
+			// on the next thumb
+			var currentImg = $(e.data.img)
+			,	nextImg = currentImg.parent().next().find('img') // imgs are inside lis
+			;
+			
+			if (nextImg.length > 0) {
+				
+				if (options.debug)
+				{ console.log('found next doco: ', nextImg, docoPrompt); }
+				
+				videoEl = $('.doco video');
+				TweenMax.to(videoEl, 1, {
+					autoAlpha: 0
+				,	onCompleteParams: videoEl
+				,	onComplete: function(el) {
+						$(el).remove()
+					}
+				});
+				
+				docoPrompt.data('next-img', nextImg);
+				
+				TweenMax.to(docoPrompt, 1, { autoAlpha: 1 });
+				
+			}
+			
+			else {
+				stopDocoVideo();
+			}
+		
+		}
+		
+		function playDocoVideo(clickedImg) {
+		
+			if (options.debug)
 			{ console.log('playDocoVideo()', this); }
 			
-			var origVideoEl = $(this).data('orig-video');
+			var origVideoEl = clickedImg.data('orig-video');
 
 			// fade out the text panel holding the menu
 			TweenMax.to($('.doco .text'), 1, { autoAlpha: 0 });
@@ -504,16 +550,26 @@
 			// fade in a video element
 			var videoEl = $(origVideoEl).appendTo($('.doco'));
 			if (videoEl.length > 0) {
-				$(videoEl).get(0).volume = 0;
-				$(videoEl).get(0).play();
+				
+				videoEl.get(0).volume = 0;
+				videoEl.get(0).play();
+				// setup event for playing next videos - pass the clicked image as data to the event
+				videoEl.on('ended', { img: clickedImg }, promptNextDoco);
+				// videoEl.on('pause', { img: clickedImg }, promptNextDoco);
 				TweenMax
 				.to(videoEl, 1
 				,	{
 						autoAlpha: 1
 					,	volume: 1
 				});
-				TweenMax.to('#doco-closer', 1, { autoAlpha: 1 });
+				TweenMax.to(docoCloser, 1, { autoAlpha: 1 });
+				
 			}
+		}
+		
+		function playDocoVideoHandler(e) {
+			var clickedImg = $(this);
+			playDocoVideo(clickedImg);
 		}
 		
 		function stopDocoVideo() {
@@ -522,7 +578,8 @@
 			{ console.log('stopDocoVideo'); }
 			
 			TweenMax.to('.doco .text', 1, { autoAlpha: 1 });
-			TweenMax.to('#doco-closer', 1, { autoAlpha: 0 });
+			TweenMax.to(docoCloser, 1, { autoAlpha: 0 });
+			TweenMax.to(docoPrompt, 1, { autoAlpha: 0 });
 
 			// stop the video, fade out, and remove from dom when complete.
 			videoEl = $('.doco video');
@@ -550,11 +607,20 @@
 			
 			var docoPanel = $('.doco')
 			,	vidEls = $('video', docoPanel)
+			;
+			
 			// Create and disappear the closer button.
-			,	closer = $('<div id="doco-closer" title="Close Video">&times;</div>')
+			docoCloser = $('<div id="doco-closer" title="Close Video">&times;</div>')
 			.on('click', stopDocoVideo)
-			.prependTo(docoPanel);
-			TweenMax.to(closer, 0, {autoAlpha: 0});
+			.prependTo(docoPanel)
+			;
+			// Create and disappear the prompt panel.
+			docoPrompt = $('<div id="doco-prompt">Watch the next chapter &raquo;</div>')
+			.on('click', playNextDocoVideo)
+			.appendTo(docoPanel)
+			;
+			
+			TweenMax.to([docoCloser, docoPrompt], 0, {autoAlpha: 0});
 			
 			vidEls.each(function(ix, el) {
 				
@@ -565,14 +631,15 @@
 				
 				// Disappear the video
 				TweenMax.to(vidEl, 0, {autoAlpha: 0});
-				
+
 				// Replace it with an image with a click event.
 				thumbSrc = 'assets/stills/placeholder/sb-thumb-' + (ix + 1) + '.png';
 				vidImg = $('<img src="' + thumbSrc + '" />').data('orig-video', vidEl);
+				
 				vidEl.parent().append(vidImg);
 				// clear the poster to stop flash.
 				vidEl.attr('poster', '');
-				vidImg.on('click', playDocoVideo);
+				vidImg.on('click', playDocoVideoHandler);
 				vidEl.remove();
 				
 			});
