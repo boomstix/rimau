@@ -21,15 +21,13 @@
 	<script src="assets/html5/scroll.js" type="text/javascript"></script>
 	<script src="assets/html5/trial.js" type="text/javascript"></script>
 	<meta name="description" content="Not long after midnight - on 11 September 1944 - a submarine (the HMS Porpoise) leaves Fremantle with 23 men. Each man has a cyanide pill in his pocket and each man knows only this: Operation Rimau is a top-secret espionage mission.">
-	<meta property="og:title" content="Operation Rimau - A top-secret WWII raid">
-	<meta property="og:description" content="'Operation Rimau' - a top-secret WWII raid.
-Explore the story of 23 young commandoes at the height of the Pacific War.">
+	<meta property="og:title" content="'Operation Rimau' - A top-secret WWII raid">
+	<meta property="og:description" content="Explore the story of 23 young commandoes at the height of the Pacific War.">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="http://www.sbs.com.au/operationrimau">
 	<meta property="og:image" content="http://www.sbs.com.au/operationrimau/assets/img/facebook.jpg">
 	<meta property="og:site_name" content="SBS">
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-	
 <script>
 
 var isMobile = function() {
@@ -44,9 +42,7 @@ $(function() {
 		$('.trial').trial({controller: new ScrollMagic(), debug: false });
 		$('section').sequence({controller: new ScrollMagic(), debug: false });
 	}
-	else {
-	}
-	$('.text, .caption, .special-title, .sb-title, .special-link').replaceText();
+	$('.text, .caption, .special-title, .sb-title, .special-link, .special-text').replaceText();
 	
 })
 
@@ -64,10 +60,13 @@ $(function() {
 	<div id="loading" class="opening-panel">
 		<div class="site-logo"><img src="assets/stills/content/title-section-1.jpg" alt="Operation Rimau" /></div>
 		<div id="loading-img"><img src="assets/img/loading.png" alt="Loading" /></div>
-		<div id="load-counter">0%</div>
+		<div id="load-message">
+			<span id="load-image">&#9678;</span>
+			<span id="load-audio">&#9678;</span>
+			<span id="load-video">&#9678;</span>
+		</div>
 	</div>
 	<div id="instruction" class="opening-panel">
-		<div class="site-logo"><img src="assets/stills/content/title-section-1.jpg" alt="Operation Rimau" /></div>
 		<div id="instruction-img"><img src="assets/img/instruction.png" alt="Scroll Down or use arrow keys" /></div>
 	</div>
 	<div id="fb-root"></div>
@@ -89,7 +88,8 @@ $(function() {
 				<li><a href="#conviction">Conviction</a></li>
 				<li><a href="#credits">Credits</a></li>
 				<li class="social">
-					<div class="social-holder"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.sbs.com.au%2Foperationrimau&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=248773215239286" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
+					<div class="social-holder">
+						<div class="fb-like" data-href="http://www.sbs.com.au/operationrimau" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
 					</div>
 					<div class="social-holder">
 						<a href="https://twitter.com/share" class="twitter-share-button" data-text="Operation Rimau: a top-secret WWII espionage mission. Explore the SBS interactive" data-hashtags="sbs">Tweet</a></div>
@@ -111,11 +111,11 @@ $(function() {
 			<div class="panel mask audio-in" data-audio="chapter-1a" data-audio-loop="true">
 
 				<div class="atmos" data-video="00017-0-hero" id="atmos-00017-0-hero">
-					<img src="assets/stills/content/dark-mangrove.jpg" class="res bg" alt="" />
+					<img src="assets/stills/placeholder/00017-0-hero.jpg" class="res bg" alt="" />
 				</div>
 				
 				<div class="text-wrapper replace ref-01">
-					<div class="text top center" data-text-replace="title-section-1-credit">
+					<div class="text top center" data-text-replace="title-section-1">
 						<h2>Operation Rimau</h2>
 						<h3>An account of a top&ndash;secret WWII raid drawn from records and archive</h3>
 						<ul class="credits">
@@ -964,7 +964,7 @@ $(function() {
 				<div class="text ceil">
 					<a id="chp-3.12"></a>
 					<h3>5 days later &mdash; 21 November</h3>
-					<h4>&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h4>
+					<h4 class="special-text" data-text-replace="diary-waiting">&ldquo;None of the Rimau men were waiting&hellip;&rdquo;</h4>
 					<p>
 					Account drawn from Walter Chapman's report.
 					</p>

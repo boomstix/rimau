@@ -129,7 +129,8 @@
 			allImagePanels = $('.image');					// letterboxed
 			allVideoPanels = $('.video');					// letterboxed
 			allTextPanels = $('.text-wrapper');	// constrained to window w, window h
-			allContentVideos = $('div.video video');	// contrained
+			allContentVideos = $('div.video video');	// constrained
+			allOpening = $('.opening-panel');				// constrained to window w, window h
 			
 			// these only exist if scrollmagic hasn't been destroyed - no condition to check.
 			
@@ -141,6 +142,7 @@
 			allImagePanels.css(resetCss);
 			allTextPanels.css(resetCss);
 			allContentVideos.css(resetCss);
+			allOpening.css(resetCss);
 			
 			d = getWindowDims();
 			$('.scrollmagic-pin-spacer').css({ width: d.w, minWidth: d.w });
@@ -173,6 +175,7 @@
 				allContentVideos.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				allImagePanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				allAtmosPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
+				allOpening.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
@@ -269,7 +272,6 @@
 			audioOut = panel.hasClass('audio-out');
 			audioLoop = panel.hasClass('audio-in') ? panel.data('audio-loop') : false;
 			
-			
 			// we are entering the panel in the forward direction
 			if (timelineString == 'FADEINSTART') {
 				if (audioIn) {
@@ -302,9 +304,19 @@
 			
 			// we have left the panel in the forward direction
 			if (timelineString == 'FADEOUTCOMPLETE') {
+			
 				if (atmosVideo.length) {
 					stopAtmosVideo(atmosVideo.attr('id'));
 				}
+				
+				// fadeout the instructions
+				if (sceneNumber > 0 && ctaTween !== null) {
+					// console.log('force shut instructions', ctaTween);
+					ctaTween.kill();
+					ctaTween = null;
+					TweenMax.to('#instructions', 0.1, { autoAlpha: 0 });
+				}
+			
 			}
 			
 			// we have entered the panel in the reverse direction
@@ -415,7 +427,8 @@
 					fadeOutStartLabel = 'seq-scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 5);
 					fadeOutEndLabel = 'seq-scene-' + (sceneStartFrame + (framesPerScene - frameOverlap) * ( contentCount - 1 ) + 6);
 					
-					if (options.debug) { console.log('fading in panel at %o, sceneNumber %o', fadeInStartLabel, sceneNumber); }
+					if (options.debug)
+					{ console.log('fading in panel at %o, sceneNumber %o', fadeInStartLabel, sceneNumber); }
 					timeline
 					.add(TweenMax
 						.from(panel, 1, {
@@ -427,7 +440,8 @@
 					,	fadeInStartLabel)
 					.call(panelHandler, [sceneNumber, 'FADEIN', panel]);
 					
-					if (options.debug) { console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
+					if (options.debug)
+					{ console.log('fading out panel at %o, sceneNumber %o', fadeOutStartLabel, sceneNumber); }
 					timeline
 					.add(TweenMax
 						.to(panel, 1, {
@@ -972,46 +986,47 @@
 			
 		}
 		
-		function addMediaElement( obj, el ) {
+		function addMediaElement(obj, el) {
 		
+			// Adds the media object to the mediaSources data structure
 			if (options.debug)
-			{ console.log('loaded %s %s @ %o', obj.type, obj.name, new Date() - startTime); }
+			{ console.log('loaded %s %s @ z+%o', obj.type, obj.name, new Date() - startTime); }
 			
 			mediaSources[obj.name] = obj.source;
+			
+			if (obj.type === 'IMAGE') {
+				//$('#load-image').text('background .. loaded');
+				$('#load-image').html('&#9673;');
+			}
+			if (obj.type === 'AUDIO') {
+				$('#load-audio').html('&#9673;');
+				//$('#load-audio').text('audio .. loaded');
+			}
+			if (obj.type === 'VIDEO') {
+				$('#load-video').html('&#9673;');
+				//$('#load-video').text('video .. loaded');
+			}
+			
+			if (options.debug)
+			{ console.log('loaded %s %s', obj.name, mediaSources[obj.name]); }
 			
 		}
 		
 		function beginInteraction() {
-			$('#instruction').addClass('hide');
+		
 			$('article').removeClass('hide');
 			TweenMax.to('article, ul.nav', 1, {autoAlpha: 1, onComplete: function(){
 				location.hash = location.hash;
 				openSection((location.hash == '' || location.hash == '#') ? '#the-mission' : location.hash, 2000);
 			}});
-		}
-		
-		function prepareInteraction() {
-		
-			if (options.debug)
-			{ console.log('prepareInteraction()', ctaTween.time()); }
 			
-			// kill the delayed tween if its not finished
-			if (ctaTween.time() < 1) {
-				ctaTween.kill();
-				ctaTween = null;
-				TweenMax.to('#instruction', 0.1, { autoAlpha: 0, onComplete: beginInteraction });
-			}
-			else {
-				beginInteraction();
-			}
-		
-			win.off('mousewheel DOMMouseScroll', prepareInteraction);
-		
+			// show the scroll instructions, then hide them after 5s
+			ctaTween = TweenMax.to('#instruction', 1, { autoAlpha: 1, delay: 2, onComplete: TweenMax.to, onCompleteParams: ['#instruction', 1, { autoAlpha: 0, delay: 3 }] } );
+			
 		}
 		
 		// When the loader is complete (whether it work or not), fade out the intro and 
 		// fade in the article and start the scroll to the first scene
-		
 		function pageStartComplete() {
 		
 			if (options.debug)
@@ -1029,28 +1044,17 @@
 				});
 			}, 3000);
 			
-			// return;
+			if (location.search.match(/load=(off|no|nils)/))
+			{ return; }
 			
 			// we got the opening track - cue it by scrolling in the opening scene
-			
 			if (options.debug)
 			{ console.log('fade in article'); }
 			// fade out loading message
 			TweenMax.to('#loading', 1, { autoAlpha: 0, delay: 1 });
-			// fade in the instruction message
-			TweenMax.to('#instruction', 1,
-			{
-				autoAlpha: 1
-			,	delay: 1
-			,	onComplete: function(){
-					$('#loading').addClass('hide');
-					// fade out the instruction
-					win.on('mousewheel DOMMouseScroll', prepareInteraction);
-					ctaTween = TweenMax.to('#instruction', 1, {autoAlpha: 0, delay: 5, onComplete: prepareInteraction });
-
-				}
-			});
-				
+			
+			beginInteraction();
+			
 			// add preload for videos
 			$('.video video').attr('preload', 'auto');
 
@@ -1059,11 +1063,11 @@
 			
 		}
 		
+		
 		function updateCounter(perc, total, loaded) {
-			var counter = $('#load-counter')
-			counter.html(perc + '%' + (options.debug ? "<br>(" + loaded.toFixed(0) + "/" + total.toFixed(0) + ")" : ''));
-			if (perc >= 100 || perc < 0) {
-				TweenMax.to(counter, 1, {autoAlpha: 0});
+			// in case we get weird numbers > 100
+			if (perc > 100) {
+				pageStartComplete();
 			}
 		}
 		
@@ -1082,6 +1086,9 @@
 			// handle the resize event
 			win.on('resize', fixDims);
 
+			// make the loader and prompt layout enhanced (fixed 100%)
+			$('.opening-panel').addClass('enhanced');
+			
 			// setup the sequences inside each section
 			ret = this.each(setupSequence);
 			
@@ -1098,8 +1105,6 @@
 			// setup visibility of loader and prompt
 			TweenMax.to('#loading', 0, { autoAlpha: 1});
 			TweenMax.to('#instruction', 0, { autoAlpha: 0});
-			// make the loader and prompt layout enhanced (fixed 100%)
-			$('.opening-panel').addClass('enhanced');
 
 			// create the audio holder
 			audioHolder = $('<div id="audio-holder"></div>').on('click', audioClick).appendTo(body);

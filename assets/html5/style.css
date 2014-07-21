@@ -127,7 +127,7 @@ ul.nav li.social #twitter-widget-0 {
 }
 
 .social-holder {
-	width: 100px;
+	width: 120px;
 	height: 20px;
 	float: left;
 }
@@ -401,20 +401,43 @@ ul.credits li {
 	z-index: 99;
 }
 .opening-panel > div {
-	width: 575px;
+	width: 100%;
 	margin: 0 auto;
 	clear: left;
 	position: relative;
 }
 .opening-panel .site-logo img {
-	width: 575px;
+	width: 100%;
+}
+
+#load-message {
+	position: absolute;
+	top: 75%;
+	width: 120px;
+	left: 50%;
+	margin-left: -60px;
+	text-align: center;
+	font-size: 0.8em;
+}
+
+#load-message span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	float: left;
+	margin: 0 10px;
 }
 
 #loading-img {
 	width: 194px;
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	margin-left: -88px;
 }
 #instruction-img {
 	width: 216px;
+	top: 350px;
 }
 
 #load-counter {
@@ -453,8 +476,8 @@ img.replaced {
 	display: none;
 }
 
-#repl-title-section-1-credit {
-	max-width: 575px;
+#repl-title-section-1 {
+	max-width: 709px;
 }
 
 #repl-norman-quote {
@@ -519,6 +542,11 @@ img.replaced {
 
 #repl-title-section-3-pursued {
 	max-width: 436px;
+}
+
+#repl-diary-waiting {
+	max-width: 365px;
+	position: relative;
 }
 
 #repl-title-section-4 {
@@ -853,10 +881,10 @@ img.replaced {
 		bottom: 0%;
 	}
 
-	#repl-title-section-1-credit {
-		max-width: 575px;
+	#repl-title-section-1 {
+		max-width: 709px;
 		left: 50%;
-		margin-left: -287px;
+		margin-left: -354px;
 		margin-top: -13px;
 	}
 	
