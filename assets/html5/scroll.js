@@ -557,15 +557,12 @@
 				
 				videoEl.get(0).volume = 0;
 				videoEl.get(0).play();
+				
 				// setup event for playing next videos - pass the clicked image as data to the event
-				videoEl.on('ended', { img: clickedImg }, promptNextDoco);
-				// videoEl.on('pause', { img: clickedImg }, promptNextDoco);
-				TweenMax
-				.to(videoEl, 1
-				,	{
-						autoAlpha: 1
-					,	volume: 1
-				});
+				// videoEl.on('ended', { img: clickedImg }, promptNextDoco);
+				videoEl.on('ended', stopDocoVideo);
+				
+				TweenMax.to(videoEl, 1,	{autoAlpha: 1,	volume: 1});
 				TweenMax.to(docoCloser, 1, { autoAlpha: 1 });
 				
 			}
@@ -597,7 +594,13 @@
 						if (videoEl.length > 0) {
 							videoEl.get(0).pause();
 						}
-						$(vid).remove();
+						if (typeof videoEl.data('scroll-end') !== 'undefined') {
+							// scroll next into view 
+							$('html, body').animate({
+								scrollTop: win.scrollTop() + 2 * win.height()
+							}, 2000);
+						}
+						videoEl.remove();
 					}
 				,	onCompleteParams: videoEl
 			});
@@ -1111,6 +1114,11 @@
 
 			// create the audio holder
 			audioHolder = $('<div id="audio-holder"></div>').on('click', audioClick).appendTo(body);
+			
+			// remove controls for ie
+			if (navigator.userAgent.indexOf('Trident') >= 0) {
+				$('div.video video').removeAttr('controls');
+			}
 
 			// Preload chapter 1 media
 			chapter1Preload = $.html5Loader({

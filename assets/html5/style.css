@@ -653,7 +653,7 @@ img.replaced {
 @media (min-width: 768px) {
 
 	img.replaced {
-		display: initial;
+		display: inherit;
 	}
 	
 	.text-replaced {
