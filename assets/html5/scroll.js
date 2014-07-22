@@ -88,7 +88,7 @@
 			windowDims.w = sizer.width();
 			windowDims.h = sizer.height();
 			windowDims.navH = header.height();
-			windowDims.aspectRatio = windowDims.w / windowDims.h;
+			windowDims.aspectRatio = windowDims.w / (windowDims.h - windowDims.navH);
 			windowDims.ratio16x9 = 16/9;
 			windowDims.horizBoxing = windowDims.aspectRatio > windowDims.ratio16x9;
 			return windowDims;
@@ -104,7 +104,7 @@
 				constrW.width = d.w;
 				constrW.marginLeft = 0;
 				constrW.height = Math.ceil(d.w / d.ratio16x9);
-				constrW.marginTop = ((d.h - (d.w / d.ratio16x9)) / 2) + (d.navH / 2);
+				constrW.marginTop = (((d.h - d.navH) - (d.w / d.ratio16x9)) / 2) + d.navH;
 
 				constrH = {} // constrain width - letterbox left and right
 				constrH.height = d.h - d.navH;
@@ -127,21 +127,21 @@
 			allSequences = $('.sequence');				// window w,h
 			allAtmosPanels = $('.atmos');					// letterboxed to width
 			allImagePanels = $('.image');					// letterboxed
-			allVideoPanels = $('.video');					// letterboxed
+			allVideoPanels = $('div.video');					// letterboxed
 			allTextPanels = $('.text-wrapper');	// constrained to window w, window h
 			allContentVideos = $('div.video video');	// constrained
 			allOpening = $('.opening-panel');				// constrained to window w, window h
 			
+			//console.log(allVideoPanels, allContentVideos);
 			// these only exist if scrollmagic hasn't been destroyed - no condition to check.
 			
 			// reset all to starting values
 			var resetCss = { height: 'initial', width: 'intitial', marginTop: 'initial', marginLeft: 'initial' };
 			allSequences.css(resetCss);
-			allSequences.css(resetCss);
 			allAtmosPanels.css(resetCss);
 			allImagePanels.css(resetCss);
 			allTextPanels.css(resetCss);
-			allContentVideos.css(resetCss);
+			allVideoPanels.css(resetCss);
 			allOpening.css(resetCss);
 			
 			d = getWindowDims();
@@ -151,19 +151,9 @@
 			
 				// console.log('setting dims', d.w, d.h, options.breakPoint, destroyed);
 				
-				constrW = {} // constrain width - letterbox top and bottom
-				constrW.width = d.w;
-				constrW.marginLeft = 0;
-				constrW.height = Math.ceil(d.w / d.ratio16x9);
-				constrW.marginTop = ((d.h - (d.w / d.ratio16x9)) / 2) + (d.navH / 2);
-
-				constrH = {} // constrain width - letterbox left and right
-				constrH.height = d.h - d.navH;
-				constrH.marginTop = d.navH;
-				constrH.width = Math.floor((d.h - d.navH) * d.ratio16x9);
-				constrH.marginLeft = (d.w - ((d.h - d.navH) * d.ratio16x9)) / 2;
-				
 				constraints = calculateConstraints();
+				
+				currConstraints = d.horizBoxing ? constraints.toHeight : constraints.toWidth;
 				
 				// console.log('constrW: %o', constrW);
 				// console.log('constrH: %o', constrH);
@@ -172,18 +162,18 @@
 				
 				// letterbox left and right - fix the left and width
 				// letterbox top and bottom - fix the top and height
-				allContentVideos.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
-				allImagePanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
-				allAtmosPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
-				allOpening.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
+				allVideoPanels.css(currConstraints);
+				allImagePanels.css(currConstraints);
+				allAtmosPanels.css(currConstraints);
+				allOpening.css(currConstraints);
 				
 				// sequences are made to fit the viewport
 				if (!destroyed) {
 					// console.log('fixing atmos, image', allAtmosPanels[0])
 					allSequences.css({width: d.w, height: d.h});
-					constraints.toHeight.height += 1;
-					constraints.toWidth.height += 1;
-					allTextPanels.css(d.horizBoxing ? constraints.toHeight : constraints.toWidth);
+// 					constraints.toHeight.height += 1;
+// 					constraints.toWidth.height += 1;
+					allTextPanels.css(currConstraints);
 				}
 				allSequences.css({left: 0});
 				
@@ -660,6 +650,15 @@
 			
 		}
 		
+		function scrollToPanel(e) {
+			// var id = $(e.data.panel).parent().attr('id').match(/seq-(\d+)/);
+			// console.log(e.data.panel, nextPanel, nextPanel.scrollTop(), nextPanel.scrollTop() + win.height());
+			// console.log(win.scrollTop() + win.height());
+			$('html, body').animate({
+				scrollTop: win.scrollTop() + 2 * win.height()
+			}, 2000);
+		}
+		
 		function playContentVideo(id) {
 		
 			var videoEl = $('#' + id);
@@ -670,6 +669,9 @@
 				try {
 					videoEl.get(0).volume = 0;
 					videoEl.get(0).play();
+					// scroll to next screen when video ends
+					videoEl.off('ended');
+					videoEl.on('ended', { panel: videoEl }, scrollToPanel)
 					TweenMax.to(videoEl, 1,	{ volume: 1 });
 				}
 				catch (ex) {
@@ -979,7 +981,7 @@
 			
 				vidEl = $(vidEl);
 				if (vidEl.data('first-frame') != 'undefined') {
-					vidEl.prop('poster', vidEl.data('first-frame'));
+					vidEl.attr('poster', vidEl.data('first-frame'));
 				}
 				
 			});
@@ -1103,8 +1105,9 @@
 			// take the article out of the flow so user cannot scroll
 			$('article').addClass('hide');
 			// setup visibility of loader and prompt
-			TweenMax.to('#loading', 0, { autoAlpha: 1});
-			TweenMax.to('#instruction', 0, { autoAlpha: 0});
+			TweenMax.to('#loading', 0, { autoAlpha:1 });
+			TweenMax.to('#loading-img', 1, { autoAlpha:0, repeat:50, yoyo:true });
+			TweenMax.to('#instruction', 0, { autoAlpha:0 });
 
 			// create the audio holder
 			audioHolder = $('<div id="audio-holder"></div>').on('click', audioClick).appendTo(body);

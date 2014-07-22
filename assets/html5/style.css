@@ -302,7 +302,7 @@ div.video,
 	line-height: 1;
 	text-transform: uppercase;
 	padding: 0.3em;
-	margin: 0.3em;
+	margin: 0.5em;
 	z-index: 99;
 	cursor: pointer;
 }
