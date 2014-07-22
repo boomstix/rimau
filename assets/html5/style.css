@@ -944,5 +944,12 @@ img.replaced {
 		left: 50%;
 		margin-left: -348px;
 	}
-	
+}	
+
+/* styles that apply over 768px */
+@media (min-width: 769px) {
+
+	.touch video {
+		height: 83%;
+	}
 }
