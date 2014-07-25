@@ -48,6 +48,10 @@
 		,	docoPrompt = null
 		;
 		
+		function scrollWindowTo(position, duration) {
+			$('html, body').delay(500).animate({ scrollTop: position }, duration);
+		}
+		
 		function highlightNav(sectionId) {
 			
 			if (options.debug)
@@ -57,7 +61,6 @@
 			$('nav a[href="#' + sectionId + '"]').addClass('active');
 			
 		}
-
 		
 		function openSection(sectionId, speed) {
 
@@ -67,9 +70,7 @@
 			var scrollPos = $(sectionId);
 			speed = speed || 500;
 			if (scrollPos.length && $('.sequence', scrollPos).length > 0) {
-				$('html, body').delay(500).animate({
-					scrollTop: scrollPos.offset().top + win.height()
-				}, speed);
+				scrollWindowTo(scrollPos.offset().top + win.height(), speed);
 			}
 			
 		}
@@ -596,9 +597,7 @@
 						}
 						if (typeof videoEl.data('scroll-end') !== 'undefined') {
 							// scroll next into view 
-							$('html, body').animate({
-								scrollTop: win.scrollTop() + 2 * win.height()
-							}, 2000);
+							scrollWindowTo(win.scrollTop() + 2 * win.height(), 2000);
 						}
 						videoEl.remove();
 					}
@@ -654,12 +653,8 @@
 		}
 		
 		function scrollToPanel(e) {
-			// var id = $(e.data.panel).parent().attr('id').match(/seq-(\d+)/);
-			// console.log(e.data.panel, nextPanel, nextPanel.scrollTop(), nextPanel.scrollTop() + win.height());
-			// console.log(win.scrollTop() + win.height());
-			$('html, body').animate({
-				scrollTop: win.scrollTop() + 2 * win.height()
-			}, 2000);
+			var videoEl = $(e.data.panel), jumpMultiplier = typeof videoEl.data('jump-multiplier') == 'undefined' ? 2 : videoEl.data('jump-multiplier');
+			scrollWindowTo(win.scrollTop() + jumpMultiplier * win.height(), 2000);
 		}
 		
 		function playContentVideo(id) {

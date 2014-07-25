@@ -172,6 +172,10 @@ blockquote {
 	font-style: italic; 
 }
 
+blockquote sup {
+	font-style: normal;
+}
+
 dl {
 	margin: 1em 0;
 	padding: 0 1em;
